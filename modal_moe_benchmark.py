@@ -66,7 +66,7 @@ image = (
 @app.function(
     image=image,
     gpu=["A10", "A10G", "L40S"],
-    timeout=900,
+    timeout=1800,
 )
 def run_moe_vs_dense_benchmark() -> Dict[str, Any]:
     import numpy as np

@@ -124,7 +124,7 @@ def main() -> None:
     train_script = str(work_src / "train_ctx0an_base.py")
     train_args = [
         "--model-name", "ctx0an",
-        "--preset", "base_moe",
+        "--preset", "base",
         "--enc-layers", "1",
         "--prefix-len", "512",
         "--en-docs", "75000",

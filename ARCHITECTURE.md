@@ -212,3 +212,11 @@ Model sizes and KV sizes below are **empirically measured** from instantiated `C
 | **`base`** | **93.04M** (`5.08M + 87.96M`) | 356.96 MB | 177.47 MB | 98.63 MB | **66.08 MB** | 6.39× | 18.00 / 9.45 MB | **3.47×** vs AR (73.6 MB RAM) | **6.27×** vs AR (73.6 MB RAM) | **7.62×** vs AR | **7.69×** vs AR |
 
 > Reproduce this table live with `python demo_cncm.py --section profile` or inspect full roofline metrics via `cncm.export.profile_edge_targets(cfg, model)`.
+
+---
+
+## 6. `ctx0an` Base vs. Experimental `base_moe` Architecture
+
+- **Main Dense Preset (`base`)**: `93.90M` params (`87.96M` generator + `5.93M` Stage 1 M-RFSQ), `hidden_size=768`, `12` unique layers × `2` recursive loops (`24` effective layers), GQA (`12Q / 3KV`), SwiGLU (`intermediate_size=2304`), `V=6400` Byte-Level BPE (`Digits(individual_digits=True)`), `enc_layers=1` strictly causal Stage 1 encoder, Matryoshka cutoffs `(4, 6, 7, 8)`, Continuous Scaled RoPE, and `L_align`.
+- **Experimental MoE Preset (`base_moe`, [experiment/moe_ctx0an.py](experiment/moe_ctx0an.py))**: Replaces dense SwiGLU (`2304`) with `MoEFFN` (`cncm/layers.py`): `1` always-on Shared Expert (`d=768`) + `8` Routed Experts (`d=768`, Top-2 active = `2304` active width) + `24` per-loop routers (`step_moe_routers`) + Switch/DeepSeek load-balancing auxiliary loss (`moe_aux_loss_weight=0.01`) using single-sort sparse dispatch (`argsort` + `bincount`). Total params: `221.45M` (`94.05M` active/token).
+- **Controlled Modal A10 A/B Benchmark**: Documented in [BENCHMARK_CTX0AN_MOE.md](BENCHMARK_CTX0AN_MOE.md) and [modal_ctx0an_moe_benchmark.json](modal_ctx0an_moe_benchmark.json) (`base_moe` achieved `-0.1733` Phase 2 Val NLL, `0.9984` load entropy, and `82.85%` Loop 0→1 expert switching).

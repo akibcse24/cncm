@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CNCM — Compact Causal-Hybrid Next-Concept Modeling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#050608; --panel:#0b0d12; --surface:#11141b; --line:#1f2633;
+  --text:#eef0f4; --muted:#8a93a5; --accent:#22d3ee; --accent2:#a855f7;
+  --ok:#4ade80; --bad:#fb7185; --mono:'Cascadia Code','SF Mono','Ubuntu Mono',Consolas,monospace;
+  --sans:'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--sans); color:var(--text);
+  background:var(--bg); line-height:1.5; font-size:16px;
+  overflow-x:hidden;
+}
+/* background texture */
+body::before{
+  content:""; position:fixed; inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(34,211,238,0.06) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(168,85,247,0.05) 0%, transparent 30%);
+  pointer-events:none; z-index:-1;
+}
+a{color:var(--accent); text-decoration:none;}
+a:hover{color:var(--accent2); text-decoration:underline; text-decoration-color:rgba(168,85,247,0.3);}
+
+/* ---------- left rail ---------- */
+.rail{position:sticky;top:20px;z-index:40;width:230px;}
+.rail-inner{position:-webkit-sticky;position:sticky;top:20px;height:100vh;}
+.rail .brand{
+  font-family:var(--mono); font-size:13px; font-weight:800; letter-spacing:-0.02em;
+  margin-bottom:26px; display:flex; align-items:center; gap:6px; color:var(--text);
+}
+.rail .brand .t{color:var(--accent);}
+.rail nav a{
+  display:block; padding:7px 10px; font-family:var(--mono); font-size:11.5px;
+  color:var(--muted); text-decoration:none; border-left:2px solid transparent;
+  transition:all .15s;
+}
+.rail nav a:hover{color:var(--accent); background:#11141b; border-left-color:var(--accent);}
+.rail .meta{
+  margin-top:30px; padding:14px; border:1px solid var(--line); background:var(--panel);
+  border-radius:10px; font-family:var(--mono); font-size:10.5px; color:var(--muted); line-height:1.7;
+}
+.rail .meta b{color:var(--text); display:block; margin-top:6px;}
+.rail .links{margin-top:14px;}
+.rail .links a{display:block; padding:5px 0; font-size:11px; color:var(--muted); text-decoration:none;}
+.rail .links a:hover{color:var(--accent);}
+
+/* ---------- main ---------- */
+.wrap{max-width:1240px;margin:0 auto;padding:30px 26px;display:grid;
+  grid-template-columns:250px 1fr; gap:50px;}
+@media (max-width:900px){
+  .rail{position:static;width:auto;}
+  .wrap{grid-template-columns:1fr;}
+  .rail-inner{position:static;height:auto;}
+}
+
+/* ---------- hero ---------- */
+.hero{grid-column:1 / -1; margin-bottom:60px;}
+.hero-inner{
+  position:relative; padding:64px 48px 56px; border-radius:20px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border:1px solid var(--line); overflow:hidden;
+}
+.hero-glow{
+  position:absolute; top:-20%; left:-15%; width:70vw; height:70vw;
+  background:radial-gradient(circle, rgba(34,211,238,0.15), transparent 50%);
+  filter:blur(60px); pointer-events:none; z-index:0;
+}
+.hero .kick{
+  position:relative; z-index:1;
+  font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 16px; display:block;
+}
+.hero h1{
+  position:relative; z-index:1;
+  font-size:clamp(38px, 7vw, 72px); line-height:0.98; letter-spacing:-0.035em;
+  margin:0 0 16px; font-weight:800; color:var(--text);
+}
+.hero h1 .accent{background:linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.hero p.lead{
+  position:relative; z-index:1;
+  font-size:19px; color:var(--muted); max-width:68ch; margin:0 0 28px; line-height:1.65;
+}
+.hero .meta{
+  position:relative; z-index:1;
+  display:flex; gap:10px; flex-wrap:wrap; font-family:var(--mono); font-size:11px; color:var(--muted);
+}
+.hero .meta b{color:var(--text);}
+.badge{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid var(--line);
+  border-radius:8px; background:var(--panel); font-size:11px; color:var(--text);
+  backdrop-filter:blur(4px);
+}
+
+/* ---------- isometric stage grid ---------- */
+.iso{
+  position:relative; z-index:1; margin-top:30px; padding-top:24px;
+  border-top:1px solid var(--line);
+}
+.iso .iso-title{
+  font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+.iso-grid{
+  display:flex; justify-content:center; gap:24px; flex-wrap:wrap;
+}
+.iso-card{
+  position:relative; width:200px; height:168px; background:var(--surface);
+  border:1px solid var(--line); border-radius:10px;
+  transform: rotateX(22deg) rotateZ(-14deg) translateZ(0);
+  transform-style:preserve-3d;
+  box-shadow: 0 25px 50px -10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+  overflow:hidden; display:flex; flex-direction:column;
+}
+.iso-card::before{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(135deg, #181d28 0%, #11141b 55%, #0c0e13 100%);
+  clip-path: polygon(50% 0%, 100% 42%, 50% 100%, 0% 42%);
+}
+.iso-card .side-l{
+  position:absolute; left:0; top:42%; bottom:0; width:50%;
+  background:linear-gradient(180deg, #0f1218, #0b0c10);
+  clip-path: polygon(0% 0%, 100% 48%, 100% 100%, 0% 100%);
+}
+.iso-card .side-r{
+  position:absolute; right:0; top:42%; bottom:0; width:50%;
+  background:linear-gradient(180deg, #090b0f, #050608);
+  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% 48%);
+  border-left:1px solid rgba(255,255,255,0.02);
+}
+.iso-card .stage-label{
+  font-family:var(--mono); font-size:9px; font-weight:700; color:var(--muted); letter-spacing:0.1em;
+  text-transform:uppercase; margin-top:6px;
+}
+.iso-card .stages{
+  font-family:var(--mono); font-size:9.5px; color:var(--muted); line-height:1.5; margin-top:2px;
+}
+.iso-card .fill{
+  position:absolute; bottom:0; left:0; right:0; height:46%;
+  background:linear-gradient(to top, var(--accent), transparent);
+  opacity:0.5; clip-path: polygon(0% 50%, 100% 42%, 100% 100%, 0% 100%);
+  pointer-events:none;
+}
+.iso-card .cap{
+  position:absolute; bottom:11px; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:10px; color:var(--text); font-weight:700;
+  letter-spacing:-0.01em; white-space:nowrap;
+}
+
+/* ---------- sections ---------- */
+.section{grid-column:2; margin-bottom:56px;}
+.section h2{
+  font-family:var(--mono); font-size:17px; letter-spacing:-0.01em; margin:0 0 14px;
+  border-left:3px solid var(--accent); padding-left:10px; color:var(--text);
+}
+.section h3{font-family:var(--sans); font-size:15px; margin:22px 0 7px; color:var(--text);}
+.section p{margin:0 0 13px; color:#c3cad4;}
+.section ul{margin:0 0 13px; padding-left:18px; color:#c3cad4;}
+.section li{margin-bottom:7px;}
+.section blockquote{
+  border-left:3px solid var(--line); margin:20px 0; padding:12px 20px;
+  color:var(--muted); font-style:italic; background:var(--panel); border-radius:0 10px 10px 0;
+}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0;}
+@media (max-width:720px){.grid2{grid-template-columns:1fr;}}
+.card{border:1px solid var(--line); background:var(--panel); border-radius:10px; padding:16px 18px;}
+.card h4{font-family:var(--mono); font-size:13px; margin:0 0 8px; color:var(--accent);}
+.card p{font-size:13px; color:#c3cad4; margin:0;}
+.card .big{font-size:25px; font-weight:800; color:var(--text); margin-bottom:4px; display:block;}
+.card.small{margin-top:10px;}
+.note{
+  font-family:var(--mono); font-size:12px; color:var(--muted); border:1px dashed var(--line);
+  background:#0d0f14; padding:10px 12px; border-radius:6px; margin:10px 0;
+}
+
+/* ---------- diagram ---------- */
+.diag{border:1px solid var(--line); background:var(--panel); border-radius:10px; margin:16px 0; overflow:hidden; display:flex; flex-direction:column;}
+.diag canvas{width:100%; height:auto; display:block; background:#0a0c11; cursor:crosshair;}
+.diag .bar{padding:11px 16px; border-top:1px solid var(--line); background:#0b0d12; display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+.slider{appearance:none; width:150px; height:5px; border-radius:2px; background:var(--line); outline:none;}
+.slider::-webkit-slider-thumb{appearance:none; width:15px; height:15px; border-radius:50%; background:var(--accent); cursor:pointer;}
+.btn-sm{padding:5px 11px; border:1px solid var(--line); border-radius:6px; background:var(--panel); font-family:var(--mono); font-size:11.5px; cursor:pointer; color:var(--text);}
+.btn-sm.active{border-color:var(--accent); color:var(--accent); background:#0d1b2a;}
+.btn-sm:hover{border-color:var(--accent);}
+.figcap{font-family:var(--mono); font-size:11px; color:var(--muted); padding:10px 16px; border-top:1px solid var(--line);}
+
+/* ---------- table ---------- */
+.compare{width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px; margin:14px 0; background:var(--panel);}
+.compare th{background:#11141b; text-align:left; padding:8px 11px; border:1px solid var(--line); color:var(--text); font-weight:700;}
+.compare td{padding:8px 11px; border:1px solid var(--line); color:#c3cad4;}
+.compare tr:nth-child(even) td{background:#0e1017;}
+.compare .win{color:var(--ok); font-weight:700;}
+.compare .lose{color:var(--bad); font-weight:600;}
+
+/* ---------- stage accordion ---------- */
+.stage{border:1px solid var(--line); border-radius:10px; margin:16px 0; overflow:hidden; background:var(--panel);}
+.stage-head{padding:11px 16px; background:#0d0f14; cursor:pointer; display:flex; align-items:center; justify-content:space-between; font-family:var(--mono); font-size:13px; font-weight:700; color:var(--text);}
+.stage-head .tri{width:0;height:0;border-left:5px solid var(--accent);border-top:5px solid transparent;border-bottom:5px solid transparent;transition:transform .2s;}
+.stage-body{padding:0 16px; max-height:0; overflow:hidden; transition:max-height .35s ease; color:#c3cad4;}
+.stage.open .stage-body{max-height:1400px;}
+.stage.open .tri{transform:rotate(90deg);}
+
+/* ---------- footer ---------- */
+footer{grid-column:1 / -1; border-top:1px solid var(--line); padding:32px 0 56px; margin-top:30px; font-family:var(--mono); font-size:11px; color:var(--muted); display:flex; gap:16px; flex-wrap:wrap;}
+footer b{color:var(--text);}
+
+/* ---------- scroll reveal ---------- */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease;}
+.reveal--in{opacity:1; transform:none;}
+</style>
+</head>
+<body>
+
+<nav class="rail">
+  <div class="rail-inner">
+    <div class="brand">c<span class="t">ncm</span> · field notes</div>
+    <nav>
+      <a href="#why">Why I built this</a>
+      <a href="#arch">Architecture</a>
+      <a href="#diagram">Live diagram</a>
+      <a href="#results">Results</a>
+      <a href="#paper">Thesis PDF</a>
+    </nav>
+    <div class="meta">
+      <b>CNCM</b>
+      Edge-first NCM re-engineering<br>
+      Repo: adnan1175/cncm<br>
+      Scale: 14.5M–93.0M params<br>
+      Tested on: NVIDIA A10 / A10G<br>
+      Thesis: 15 pp
+    </div>
+    <div class="links">
+      <a href="https://github.com/adnan1175/cncm" target="_blank">Source on GitHub</a>
+      <a href="#paper">Download CNCM_Thesis.pdf</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-glow"></div>
+      <span class="kick">lab journal · cncm research</span>
+      <h1>CNCM: Compact Causal-Hybrid Next-Concept Modeling<span class="accent"> for edge-scale generation</span></h1>
+      <p class="lead">I re-engineered Next-Concept Modeling (NCM) into a pure-PyTorch architecture that fits on a phone: zero codebook tables, causal prefix KV caching, recursive layer looping, and plan-guided fill-in-the-middle. Everything below is what I actually measured — including what didn't work.</p>
+      <div class="meta">
+        <span class="badge"><b>14.5M</b> nano · <b>93.0M</b> base</span>
+        <span class="badge"><b>12.29 MB</b> packed INT4</span>
+        <span class="badge"><b>6.4–7.6×</b> vs AR</span>
+        <span class="badge"><b>15</b> page thesis</span>
+      </div>
+
+      <div class="iso">
+        <div class="iso-title">Computational stages <span style="font-weight:400;font-size:10px;opacity:0.5">·</span> NCM-style coarse-to-fine</div>
+        <div class="iso-grid">
+          <div class="iso-card">
+            <div class="stage-label">Stage 1</div>
+            <div class="stages">Tokenizer<br>MultiscaleRFSQ</div>
+            <div class="fill"></div>
+            <div class="cap">1.51M params · 0 MB tables</div>
+          </div>
+          <div class="iso-card">
+            <div class="stage-label">Stage 2</div>
+            <div class="stages">Backbone<br>Causal-prefix Block-AR</div>
+            <div class="fill"></div>
+            <div class="cap">12.99M params · INT8 KV</div>
+          </div>
+          <div class="iso-card">
+            <div class="stage-label">Head</div>
+            <div class="stages">Factorized<br>Concept Head</div>
+            <div class="fill"></div>
+            <div class="cap">71K params · p(cₖ\|c&lt;k)</div>
+          </div>
+          <div class="iso-card">
+            <div class="stage-label">Loop</div>
+            <div class="stages">Recursive<br>CNCMBlock</div>
+            <div class="fill"></div>
+            <div class="cap">21–24 passes · 14.5M</div>
+          </div>
+          <div class="iso-card">
+            <div class="stage-label">Mode</div>
+            <div class="stages">Dual-Mode<br>Exact-AR + PG-FIM</div>
+            <div class="fill"></div>
+            <div class="cap">100% JSON validity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <h2>Why I built this</h2>
+    <p>NCM (Next-Concept Modeling) is a good idea that hits a wall on edge hardware. I read the reference implementation and kept running into the same three problems:</p>
+    <ul>
+      <li><strong>Codebook tables.</strong> Twelve separate FP32+EMA VQ tables (~151 MB for 12×4096×384) before you add a single backbone weight. On a 4 GB phone that's dead on arrival.</li>
+      <li><strong>Non-causal windows.</strong> NCM uses bidirectional prefixes with 5×–11× sequence blowup. No incremental KV caching across chunks — useless for chat.</li>
+      <li><strong>Discrete fragility.</strong> Even at 99.9% reconstruction, one wrong discrete code corrupts strict JSON tool-call syntax or a code identifier.</li>
+    </ul>
+    <blockquote>
+      "I wanted something that actually runs on low-end Android and consumer iGPU laptops, not something that works on an A100 and hopes for the best."
+    </blockquote>
+    <p>So I rebuilt it from scratch in pure PyTorch (no CUDA-only kernels, no Triton). CNCM replaces VQ+EMA with implicit FSQ grids, makes prefixes strictly causal with KV caching, and adds a grammar-constrained Exact-AR mode so tool calls and code stay syntactically valid.</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="big">0 MB</span>
+        <h4>codebook tables</h4>
+        <p>Implicit 8⁴=4096 FSQ grids instead of explicit VQ+EMA tables.</p>
+      </div>
+      <div class="card">
+        <span class="big">2.30×</span>
+        <h4>sequence blowup</h4>
+        <p>vs NCM's 5.0×–11.2×; strict causal prefix KV cache.</p>
+      </div>
+      <div class="card">
+        <span class="big">100%</span>
+        <h4>JSON validity</h4>
+        <p>Exact-AR mode with schema-constrained masking.</p>
+      </div>
+      <div class="card">
+        <span class="big">6.4–7.6×</span>
+        <h4>Concept-Mode speedup</h4>
+        <p>measured wall-clock vs parameter-matched AR on A10/A10G.</p>
+      </div>
+    </div>
+    <div class="note">Honest framing up front: CNCM is a research prototype, not a production LLM. The sections below report negative results alongside the positive ones.</div>
+  </section>
+
+  <section class="section" id="arch">
+    <h2>Architecture</h2>
+    <p>CNCM has two stages. Stage 1 is a frozen concept tokenizer; Stage 2 is a shared dual-mode backbone.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h4>Stage 1 · MultiscaleRFSQ</h4>
+        <p>Embeds tokens into <code>z₀ = GroupNorm(affine=False)(E(x))</code>, then computes detached residuals <code>rₖ = z₀ − sg(ẑₜ₋ₖ)</code> across 8 convex scales ℓ = (1, 2, 4, 8, 12, 20, 36, 64). Each level projects to 4 bounded scalar coordinates on an 8⁴ grid:</p>
+        <pre><code>c̃ⱼ = (Lⱼ−1)/2 + (Lⱼ/2)(1−ε)·tanh(hⱼ)</code></pre>
+        <p>Result: implicit 4096-code space, no VQ table, no EMA buffers, &lt; 5e-7 gradient-accumulation invariance.</p>
+      </div>
+      <div class="card">
+        <h4>Stage 2 · Dual-mode backbone</h4>
+        <p>Causal prefix KV cache feeds a shared CNCMBlock stack (Pre-RMSNorm + QK-RMSNorm + GQA + SwiGLU). Two heads branch off:</p>
+        <ul>
+          <li><strong>Concept Mode</strong> — FactorizedConceptHead models 4096-way joint digit correlation in 71K params; ~23–32× fewer output MACs.</li>
+          <li><strong>Exact-AR Mode</strong> — weight-tied head; JSONSchemaConstrainedMasker guarantees 100% JSON-schema syntax validity.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head" onclick="toggleStage(this)">Recursive layer looping (CNCMBlock) <span class="tri"></span></div>
+      <div class="stage-body">
+        <p>Weight-shared recursive looping trades FLOPs for parameter depth. On nano this gives 21–24 effective passes in 14.5M total parameters (12.29 MB packed INT4).</p>
+        <p><strong>Negative result (Ablation A2):</strong> at 300 steps and equal parameters, non-looped 7×1 converges <em>faster</em> than weight-shared 7×3 (Concept loss 4.51 vs 5.95). Looping only pays off with more compute.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head" onclick="toggleStage(this)">PG-FIM · Plan-Guided Fill-in-the-Middle <span class="tri"></span></div>
+      <div class="stage-body">
+        <p>Cursor-aware infilling: a short Exact-AR plan <code>&lt;mlen_k&gt; &lt;kw&gt; kw1 | kw2 &lt;/kw&gt;</code> guides parallel Concept Mode middle generation. Phase A repairs spans in Exact-AR; optional Phase B uses CopyAwareKeywordCrossAttention pointer decoding.</p>
+        <table class="compare">
+          <thead><tr><th>Variant (model-only, no fallback)</th><th>Parse / Compile</th><th>Unit-test pass@1</th><th>Latency</th></tr></thead>
+          <tbody>
+            <tr><td>Phase A PG-FIM</td><td class="lose">0.0% / 0.0%</td><td class="lose">0.0%</td><td>1,039.8 ms</td></tr>
+            <tr><td>Phase B Copy PG-FIM</td><td class="win">62.5% / 62.5%</td><td class="win">50.0%</td><td>1,060.0 ms</td></tr>
+            <tr><td>AR FIM baseline</td><td class="lose">0.0% / 0.0%</td><td class="lose">0.0%</td><td>932.6 ms</td></tr>
+          </tbody>
+        </table>
+        <p class="note">v1 got 0.0% on everything. v2 lifted PG-FIM parse/compile to 62.5% and unit-test pass@1 to 50.0%. Details below.</p>
+      </div>
+    </div>
+
+  <section class="section" id="results">
+    <h2>Results</h2>
+    <p>Measured on NVIDIA A10/A10G, leakage-free held-out splits. I'm listing the disappointments first because they matter more than the wins.</p>
+
+    <h3>What didn't work</h3>
+    <ul>
+      <li><strong>Recursive looping (Ablation A2):</strong> non-looped 7×1 beats 7×3 at equal parameters and 300 steps. Looping needs more compute to justify itself.</li>
+      <li><strong>Self-speculative verification:</strong> mathematically exact (greedy match = True) but 0.0 draft acceptance at short-training scale — runs at 0.239× vs plain AR. Not an accelerator yet.</li>
+      <li><strong>Stage 3 GRPO/CISPO:</strong> runs stably but yields <code>final_mean_reward = 0.0</code> — sparse rollout groups, zero variance.</li>
+      <li><strong>Model-only PG-FIM at v1:</strong> 0.0% parse/compile/test. The earlier "100% compile" number was an artifact of opt-in template fallback, now disabled by default.</li>
+    </ul>
+
+    <h3>What held up</h3>
+    <table class="compare">
+      <thead><tr><th>Metric</th><th>CNCM v1 (nano)</th><th>CNCM v2</th><th>Delta</th></tr></thead>
+      <tbody>
+        <tr><td>Stage 1 held-out reconstruction</td><td>99.93%</td><td>99.93%</td><td>—</td></tr>
+        <tr><td>Model-only PG-FIM parse/compile</td><td class="lose">0.0% / 0.0%</td><td class="win">62.5% / 62.5%</td><td class="win">+62.5 pts</td></tr>
+        <tr><td>Unit-test pass@1 (24 tasks)</td><td class="lose">0.0%</td><td class="win">50.0%</td><td class="win">+50.0 pts</td></tr>
+        <tr><td>Stage 2 held-out Exact NLL</td><td class="lose">1.4065</td><td class="win">1.1696</td><td class="win">−0.237</td></tr>
+        <tr><td>Concept-Mode speedup vs AR</td><td class="win">6.40×–7.63×</td><td class="win">unchanged</td><td>—</td></tr>
+        <tr><td>Packed INT4 footprint</td><td class="win">12.29 MB</td><td class="win">12.29 MB</td><td>—</td></tr>
+        <tr><td>4-turn INT8 KV agreement</td><td class="win">100.0%</td><td class="win">100.0%</td><td>—</td></tr>
+        <tr><td>ONNXRuntime parity</td><td class="win">≤ 6e-6</td><td class="win">≤ 6e-6</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="note">v2 fixes: Continuous Scaled RoPE, 1-layer Semantic Stage 1 Encoder with Matryoshka loss, 2-phase Exact-AR→Concept curriculum, per-position copy gating, true local-span AR repair, self-speculative EMA circuit breaker.</p>
+  </section>
+
+  <section class="section" id="diagram">
+    <h2>Live architecture diagram</h2>
+    <p>Drag the slider to watch one token chunk flow through Stage&nbsp;1 (MultiscaleRFSQ concept tokenizer) into Stage&nbsp;2 (dual-mode backbone).</p>
+    <div class="diag reveal stagger">
+      <canvas id="archCanvas" width="940" height="420"></canvas>
+      <div class="bar">
+        <span class="badge">Flow stage: <span id="stageLabel">Idle</span></span>
+        <input type="range" id="flowSlider" min="0" max="100" value="0" class="slider">
+        <span class="badge">Speed</span>
+        <button class="btn-sm active" id="modeAuto">Auto ▶</button>
+        <button class="btn-sm" id="modeManual">Manual</button>
+      </div>
+      <figcaption id="stageCaption" class="figcap">Idle — waiting for input chunk.</figcaption>
+    </div>
+    <div class="math" id="kvFormula" style="display:none;">
+      KV cache entry per prefix position: <code>K_k = W_k x_k, V_k = W_v x_k</code> · INT8 quantized · causal mask forbids attending to future positions.
+    </div>
+  </section>
+
+  <section class="section" id="paper">
+    <h2>Read the full thesis</h2>
+    <p>15-page typeset thesis with full derivations, ablation tables, and the claims audit:</p>
+    <a class="btn" href="CNCM_Thesis.pdf" download>Download CNCM_Thesis.pdf</a>
+    <a class="btn" href="https://github.com/adnan1175/cncm" target="_blank">Source on GitHub</a>
+  </section>
+
+  <footer>
+    <b>cncm · field notes</b>
+    <span>adnan1175/cncm · NVIDIA A10/A10G · ONNXRuntime opset-18</span>
+    <span><a href="#why" style="color:inherit;text-decoration:none">Top ▲</a></span>
+  </footer>
+
+</main>
+
+<script>
+/* ---------- scroll reveal ---------- */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add('reveal--in');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+/* ---------- stage accordions ---------- */
+function toggleStage(head) {
+  const parent = head.parentElement;
+  const body = head.nextElementSibling;
+  const open = parent.classList.toggle('open');
+  const tri = parent.querySelector('.tri');
+  tri.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+  body.style.maxHeight = open ? body.scrollHeight + 'px' : '0px';
+}
+
+/* ---------- interactive canvas diagram ---------- */
+const canvas = document.getElementById('archCanvas');
+const ctx = canvas.getContext('2d');
+const slider = document.getElementById('flowSlider');
+const stageLabel = document.getElementById('stageLabel');
+const stageCaption = document.getElementById('stageCaption');
+const btnAuto = document.getElementById('modeAuto');
+const btnManual = document.getElementById('modeManual');
+
+const W = 940, H = 420;
+let auto = true, t = 0, raf = null;
+
+const stages = [
+  { name: 'Idle', caption: 'Idle — waiting for input chunk.', color: '#c3cad4', blocks: [] },
+  { name: 'Stage 1: Embed', caption: 'Token chunk embedded → affine-free GroupNorm.', color: '#22d3ee', blocks: [0] },
+  { name: 'Stage 1: RFSQ', caption: 'Multiscale residual FSQ across 8 scales.', color: '#a855f7', blocks: [0, 1] },
+  { name: 'Stage 1: Decode', caption: 'Reconstruct token logits from concept codes.', color: '#c084fc', blocks: [0, 1, 2] },
+  { name: 'Stage 2: Prefix', caption: 'Causal prefix KV cache built (INT8 optional).', color: '#67e8f9', blocks: [3] },
+  { name: 'Stage 2: Concept Head', caption: 'FactorizedConceptHead predicts p(cₖ|c&lt;k).', color: '#4ade80', blocks: [3, 4] },
+  { name: 'Stage 2: Exact-AR', caption: 'Grammar-masked Exact-AR head for JSON/code.', color: '#34d399', blocks: [3, 4, 5] },
+  { name: 'PG-FIM Repair', caption: 'Phase A exact-AR span repair + Phase B copy pointer.', color: '#fbbf24', blocks: [3, 4, 5, 6] },
+  { name: 'Done', caption: 'Output tokens emitted — ready for next chunk.', color: '#22c55e', blocks: [6] },
+];
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  const progress = auto ? (Date.now() % 12000) / 12000 : t / 100;
+  const idx = Math.min(Math.floor(progress * (stages.length - 1)), stages.length - 1);
+  const frac = progress * (stages.length - 1) - idx;
+  const s = stages[idx];
+
+  ctx.fillStyle = '#eef0f4'; ctx.font = 'bold 18px system-ui'; ctx.fillText('CNCM data flow', 24, 34);
+  ctx.fillStyle = '#8a93a5'; ctx.font = '13px system-ui'; ctx.fillText('Stage 1 (tokenizer) ──▶ Stage 2 (backbone) ──▶ output', 24, 56);
+
+  const blockW = 118, blockH = 78;
+  const yTop = 105, yBot = 280;
+  const xs = [120, 264, 408, 552, 696, 840];
+  const names = ['Embed\nGroupNorm', 'RFSQ\n8 scales', 'Decode\nlogits', 'Prefix\nKV cache', 'Concept\nhead', 'Exact-AR\nhead'];
+  const colors = ['#22d3ee', '#a855f7', '#c084fc', '#67e8f9', '#4ade80', '#34d399'];
+
+  for (let i = 0; i < xs.length - 1; i++) {
+    const x1 = xs[i] + blockW, x2 = xs[i + 1];
+    const y = yTop + blockH / 2;
+    ctx.strokeStyle = '#1f2633'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x1 + 4, y); ctx.lineTo(x2 - 4, y); ctx.stroke();
+    ctx.fillStyle = '#8a93a5';
+    ctx.beginPath(); ctx.moveTo(x2 - 6, y - 4); ctx.lineTo(x2 - 4, y); ctx.lineTo(x2 - 6, y + 4); ctx.fill();
+  }
+
+  for (let i = 0; i < xs.length; i++) {
+    const active = s.blocks.includes(i);
+    ctx.fillStyle = active ? colors[i] : '#11141b';
+    ctx.strokeStyle = active ? colors[i] : '#1f2633';
+    ctx.lineWidth = active ? 3 : 1;
+    ctx.beginPath(); ctx.roundRect(xs[i], yTop, blockW, blockH, 6); ctx.fill(); ctx.stroke();
+
+    ctx.fillStyle = active ? '#ffffff' : '#8a93a5';
+    ctx.font = active ? 'bold 11px system-ui' : '10px system-ui';
+    const lines = names[i].split('\n');
+    ctx.fillText(lines[0], xs[i] + blockW / 2 - ctx.measureText(lines[0]).width / 2, yTop + 26);
+    ctx.fillText(lines[1], xs[i] + blockW / 2 - ctx.measureText(lines[1]).width / 2, yTop + 42);
+
+    if (active) {
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      ctx.fillRect(xs[i], yBot, blockW, 52);
+      ctx.fillStyle = colors[i]; ctx.font = 'bold 11px system-ui';
+      ctx.fillText(s.name.toUpperCase(), xs[i] + 10, yBot + 16);
+      ctx.fillStyle = '#8a93a5'; ctx.font = '9.5px system-ui';
+      ctx.fillText(s.caption, xs[i] + 10, yBot + 34, blockW - 14);
+    }
+
+    if (active && frac > 0.5) {
+      const px = xs[i] + blockW / 2 + Math.sin(Date.now() / 200) * 6;
+      const py = yTop + blockH / 2;
+      ctx.beginPath(); ctx.arc(px, py, 4 + frac * 6, 0, Math.PI * 2);
+      ctx.fillStyle = colors[i]; ctx.globalAlpha = 0.35; ctx.fill(); ctx.globalAlpha = 1;
+    }
+  }
+
+  ctx.fillStyle = '#1f2633'; ctx.font = '11px system-ui';
+  ctx.fillText('Input chunk x [B, L=64]', 60, yBot + 44);
+  ctx.fillStyle = '#4ade80'; ctx.font = 'bold 11px system-ui';
+  ctx.fillText('Concept codes + Exact-AR tokens', 600, yBot + 44);
+
+  slider.value = Math.round(progress * 100);
+  stageLabel.textContent = s.name;
+  stageCaption.textContent = s.caption;
+  document.getElementById('kvFormula').style.display = idx >= 4 ? 'block' : 'none';
+}
+
+function loop() { draw(); raf = requestAnimationFrame(loop); }
+
+slider.addEventListener('input', () => { auto = false; t = slider.value; draw(); btnAuto.classList.remove('active'); btnManual.classList.add('active'); });
+btnAuto.addEventListener('click', () => { auto = true; btnAuto.classList.add('active'); btnManual.classList.remove('active'); if (!raf) loop(); });
+btnManual.addEventListener('click', () => { auto = false; btnManual.classList.add('active'); btnAuto.classList.remove('active'); cancelAnimationFrame(raf); raf = null; });
+
+loop();
+</script>
+
+</body>
+</html>  </section>

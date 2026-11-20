@@ -60,10 +60,36 @@ This ledger tracks every architectural, performance, and quality claim in `ARCHI
 
 ## 4. Reproducing This Audit
 
-```bash
+```
+
+---
+
+## `ctx0an` Base-MoE Controlled A/B Claims (Modal NVIDIA A10 Verified)
+
+- **Controlled A/B Benchmark (`modal_moe_benchmark.py` -> `modal_ctx0an_moe_benchmark.json`, `BENCHMARK_CTX0AN_MOE.md`)**:
+  - `base_moe` (`221.45M` total / `94.05M` active) vs. Dense `base` (`93.90M`) on identical 4-domain curated data (`3.17M` train tokens, `V=6400` BPE, shared Stage 1):
+    - **Phase 1 Val Exact-AR NLL**: `6.4026` vs. `6.4818` (`-0.0792`)
+    - **Phase 2 Val Exact-AR NLL**: `5.9886` (`398.86` PPL) vs. `6.1619` (`474.33` PPL) (`-0.1733`)
+    - **Gate #5 Align NLL / Concept Draft NLL**: `-0.2314` / `-0.5269`
+    - **MoE Routing Health**: `8/8` experts active (`0.9984` normalized load entropy), `82.85%` Loop 0→1 expert switching.
+    - **Throughput & Size Trade-off**: Dense `base` is `~1.35×` faster in training (`14,689` vs `10,625` tok/s Phase 1) and `~2.4×` smaller (`~46.6 MB` vs `~109.8 MB` INT4).
+- **Unit Tests**: `25/25` tests passing in `tests/test_cncm.py`.bash
 # 1. Local unit & invariant verification (19/19 tests)
 python -m pytest -v tests/test_cncm.py
 
 # 2. Full Section E GPU audit on Modal (~$0.23 on NVIDIA A10G)
 modal run modal_audit.py --preset nano --stage1-steps 350 --stage2-steps 500 --ar-steps 500
 ```
+
+---
+
+## `ctx0an` Base-MoE Controlled A/B Claims (Modal NVIDIA A10 Verified)
+
+- **Controlled A/B Benchmark (`modal_moe_benchmark.py` -> `modal_ctx0an_moe_benchmark.json`, `BENCHMARK_CTX0AN_MOE.md`)**:
+  - `base_moe` (`221.45M` total / `94.05M` active) vs. Dense `base` (`93.90M`) on identical 4-domain curated data (`3.17M` train tokens, `V=6400` BPE, shared Stage 1):
+    - **Phase 1 Val Exact-AR NLL**: `6.4026` vs. `6.4818` (`-0.0792`)
+    - **Phase 2 Val Exact-AR NLL**: `5.9886` (`398.86` PPL) vs. `6.1619` (`474.33` PPL) (`-0.1733`)
+    - **Gate #5 Align NLL / Concept Draft NLL**: `-0.2314` / `-0.5269`
+    - **MoE Routing Health**: `8/8` experts active (`0.9984` normalized load entropy), `82.85%` Loop 0→1 expert switching.
+    - **Throughput & Size Trade-off**: Dense `base` is `~1.35×` faster in training (`14,689` vs `10,625` tok/s Phase 1) and `~2.4×` smaller (`~46.6 MB` vs `~109.8 MB` INT4).
+- **Unit Tests**: `25/25` tests passing in `tests/test_cncm.py`.

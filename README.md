@@ -159,3 +159,16 @@ ARCHITECTURE.md            # Deep technical specification & vanilla NCM comparis
 - **Next-Concept Modeling (NCM)**: H. Kumbong et al., Stanford Hazy Research & Scaling Intelligence Lab — [*Next-Concept Modeling: Fast, Parallel Coarse-to-Fine Text Generation*](https://github.com/HazyResearch/ncm) (arXiv:2610.14162, MIT License).
 - **MiniMind-3**: Compact edge-LLM architecture, small-vocabulary efficiency, and multi-stage training lessons from Jingyao Gong's MiniMind series.
 - **Finite Scalar Quantization (FSQ)**: Mentzer et al., *Finite Scalar Quantization: VQ-VAE Made Simple* (ICLR 2024).
+
+---
+
+## Latest `ctx0an` Training & MoE Experiment Updates
+
+- **Main Architecture (`base` Dense)**: [train_ctx0an_base.py](train_ctx0an_base.py) defaults to `--preset base` (`93.90M` dense, `24` effective layers via `12 × 2` loops, `V=6400` corpus Byte-Level BPE, `~46.6 MB` INT4).
+- **MoE Experiment (`base_moe`)**: [experiment/moe_ctx0an.py](experiment/moe_ctx0an.py) implements DeepSeek-style Fine-Grained MoE (`221.45M` total / `94.05M` active, `1` shared + `8` routed Top-2 experts with `24` per-loop routers, `~109.8 MB` INT4).
+- **Kaggle & Cloud Infrastructure**:
+  - `MemmapTokenDataset` + `prepare_memmap_corpus` (`uint16` flat binary, `0%` padding, `<10 MB` RAM) + 200× faster Rust `tokenizers` `batch_encode`.
+  - `CheckpointManager` (atomic `latest.pt`, `best.pt`, `keep_last_k` pruning, wall-clock guard, optional private HF Hub async sync).
+  - T4 FP16 `GradScaler` (Stage 1 strictly FP32), `grad_checkpointing`, and `torchrun` multi-GPU DDP.
+- **Verified Modal A10 Benchmark**: See [BENCHMARK_CTX0AN_MOE.md](BENCHMARK_CTX0AN_MOE.md) (`base_moe` won **6/6** quality/alignment checks: `-0.1733` Phase 2 Val NLL, `-0.5269` Concept Draft NLL, `8/8` active experts with `0.9984` load entropy; Dense `base` is `~1.35×` faster and `~2.4×` smaller).
+- **Test Suite**: `25/25` unit tests passing in [tests/test_cncm.py](tests/test_cncm.py).

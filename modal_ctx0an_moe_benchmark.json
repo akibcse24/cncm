@@ -1,0 +1,399 @@
+{
+  "benchmark_title": "ctx0an Base-MoE vs. Previous Dense Base \u2014 Controlled Modal Cloud GPU A/B Benchmark",
+  "hardware": {
+    "gpu_name": "NVIDIA A10",
+    "vram_gb": 23.68,
+    "amp_dtype": "bf16"
+  },
+  "shared_setup": {
+    "corpus_sources": {
+      "english": [
+        "HuggingFaceTB/smollm-corpus/cosmopedia-v2(1320)",
+        "HuggingFaceTB/smollm-corpus/fineweb-edu-dedup(1080)"
+      ],
+      "python": [
+        "Nan-Do/code-search-net-python/default(1100)",
+        "TokenBender/code_instructions_122k_alpaca_style/default(900)",
+        "pg_fim_mix(400)"
+      ],
+      "math": [
+        "HuggingFaceTB/finemath/finemath-4plus(550)",
+        "meta-math/MetaMathQA/default(450)"
+      ],
+      "json": [
+        "glaiveai/glaive-function-calling-v2/default(700)",
+        "synthetic_json(300)"
+      ]
+    },
+    "train_docs": 6120,
+    "val_docs": 680,
+    "memmap_train_tokens": 3174012,
+    "memmap_val_tokens": 355024,
+    "prefix_len": 256,
+    "chunk_size": 64,
+    "vocab_size": 6400,
+    "gate4_bpe_fertility": {
+      "domains": {
+        "english": {
+          "total_chars": 597106,
+          "total_tokens": 154396,
+          "chars_per_token": 3.8674,
+          "gate_threshold": 3.5,
+          "gate_passed": true
+        },
+        "python": {
+          "total_chars": 138189,
+          "total_tokens": 41463,
+          "chars_per_token": 3.3328,
+          "gate_threshold": 3.0,
+          "gate_passed": true
+        },
+        "json": {
+          "total_chars": 168100,
+          "total_tokens": 46519,
+          "chars_per_token": 3.6136,
+          "gate_threshold": 2.5,
+          "gate_passed": true
+        }
+      },
+      "gate_all_passed": true
+    },
+    "stage1_elapsed_sec": 48.21,
+    "stage1_final_loss": 5.7661,
+    "stage1_final_recon_acc": 0.0562,
+    "gates23_stage1_recon": {
+      "k_full": 8,
+      "k_prev": 7,
+      "domains": {
+        "english": {
+          "chunks_evaluated": 48,
+          "tokens_evaluated": 3072,
+          "recon_acc_k8": 0.76009,
+          "recon_acc_k7": 0.1748,
+          "gate_k_full_threshold": 0.99,
+          "gate_k_prev_threshold": 0.75,
+          "gate_k_full_passed": false,
+          "gate_k_prev_passed": false
+        },
+        "python": {
+          "chunks_evaluated": 48,
+          "tokens_evaluated": 3072,
+          "recon_acc_k8": 0.79395,
+          "recon_acc_k7": 0.22201,
+          "gate_k_full_threshold": 0.99,
+          "gate_k_prev_threshold": 0.75,
+          "gate_k_full_passed": false,
+          "gate_k_prev_passed": false
+        },
+        "json": {
+          "chunks_evaluated": 48,
+          "tokens_evaluated": 3072,
+          "recon_acc_k8": 0.80957,
+          "recon_acc_k7": 0.2627,
+          "gate_k_full_threshold": 0.98,
+          "gate_k_prev_threshold": 0.75,
+          "gate_k_full_passed": false,
+          "gate_k_prev_passed": false
+        }
+      },
+      "gate_k_full_all_passed": false,
+      "gate_k_prev_all_passed": false
+    }
+  },
+  "dense_base": {
+    "label": "Previous Dense Base (SwiGLU)",
+    "preset": "base",
+    "params": {
+      "total": 93897920,
+      "generator": 87963040,
+      "concept_tokenizer": 5934880,
+      "trainable": 87963040,
+      "active_total": 93897920,
+      "active_generator": 87963040
+    },
+    "fp32_size_mb": 358.19,
+    "int4_est_size_mb": 46.56,
+    "phase1_exact_ar": {
+      "steps": 200,
+      "tokens_seen": 1536000,
+      "elapsed_sec": 104.57,
+      "tok_per_sec": 14688.8,
+      "peak_vram_gb": 7.578,
+      "train_initial_loss": 8.9319,
+      "train_final_loss": 6.5009,
+      "all_grads_finite": true,
+      "val_exact_nll_mean": 6.4818,
+      "val_exact_ppl_mean": 653.15,
+      "val_exact_nll_per_domain": {
+        "english": 6.8758,
+        "python": 6.5387,
+        "math": 6.3582,
+        "json": 6.1547
+      }
+    },
+    "phase2_joint_align": {
+      "steps": 200,
+      "tokens_seen": 1536000,
+      "elapsed_sec": 236.66,
+      "tok_per_sec": 6490.2,
+      "peak_vram_gb": 14.484,
+      "train_initial_loss": 13.1085,
+      "train_final_loss": 11.6496,
+      "train_final_concept_loss": 7.2101,
+      "train_final_exact_loss": 6.248,
+      "train_final_align_loss": 6.4364,
+      "all_grads_finite": true,
+      "val_exact_nll_mean": 6.1619,
+      "val_exact_ppl_mean": 474.33,
+      "val_exact_nll_per_domain": {
+        "english": 6.6818,
+        "python": 6.1198,
+        "math": 6.1063,
+        "json": 5.7397
+      }
+    },
+    "gate1_code_entropy": {
+      "batches_evaluated": 12,
+      "codebook_size": 4096,
+      "uniform_entropy_nats": 8.3178,
+      "mean_conditional_nats_per_code": 7.6761,
+      "mean_marginal_nats_per_code": 5.5423,
+      "per_level_conditional_nats": {
+        "L0(len=1)": 0.0442,
+        "L1(len=2)": 5.8101,
+        "L2(len=4)": 7.086,
+        "L3(len=8)": 7.198,
+        "L4(len=12)": 7.576,
+        "L5(len=20)": 7.7636,
+        "L6(len=36)": 7.7747,
+        "L7(len=64)": 7.8862
+      },
+      "per_level_marginal_nats": {
+        "L0(len=1)": -0.0,
+        "L1(len=2)": 4.4415,
+        "L2(len=4)": 5.5364,
+        "L3(len=8)": 6.1232,
+        "L4(len=12)": 6.5102,
+        "L5(len=20)": 6.9708,
+        "L6(len=36)": 7.2273,
+        "L7(len=64)": 7.5288
+      },
+      "gate_threshold_nats": 5.5,
+      "gate_passed": false,
+      "bottleneck_hint": "generator_undertrained_or_capacity_bound"
+    },
+    "gate5_concept_vs_exact_gap": {
+      "batches_evaluated": 12,
+      "exact_ar_nll": 6.66189,
+      "exact_ar_ppl": 782.031,
+      "align_nll": 6.61676,
+      "align_ppl": 747.519,
+      "concept_draft_nll_by_exact": 9.34388,
+      "concept_draft_ppl_by_exact": 11428.711,
+      "align_minus_exact_gap": -0.04513,
+      "concept_draft_minus_exact_gap": 2.68199,
+      "gate_gap_threshold_nats": 0.4,
+      "gate_passed": false
+    },
+    "moe_routing_diagnostics": null,
+    "inference_benchmark": {
+      "exact_ar_64tok_ms": 1444.13,
+      "exact_ar_tok_per_sec": 44.3,
+      "concept_64tok_ms": 222.54,
+      "concept_tok_per_sec": 287.6,
+      "concept_vs_exact_speedup": 6.49,
+      "sample_python_exact": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "sample_python_concept": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n - - -^ - - -^^^^^^^^^^^^^^^^^ - - - - - - - - - - -^^^^^^^^^^^^^^^^^ - - -^^^^^ x x x^"
+    }
+  },
+  "ctx0an_base_moe": {
+    "label": "New ctx0an Base-MoE (1 Shared + 8 Routed Top-2)",
+    "preset": "base_moe",
+    "params": {
+      "total": 221447360,
+      "generator": 215512480,
+      "concept_tokenizer": 5934880,
+      "trainable": 215512480,
+      "active_total": 94045376,
+      "active_generator": 88110496
+    },
+    "fp32_size_mb": 844.75,
+    "int4_est_size_mb": 109.82,
+    "phase1_exact_ar": {
+      "steps": 200,
+      "tokens_seen": 1536000,
+      "elapsed_sec": 144.56,
+      "tok_per_sec": 10625.2,
+      "peak_vram_gb": 12.088,
+      "train_initial_loss": 8.9365,
+      "train_final_loss": 6.512,
+      "all_grads_finite": true,
+      "val_exact_nll_mean": 6.4026,
+      "val_exact_ppl_mean": 603.41,
+      "val_exact_nll_per_domain": {
+        "english": 6.8393,
+        "python": 6.4082,
+        "math": 6.273,
+        "json": 6.0899
+      }
+    },
+    "phase2_joint_align": {
+      "steps": 200,
+      "tokens_seen": 1536000,
+      "elapsed_sec": 318.16,
+      "tok_per_sec": 4827.8,
+      "peak_vram_gb": 21.486,
+      "train_initial_loss": 13.1633,
+      "train_final_loss": 11.5719,
+      "train_final_concept_loss": 7.1844,
+      "train_final_exact_loss": 6.1959,
+      "train_final_align_loss": 6.3398,
+      "all_grads_finite": true,
+      "val_exact_nll_mean": 5.9886,
+      "val_exact_ppl_mean": 398.86,
+      "val_exact_nll_per_domain": {
+        "english": 6.5213,
+        "python": 5.946,
+        "math": 5.9724,
+        "json": 5.5145
+      }
+    },
+    "gate1_code_entropy": {
+      "batches_evaluated": 12,
+      "codebook_size": 4096,
+      "uniform_entropy_nats": 8.3178,
+      "mean_conditional_nats_per_code": 7.6139,
+      "mean_marginal_nats_per_code": 5.5423,
+      "per_level_conditional_nats": {
+        "L0(len=1)": 0.038,
+        "L1(len=2)": 5.7673,
+        "L2(len=4)": 7.0693,
+        "L3(len=8)": 7.1982,
+        "L4(len=12)": 7.5604,
+        "L5(len=20)": 7.7508,
+        "L6(len=36)": 7.7656,
+        "L7(len=64)": 7.7579
+      },
+      "per_level_marginal_nats": {
+        "L0(len=1)": -0.0,
+        "L1(len=2)": 4.4415,
+        "L2(len=4)": 5.5364,
+        "L3(len=8)": 6.1232,
+        "L4(len=12)": 6.5102,
+        "L5(len=20)": 6.9708,
+        "L6(len=36)": 7.2273,
+        "L7(len=64)": 7.5288
+      },
+      "gate_threshold_nats": 5.5,
+      "gate_passed": false,
+      "bottleneck_hint": "generator_undertrained_or_capacity_bound"
+    },
+    "gate5_concept_vs_exact_gap": {
+      "batches_evaluated": 12,
+      "exact_ar_nll": 6.50655,
+      "exact_ar_ppl": 669.514,
+      "align_nll": 6.38537,
+      "align_ppl": 593.106,
+      "concept_draft_nll_by_exact": 8.81697,
+      "concept_draft_ppl_by_exact": 6747.76,
+      "align_minus_exact_gap": -0.12118,
+      "concept_draft_minus_exact_gap": 2.31041,
+      "gate_gap_threshold_nats": 0.4,
+      "gate_passed": false
+    },
+    "moe_routing_diagnostics": {
+      "num_experts": 8,
+      "top_k": 2,
+      "overall_expert_shares": [
+        0.1241,
+        0.1134,
+        0.1225,
+        0.1258,
+        0.1379,
+        0.1078,
+        0.129,
+        0.1395
+      ],
+      "min_expert_share": 0.1078,
+      "max_expert_share": 0.1395,
+      "std_expert_share": 0.0109,
+      "normalized_load_entropy": 0.9984,
+      "active_experts_gt_2pct": 8,
+      "loop0_to_loop1_expert_switch_rate": 0.8285,
+      "domain_tv_python_vs_english": 0.0468,
+      "domain_tv_python_vs_json": 0.0417,
+      "per_domain_shares": {
+        "english": [
+          0.1214,
+          0.1142,
+          0.123,
+          0.1217,
+          0.1435,
+          0.0968,
+          0.1351,
+          0.1442
+        ],
+        "python": [
+          0.1268,
+          0.1195,
+          0.1251,
+          0.1293,
+          0.1247,
+          0.1233,
+          0.1255,
+          0.1258
+        ],
+        "math": [
+          0.1254,
+          0.1055,
+          0.1216,
+          0.1246,
+          0.1415,
+          0.112,
+          0.1318,
+          0.1376
+        ],
+        "json": [
+          0.123,
+          0.1143,
+          0.1202,
+          0.1276,
+          0.1417,
+          0.0991,
+          0.1236,
+          0.1504
+        ]
+      }
+    },
+    "inference_benchmark": {
+      "exact_ar_64tok_ms": 2628.67,
+      "exact_ar_tok_per_sec": 24.3,
+      "concept_64tok_ms": 422.46,
+      "concept_tok_per_sec": 151.5,
+      "concept_vs_exact_speedup": 6.22,
+      "sample_python_exact": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "sample_python_concept": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n[]][[[[[[[[[[[[[[\n               \n               \n               \n               \n               \n                - - - - - - - - - -\n   \n   \n    -xxxxxxxxxxxxxxx - - - - - - -]]]]):"
+    }
+  },
+  "comparison_deltas_moe_minus_dense": {
+    "phase1_val_exact_nll_delta": -0.0792,
+    "phase2_val_exact_nll_delta": -0.1733,
+    "python_val_exact_nll_delta": -0.1738,
+    "conditional_code_entropy_delta": -0.0622,
+    "align_nll_delta": -0.2314,
+    "concept_draft_nll_delta": -0.5269,
+    "phase1_throughput_ratio_moe_over_dense": 0.723,
+    "phase2_throughput_ratio_moe_over_dense": 0.744
+  },
+  "verdict_checks": {
+    "phase1_val_exact_nll_better": true,
+    "phase2_val_exact_nll_better": true,
+    "python_val_nll_better": true,
+    "concept_code_entropy_better": true,
+    "align_nll_better": true,
+    "zero_expert_collapse": true
+  },
+  "moe_wins_count": 6,
+  "total_checks": 6,
+  "total_elapsed_sec": 934.7
+}

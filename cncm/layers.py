@@ -597,17 +597,26 @@ class MoEFFN(nn.Module):
         out = self.shared_expert(x_flat) if self.shared_expert is not None else torch.zeros_like(x_flat)
         routed_out = torch.zeros_like(x_flat)
 
-        for e_idx, expert in enumerate(self.experts):
-            mask_e = topk_idx == e_idx  # [N, K]
-            tok_idx, slot_idx = torch.nonzero(mask_e, as_tuple=True)
-            if tok_idx.numel() == 0:
-                continue
-            e_in = x_flat.index_select(0, tok_idx)
-            e_out = expert(e_in)
-            w_e = topk_weights[tok_idx, slot_idx].to(dtype=e_out.dtype).unsqueeze(-1)
-            routed_out.index_add_(0, tok_idx, e_out * w_e)
+        # Single-sort sparse dispatch: 1 index_select + 1 index_add_ instead of E separate nonzero() syncs
+        flat_exp = topk_idx.reshape(-1)
+        flat_w = topk_weights.reshape(-1)
+        order = torch.argsort(flat_exp, stable=False)
+        sorted_exp = flat_exp.index_select(0, order)
+        sorted_tok = torch.div(order, self.top_k, rounding_mode="floor")
+        sorted_w = flat_w.index_select(0, order).to(dtype=routed_out.dtype).unsqueeze(-1)
+        counts = torch.bincount(sorted_exp, minlength=self.num_experts).tolist()
 
-        return (out + routed_out).view(bsz, seq_len, dim), aux_loss
+        x_chunks = x_flat.index_select(0, sorted_tok).split(counts, dim=0)
+        out_chunks: List[torch.Tensor] = []
+        for e_idx, (expert, c_n) in enumerate(zip(self.experts, counts)):
+            if c_n == 0:
+                continue
+            out_chunks.append(expert(x_chunks[e_idx]).to(dtype=routed_out.dtype))
+        if out_chunks:
+            y_sorted = torch.cat(out_chunks, dim=0) * sorted_w
+            routed_out.index_add_(0, sorted_tok, y_sorted)
+
+        return (out.to(dtype=routed_out.dtype) + routed_out).to(dtype=x.dtype).view(bsz, seq_len, dim), aux_loss
 
 
 class LoopAdapter(nn.Module):

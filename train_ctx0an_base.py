@@ -1107,7 +1107,7 @@ def run_ctx0an_training(args: argparse.Namespace) -> Dict[str, Any]:
 def build_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="High-Power Multi-Session Trainer for ctx0an (CNCM-Base).")
     parser.add_argument("--model-name", type=str, default="ctx0an")
-    parser.add_argument("--preset", type=str, default="base_moe", choices=["tiny_test", "nano", "mini", "base", "base_moe"])
+    parser.add_argument("--preset", type=str, default="base", choices=["tiny_test", "nano", "mini", "base", "base_moe"])
     parser.add_argument("--enc-layers", type=int, default=1)
     parser.add_argument("--num-loops", type=int, default=None)
     parser.add_argument("--use-copy-decoder", action="store_true")
