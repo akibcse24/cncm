@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling caches
+.freebuff/
+
+# Model weights / checkpoints (not source)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+checkpoints/
+
+# Local archives / backups
+cncm-backup.zip
+*.zip
+
+# Secrets & local env
+.env
+.env.*
+*.pem
+*.key
+secrets.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

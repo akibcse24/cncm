@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "gpu_name": "NVIDIA A10G",
+  "corpus_source": "roneneldan/TinyStories",
+  "stage1_v2_matryoshka_semantic": {
+    "elapsed_sec": 42.64,
+    "params": 1788195,
+    "heldout_per_level_cutoff_recon_acc": {
+      "exit_at_k=1": 0.1116,
+      "exit_at_k=2": 0.1115,
+      "exit_at_k=3": 0.1163,
+      "exit_at_k=4": 0.1747,
+      "exit_at_k=5": 0.2161,
+      "exit_at_k=6": 0.3939,
+      "exit_at_k=7": 0.6481,
+      "exit_at_k=8": 0.9967
+    },
+    "v1_baseline_comparison": {
+      "v1_k4": 0.1535,
+      "v2_k4": 0.1747,
+      "v1_k6": 0.3141,
+      "v2_k6": 0.3939,
+      "v1_k7": 0.547,
+      "v2_k7": 0.6481,
+      "v1_k8": 0.9993,
+      "v2_k8": 0.9967
+    }
+  },
+  "stage2_v2_continuous_rope_2phase": {
+    "elapsed_sec": 141.6,
+    "v2_heldout_exact_nll": 1.16961,
+    "v2_heldout_exact_ppl": 3.221,
+    "v2_heldout_concept_loss": 6.87371,
+    "v2_heldout_concept_nll_per_tok": 16.75507,
+    "comparison_vs_v1_and_pure_ar": {
+      "v1_cncm_exact_nll": 1.40653,
+      "v1_pure_ar_exact_nll": 0.90264,
+      "v2_cncm_exact_nll": 1.16961,
+      "v1_cncm_concept_loss": 7.22536,
+      "v2_cncm_concept_loss": 6.87371
+    },
+    "decoding_benchmark_b1_64tok": {
+      "exact_ar_ms": 1814.96,
+      "concept_k8_ms": 267.27,
+      "concept_speedup_vs_ar": 6.791,
+      "self_spec_cb_ms": 2612.56,
+      "self_spec_cb_speedup_vs_ar": 0.695,
+      "self_spec_exact_greedy_match": true,
+      "self_spec_acceptance_rate": 0.0,
+      "self_spec_circuit_breaker_triggered": true
+    }
+  },
+  "pg_fim_v2_local_ar_repair_model_only": {
+    "num_tasks": 24,
+    "model_generated_rate": 1.0,
+    "allow_template_fallback": false,
+    "parse_rate": 0.625,
+    "compile_rate": 0.625,
+    "test_pass_rate": 0.5,
+    "kw_faithful_rate": 0.625,
+    "repair_trigger_rate": 1.0,
+    "exact_ar_local_repair_success_rate": 0.625,
+    "latency_ms_per_task": 821.87,
+    "v1_comparison_latency_ms": 1059.99
+  },
+  "timing_and_cost": {
+    "total_gpu_seconds": 341.14,
+    "estimated_cost_usd": 0.10424
+  }
+}

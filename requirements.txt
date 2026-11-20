@@ -1,0 +1,22 @@
+# CNCM (Compact Causal-Hybrid Next-Concept Model) — Core Dependencies
+# Pure PyTorch core with zero CUDA-only or Triton-only ops (CPU / DirectML / MPS / CUDA)
+torch>=2.1.0
+numpy>=1.24.0
+
+# ---------------------------------------------------------------------------
+# Optional Edge & Deployment Backends (uncomment for your target hardware)
+# ---------------------------------------------------------------------------
+# Windows Consumer iGPU (Intel Iris Xe / AMD Radeon Vega / Qualcomm Adreno):
+# torch-directml>=0.2.0
+# onnxruntime-directml>=1.17.0
+
+# ONNX Graph Export & Cross-Platform Edge Runtime (Android NNAPI / XNNPACK / CoreML):
+# onnx>=1.15.0
+# onnxscript>=0.1.0
+# onnxruntime>=1.17.0
+
+# Optional HuggingFace JSON Tokenizer Loader (CNCMTextTokenizer.from_hf_json):
+# tokenizers>=0.15.0
+
+# Development & Verification:
+# pytest>=7.4.0

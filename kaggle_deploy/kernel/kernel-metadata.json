@@ -1,0 +1,18 @@
+{
+  "id": "adnanakib1/ctx0an-base-moe-train",
+  "title": "ctx0an Base MoE Train",
+  "code_file": "run_ctx0an_kaggle.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "dataset_sources": [
+    "adnanakib1/ctx0an-code"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
