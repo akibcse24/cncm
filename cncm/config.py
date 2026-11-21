@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 
 @dataclass
@@ -108,6 +108,19 @@ class CNCMConfig:
     moe_shared_intermediate_size: int = 0
     moe_aux_loss_weight: float = 0.01
 
+    # Optional Bounded-Memory Sliding-Window Attention (SWA) + Attention Sinks
+    # sliding_window=None keeps standard full causal attention; setting e.g. 2048 caps local KV memory.
+    sliding_window: Optional[int] = None
+    attention_sink_tokens: int = 4
+    global_attn_every_n_layers: int = 4
+
+    # Optional Cross-Layer KV Sharing (CLA, e.g. 2 = 2:1 KV sharing -> 2x smaller KV cache & I/O)
+    kv_sharing_group_size: int = 1
+
+    # Optional Concept-Compressed Prefix Cache (compress evicted 64-tok chunks to coarse M-RFSQ level)
+    concept_kv_compress: bool = False
+    concept_kv_level: int = 2  # level index into `levels` (default l_2=4 -> 16x compression per 64-tok chunk)
+
     def __post_init__(self) -> None:
         # Normalize list inputs (e.g. loaded from JSON) into tuples
         self.levels = tuple(int(x) for x in self.levels)
@@ -194,6 +207,10 @@ class CNCMConfig:
                 self.moe_expert_intermediate_size = max(64, self.intermediate_size // 3)
             if self.moe_shared_intermediate_size == 0:
                 self.moe_shared_intermediate_size = self.moe_expert_intermediate_size
+        if self.kv_sharing_group_size < 1:
+            raise ValueError(f"kv_sharing_group_size must be >= 1, got {self.kv_sharing_group_size}")
+        if not (0 <= self.concept_kv_level < len(self.levels)):
+            raise ValueError(f"concept_kv_level ({self.concept_kv_level}) out of range [0, {len(self.levels) - 1}]")
 
     @property
     def num_levels(self) -> int:
@@ -444,3 +461,92 @@ def get_preset(name: str, **overrides: Any) -> CNCMConfig:
 def list_presets() -> Tuple[str, ...]:
     """Return all available preset names."""
     return tuple(_PRESETS.keys())
+
+
+def plan_concept_compressed_prefix(
+    total_prefix_len: int,
+    recent_window: int,
+    chunk_size: int = 64,
+    coarse_level_len: int = 4,
+    sink_tokens: int = 4,
+) -> Dict[str, Any]:
+    """Compute exact token slots for hybrid [sinks + concept-compressed old chunks + recent exact window]."""
+    if total_prefix_len <= sink_tokens + recent_window:
+        return {
+            "total_prefix_len": int(total_prefix_len),
+            "sink_tokens": min(int(sink_tokens), int(total_prefix_len)),
+            "compressed_chunks": 0,
+            "compressed_concept_slots": 0,
+            "recent_exact_slots": max(0, int(total_prefix_len) - min(int(sink_tokens), int(total_prefix_len))),
+            "total_kv_slots": int(total_prefix_len),
+            "compression_ratio": 1.0,
+        }
+    evictable = int(total_prefix_len) - int(sink_tokens) - int(recent_window)
+    n_chunks = evictable // int(chunk_size)
+    remainder = evictable % int(chunk_size)
+    concept_slots = n_chunks * int(coarse_level_len)
+    recent_slots = int(recent_window) + remainder
+    total_slots = int(sink_tokens) + concept_slots + recent_slots
+    return {
+        "total_prefix_len": int(total_prefix_len),
+        "sink_tokens": int(sink_tokens),
+        "compressed_chunks": int(n_chunks),
+        "compressed_concept_slots": int(concept_slots),
+        "recent_exact_slots": int(recent_slots),
+        "total_kv_slots": int(total_slots),
+        "compression_ratio": round(float(total_prefix_len) / float(max(1, total_slots)), 3),
+    }
+
+
+def compute_kv_memory_footprint(
+    cfg: CNCMConfig,
+    seq_len: int,
+    *,
+    kv_bytes: float = 1.0,
+) -> Dict[str, Any]:
+    """Compute exact KV cache footprint (MB) accounting for CLA sharing, SWA+sinks, and Concept Compression.
+
+    kv_bytes: 2.0 for FP16, ~1.05 for INT8 (per-token per-head scale overhead), ~0.56 for INT4.
+    """
+    n_eff = cfg.effective_layers
+    # Number of unique KV-producing layers under Cross-Layer KV Sharing (CLA)
+    kv_layers = math.ceil(n_eff / float(cfg.kv_sharing_group_size))
+    bytes_per_tok_per_layer = 2.0 * cfg.num_key_value_heads * cfg.head_dim * float(kv_bytes)
+
+    total_bytes = 0.0
+    local_slots_used = int(seq_len)
+    global_slots_used = int(seq_len)
+
+    if cfg.sliding_window is not None and cfg.sliding_window > 0:
+        if cfg.concept_kv_compress:
+            plan = plan_concept_compressed_prefix(
+                total_prefix_len=seq_len,
+                recent_window=cfg.sliding_window,
+                chunk_size=cfg.chunk_size,
+                coarse_level_len=cfg.levels[cfg.concept_kv_level],
+                sink_tokens=cfg.attention_sink_tokens,
+            )
+            local_slots_used = plan["total_kv_slots"]
+            global_slots_used = plan["total_kv_slots"]
+        else:
+            local_slots_used = min(int(seq_len), int(cfg.attention_sink_tokens) + int(cfg.sliding_window))
+
+    for idx in range(kv_layers):
+        is_global = cfg.global_attn_every_n_layers > 0 and ((idx + 1) % cfg.global_attn_every_n_layers == 0)
+        slots = global_slots_used if is_global else local_slots_used
+        total_bytes += slots * bytes_per_tok_per_layer
+
+    full_baseline_bytes = n_eff * int(seq_len) * bytes_per_tok_per_layer
+    return {
+        "seq_len": int(seq_len),
+        "effective_layers": n_eff,
+        "unique_kv_layers": kv_layers,
+        "kv_sharing_group_size": cfg.kv_sharing_group_size,
+        "sliding_window": cfg.sliding_window,
+        "concept_kv_compress": cfg.concept_kv_compress,
+        "local_kv_slots": local_slots_used,
+        "global_kv_slots": global_slots_used,
+        "kv_mb": round(total_bytes / (1024.0 * 1024.0), 3),
+        "full_baseline_kv_mb": round(full_baseline_bytes / (1024.0 * 1024.0), 3),
+        "reduction_factor": round(full_baseline_bytes / max(total_bytes, 1e-9), 3),
+    }

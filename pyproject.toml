@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cncm"
+version = "0.2.0"
+description = "Compact Causal-Hybrid Next-Concept Model (CNCM) with Fair Evaluation & Edge Remediation Suite"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+]
+
+[project.optional-dependencies]
+torch = [
+    "torch>=2.2",
+]
+onnx = [
+    "onnx>=1.16",
+    "onnxruntime>=1.19",
+    "psutil>=5.9",
+]
+dml = [
+    "onnxruntime-directml>=1.19",
+]
+datasets = [
+    "datasets>=2.19",
+    "tokenizers>=0.19",
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["cncm*", "experiments*"]

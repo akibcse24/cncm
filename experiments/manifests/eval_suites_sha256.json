@@ -1,0 +1,17 @@
+{
+  "pg_fim_heldout_test": {
+    "seed": 20261120,
+    "count": 36,
+    "sha256": "b0302442203635ed36dae58e9c8d4d1911ba03faea6a2978236039467546b85e"
+  },
+  "arithmetic_heldout_test": {
+    "seed": 20261121,
+    "count": 1000,
+    "sha256": "9d15fd8875b9ea13552bc5a5fffa19df52baa8eb68bc3aa0a214863bdda69e4a"
+  },
+  "tool_calling_heldout_test": {
+    "seed": 20261122,
+    "count": 500,
+    "sha256": "691519e238fab7fd2fbfdfe815beee49fb943c49d7d5752d93b478972e3375b3"
+  }
+}

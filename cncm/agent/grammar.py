@@ -11,8 +11,12 @@ import json
 import re
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Set, Tuple, Union
 
-import torch
-from torch import Tensor
+try:
+    import torch
+    from torch import Tensor
+except ImportError:  # pragma: no cover - allow pure-Python grammar/eval helpers without torch
+    torch = None  # type: ignore[assignment]
+    Tensor = Any  # type: ignore[misc,assignment]
 
 from cncm.agent.tools import ToolRegistry, ToolSpec
 
@@ -23,21 +27,113 @@ _COMPLETE = 2
 _MATH_OPS = frozenset("+-*/")
 _DIGITS = frozenset("0123456789")
 _NONZERO_DIGITS = frozenset("123456789")
-_PROMPT_MATH_RE = re.compile(r"\b\d+(?:\s*[+\-*/]\s*\d+)+\b")
+_PROMPT_MATH_RE = re.compile(
+    r"(?:\(?\s*-?\d+(?:\.\d+)?\s*\)?)(?:\s*[+\-*/]\s*\(?\s*-?\d+(?:\.\d+)?\s*\)?)+"
+)
 
 
 def extract_prompt_math_spans(prompt_text: str) -> List[str]:
-    """Extract normalized arithmetic expressions (e.g. '17*6+9') from a user prompt."""
+    """Extract normalized arithmetic expressions (e.g. '17*6+9', '(12+8)*3', '3.5*2') from a prompt."""
     if not prompt_text:
         return []
     seen: Set[str] = set()
     spans: List[str] = []
     for match in _PROMPT_MATH_RE.findall(prompt_text):
         norm = re.sub(r"\s+", "", match)
-        if norm and norm not in seen:
+        # Ensure balanced parentheses before accepting
+        if norm.count("(") != norm.count(")"):
+            norm = norm.strip("()")
+        if norm and any(op in norm[1:] for op in "+-*/") and norm not in seen:
             seen.add(norm)
             spans.append(norm)
     return spans
+
+
+def evaluate_tool_call_semantic_accuracy(
+    predictions: Sequence[str],
+    targets: Sequence[Dict[str, Any]],
+    *,
+    tol: float = 1e-6,
+) -> Dict[str, Any]:
+    """Evaluate tool-calling predictions separating syntax validity from semantic accuracy (Item 5.3).
+
+    Each target dict may contain:
+      - `expected_tool`: str (e.g. "calculator")
+      - `expected_value`: float | int | str (ground-truth evaluated value or string arg)
+      - `expected_args`: Optional[Dict[str, Any]]
+    """
+    from cncm.agent.tools import safe_eval_math
+
+    if len(predictions) != len(targets):
+        raise ValueError(f"Length mismatch: {len(predictions)} predictions vs {len(targets)} targets")
+
+    total = len(predictions)
+    syntax_valid = 0
+    tool_match = 0
+    semantic_correct = 0
+    per_item: List[Dict[str, Any]] = []
+
+    for pred_text, tgt in zip(predictions, targets):
+        obj = extract_json_object(pred_text)
+        is_syntax = (
+            isinstance(obj, dict)
+            and isinstance(obj.get("name"), str)
+            and isinstance(obj.get("arguments"), dict)
+        )
+        if is_syntax:
+            syntax_valid += 1
+
+        exp_tool = tgt.get("expected_tool")
+        is_tool = bool(is_syntax and (exp_tool is None or obj["name"] == exp_tool))  # type: ignore[index]
+        if is_tool:
+            tool_match += 1
+
+        is_semantic = False
+        eval_val: Any = None
+        if is_tool:
+            args = obj["arguments"]  # type: ignore[index]
+            if "expected_value" in tgt and tgt["expected_value"] is not None:
+                exp_v = tgt["expected_value"]
+                expr = args.get("expression", args.get("expr"))
+                if expr is not None and isinstance(exp_v, (int, float)):
+                    try:
+                        eval_val = safe_eval_math(str(expr))
+                        is_semantic = abs(float(eval_val) - float(exp_v)) <= tol
+                    except Exception:
+                        is_semantic = False
+                else:
+                    # Direct string/value match on primary argument
+                    cand = next(iter(args.values()), None)
+                    eval_val = cand
+                    is_semantic = str(cand).strip() == str(exp_v).strip()
+            elif isinstance(tgt.get("expected_args"), dict):
+                exp_args = tgt["expected_args"]
+                is_semantic = all(
+                    str(args.get(k, "")).strip() == str(v).strip()
+                    for k, v in exp_args.items()
+                )
+        if is_semantic:
+            semantic_correct += 1
+
+        per_item.append(
+            {
+                "syntax_valid": is_syntax,
+                "tool_match": is_tool,
+                "semantic_correct": is_semantic,
+                "evaluated_value": eval_val,
+            }
+        )
+
+    return {
+        "total": total,
+        "syntax_valid": syntax_valid,
+        "syntax_rate": round(syntax_valid / max(1, total), 6),
+        "tool_match": tool_match,
+        "tool_match_rate": round(tool_match / max(1, total), 6),
+        "semantic_correct": semantic_correct,
+        "semantic_rate": round(semantic_correct / max(1, total), 6),
+        "per_item": per_item,
+    }
 
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:

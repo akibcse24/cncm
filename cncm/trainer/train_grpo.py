@@ -957,6 +957,8 @@ def train_grpo(
     mean_reward_history: list[float] = []
     mean_logprob_history: list[float] = []
     grad_norm_history: list[float] = []
+    zero_var_groups_total = 0
+    total_groups_seen = 0
     all_logprobs_finite = True
     all_grads_finite = True
 
@@ -1004,10 +1006,16 @@ def train_grpo(
                 rewards_t = torch.tensor(rewards_list, dtype=torch.float32, device=dev)
                 r_mean = rewards_t.mean()
                 r_std = rewards_t.std(unbiased=False)
-                if float(r_std.item()) > 1e-8:
-                    advantages = (rewards_t - r_mean) / (r_std + 1e-6)
-                else:
+                total_groups_seen += 1
+                is_zero_var = float(r_std.item()) <= 1e-8
+                if is_zero_var:
+                    zero_var_groups_total += 1
+                    if skip_zero_variance_groups:
+                        step_rewards.extend(rewards_list)
+                        continue
                     advantages = torch.zeros_like(rewards_t)
+                else:
+                    advantages = (rewards_t - r_mean) / (r_std + 1e-6)
 
                 old_lp = model.compute_code_logprobs(
                     prefix_g,
@@ -1041,7 +1049,7 @@ def train_grpo(
         step_kl = 0.0
         step_gnorm = 0.0
 
-        for _ in range(max(1, int(ppo_epochs))):
+        for _ in range(max(1, int(ppo_epochs)) if rollout_items else 0):
             model.train()
             _enforce_frozen_concept_tokenizer(model)
             optimizer.zero_grad(set_to_none=True)
@@ -1146,6 +1154,9 @@ def train_grpo(
         "final_kl": kl_history[-1],
         "all_logprobs_finite": all_logprobs_finite,
         "all_grads_finite": all_grads_finite,
+        "zero_variance_groups": zero_var_groups_total,
+        "total_groups": total_groups_seen,
+        "zero_variance_fraction": round(zero_var_groups_total / float(max(1, total_groups_seen)), 6),
         "policy_param_delta_l2": param_delta_l2,
         "policy_updated": param_delta_l2 > 0.0,
         "concept_tokenizer_frozen": all(

@@ -34,6 +34,7 @@ from cncm.layers import (
     build_concept_mask,
     get_kv_seq_len,
     make_linear,
+    trim_kv_cache_with_sinks,
     truncate_kv_cache,
 )
 from cncm.text_tokenizer import CNCMTextTokenizer
@@ -392,6 +393,30 @@ class CNCMModel(nn.Module):
             "active_generator": gen - inactive_experts,
         }
 
+    @torch.no_grad()
+    def compress_prefix_chunks_to_concepts(
+        self,
+        chunk_token_ids: torch.Tensor,
+        level_idx: Optional[int] = None,
+    ) -> torch.Tensor:
+        """Compress evicted [B, N_chunks, chunk_size] prefix chunks into coarse concept embeddings.
+
+        Uses the frozen Stage 1 M-RFSQ encoder at coarse level `level_idx` (default `cfg.concept_kv_level`,
+        e.g. l_2=4 tokens per 64-token chunk = 16x KV compression) and projects into backbone hidden space.
+        Returns `[B, N_chunks * l_k, hidden_size]` ready to populate compact prefix KV cache slots.
+        """
+        lvl = int(self.cfg.concept_kv_level if level_idx is None else level_idx)
+        bsz, n_chunks, c_len = chunk_token_ids.shape
+        if c_len != self.cfg.chunk_size:
+            raise ValueError(f"Expected chunk_size={self.cfg.chunk_size}, got {c_len}")
+        flat_toks = chunk_token_ids.reshape(bsz * n_chunks, c_len)
+        codes_per_level = self.concept_tokenizer.encode_codes(flat_toks)
+        coarse_codes = codes_per_level[lvl]
+        l_k = coarse_codes.shape[1]
+        q_emb = self.concept_tokenizer.quantizer.levels[lvl].indices_to_codes(coarse_codes)
+        h_c = self.concept_in_proj(q_emb) + self.level_embed.weight[lvl].view(1, 1, -1)
+        return h_c.reshape(bsz, n_chunks * l_k, self.cfg.hidden_size)
+
     # ------------------------------------------------------------------
     # Shared Recursive Backbone Execution
     # ------------------------------------------------------------------
@@ -555,6 +580,18 @@ class CNCMModel(nn.Module):
                 eff_idx += 1
 
         h = self.final_norm(h)
+        if (
+            use_cache
+            and commit_to_cache
+            and present_kvs is not None
+            and getattr(self.cfg, "sliding_window", None) is not None
+        ):
+            present_kvs = trim_kv_cache_with_sinks(
+                present_kvs,
+                sliding_window=self.cfg.sliding_window,
+                sink_tokens=getattr(self.cfg, "attention_sink_tokens", 4),
+                global_every_n=getattr(self.cfg, "global_attn_every_n_layers", 4),
+            )
         if return_aux_loss:
             moe_aux = (
                 torch.stack(aux_losses).mean()

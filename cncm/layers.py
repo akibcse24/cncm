@@ -305,6 +305,42 @@ def truncate_kv_cache(
     return out
 
 
+def trim_kv_cache_with_sinks(
+    past_key_values: Optional[Sequence[LayerKV]],
+    sliding_window: Optional[int],
+    sink_tokens: int = 4,
+    global_every_n: int = 4,
+) -> Optional[List[LayerKV]]:
+    """Keep `[0:sink_tokens]` + last `sliding_window` tokens on local layers; leave global layers intact."""
+    if past_key_values is None or sliding_window is None or sliding_window <= 0:
+        return list(past_key_values) if past_key_values is not None else None
+    max_local = int(sink_tokens) + int(sliding_window)
+    out: List[LayerKV] = []
+    for layer_idx, entry in enumerate(past_key_values):
+        is_global = global_every_n > 0 and ((layer_idx + 1) % global_every_n == 0)
+        if is_global:
+            out.append(entry)
+            continue
+        if isinstance(entry, QuantizedKV):
+            seq_len = entry.seq_len
+            if seq_len <= max_local:
+                out.append(entry)
+            else:
+                k_f, v_f = entry.dequantize()
+                keep_k = torch.cat([k_f[:, :, :sink_tokens, :], k_f[:, :, -sliding_window:, :]], dim=2)
+                keep_v = torch.cat([v_f[:, :, :sink_tokens, :], v_f[:, :, -sliding_window:, :]], dim=2)
+                out.append(quantize_kv_pair(keep_k, keep_v))
+        else:
+            k, v = entry
+            if k.shape[2] <= max_local:
+                out.append(entry)
+            else:
+                keep_k = torch.cat([k[:, :, :sink_tokens, :], k[:, :, -sliding_window:, :]], dim=2)
+                keep_v = torch.cat([v[:, :, :sink_tokens, :], v[:, :, -sliding_window:, :]], dim=2)
+                out.append((keep_k, keep_v))
+    return out
+
+
 def kv_cache_nbytes(past_key_values: Optional[Sequence[LayerKV]]) -> int:
     if not past_key_values:
         return 0
@@ -368,6 +404,36 @@ def build_causal_mask(
         allowed = allowed & kpm[:, None, None, :]
 
     self_cols = (past_len + q_idx).clamp(max=kv_len - 1)
+    return _bool_to_additive_mask(allowed, dtype=dtype, self_col_indices=self_cols)
+
+
+def build_sliding_window_causal_mask(
+    q_len: int,
+    kv_len: int,
+    past_len: int,
+    batch_size: int,
+    sliding_window: int,
+    sink_tokens: int = 4,
+    key_padding_mask: Optional[torch.Tensor] = None,
+    device: Optional[torch.device] = None,
+    dtype: torch.dtype = torch.float32,
+) -> torch.Tensor:
+    """Build 4D causal mask restricted to `[0:sink_tokens]` + trailing `sliding_window` positions."""
+    q_pos = past_len + torch.arange(q_len, device=device, dtype=torch.long).unsqueeze(1)  # [Q, 1]
+    k_pos = torch.arange(kv_len, device=device, dtype=torch.long).unsqueeze(0)  # [1, K]
+    causal = k_pos <= q_pos
+    in_window = k_pos > (q_pos - int(sliding_window))
+    is_sink = k_pos < int(sink_tokens)
+    allowed = (causal & (in_window | is_sink)).unsqueeze(0).unsqueeze(0).expand(batch_size, 1, q_len, kv_len)
+
+    if key_padding_mask is not None:
+        kpm = key_padding_mask.to(device=device, dtype=torch.bool)
+        if kpm.shape[1] == q_len and past_len > 0:
+            past_valid = torch.ones((batch_size, past_len), device=device, dtype=torch.bool)
+            kpm = torch.cat([past_valid, kpm], dim=1)
+        allowed = allowed & kpm[:, None, None, :]
+
+    self_cols = (past_len + torch.arange(q_len, device=device, dtype=torch.long)).clamp(max=kv_len - 1)
     return _bool_to_additive_mask(allowed, dtype=dtype, self_col_indices=self_cols)
 
 
@@ -698,15 +764,30 @@ class CNCMAttention(nn.Module):
         use_cache: bool = False,
         quantize_kv: bool = False,
         commit_to_cache: bool = True,
+        shared_kv: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
     ) -> Tuple[torch.Tensor, Optional[LayerKV]]:
         bsz, seq_len, _ = x.shape
 
         # Project and reshape to [B, S, H, D] BEFORE RoPE so cos.unsqueeze(-2) is 2D-safe
         q = self.q_proj(x).view(bsz, seq_len, self.num_heads, self.head_dim)
+        q = self.q_norm(q)
+        if shared_kv is not None:
+            # Cross-Layer KV Sharing (CLA): reuse leader layer's cached (k_full, v_full) [B, H_kv, S_kv, D]
+            k_full, v_full = shared_kv
+            q_rot, _ = apply_rotary_pos_emb(q, k_full[:, :, -seq_len:, :].transpose(1, 2), cos, sin)
+            q_t = q_rot.transpose(1, 2)
+            k_rep = repeat_kv(k_full, self.num_kv_groups)
+            v_rep = repeat_kv(v_full, self.num_kv_groups)
+            drop_p = self.dropout if self.training else 0.0
+            attn_out = scaled_dot_product_attn_4d(
+                q_t, k_rep, v_rep, attn_mask=attn_mask, dropout_p=drop_p
+            )
+            attn_out = attn_out.transpose(1, 2).contiguous().view(bsz, seq_len, self.hidden_size)
+            return self.o_proj(attn_out), None
+
         k = self.k_proj(x).view(bsz, seq_len, self.num_kv_heads, self.head_dim)
         v = self.v_proj(x).view(bsz, seq_len, self.num_kv_heads, self.head_dim)
 
-        q = self.q_norm(q)
         k = self.k_norm(k)
         q, k = apply_rotary_pos_emb(q, k, cos, sin)
 
@@ -803,6 +884,7 @@ class CNCMBlock(nn.Module):
         quantize_kv: bool = False,
         commit_to_cache: bool = True,
         return_aux_loss: bool = False,
+        shared_kv: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
     ) -> Union[Tuple[torch.Tensor, Optional[LayerKV]], Tuple[torch.Tensor, Optional[LayerKV], Optional[torch.Tensor]]]:
         h_attn, present_kv = self.attn(
             attn_norm(x),
@@ -813,6 +895,7 @@ class CNCMBlock(nn.Module):
             use_cache=use_cache,
             quantize_kv=quantize_kv,
             commit_to_cache=commit_to_cache,
+            shared_kv=shared_kv,
         )
         x = x + h_attn
         aux_loss: Optional[torch.Tensor] = None

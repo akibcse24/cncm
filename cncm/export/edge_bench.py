@@ -51,14 +51,30 @@ def read_system_telemetry() -> Dict[str, Any]:
         proc = psutil.Process(os.getpid())
         mi = proc.memory_info()
         info["rss_mb"] = round(mi.rss / (1024 * 1024), 2)
+        if hasattr(mi, "peak_wset"):
+            info["peak_rss_mb"] = round(mi.peak_wset / (1024 * 1024), 2)
         if hasattr(mi, "private"):
             info["private_mb"] = round(mi.private / (1024 * 1024), 2)
+        freq = psutil.cpu_freq()
+        if freq is not None:
+            info["cpu_freq_mhz"] = round(float(freq.current), 1)
         batt = psutil.sensors_battery()
         if batt is not None:
             info["power_plugged"] = bool(batt.power_plugged)
             info["battery_percent"] = round(float(batt.percent), 1)
     except Exception:
         pass
+
+    if "peak_rss_mb" not in info and platform.system() != "Windows":
+        try:
+            import resource
+
+            ru = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            # Linux reports KiB; macOS reports bytes
+            div = (1024 * 1024) if platform.system() == "Darwin" else 1024
+            info["peak_rss_mb"] = round(ru / float(div), 2)
+        except Exception:
+            pass
 
     if platform.system() == "Windows":
         try:
@@ -275,18 +291,71 @@ def _build_and_export_kv_onnx(preset: str, out_dir: Path, opset: int = 18) -> Di
 
 
 def _quantize_onnx_graphs(out_dir: Path) -> Dict[str, Any]:
-    """Produce INT8 Dynamic and INT4 MatMulNBits quantized ONNX graphs."""
+    """Produce INT8 Dynamic, INT8 QDQ (static), and INT4 MatMulNBits quantized ONNX graphs."""
     import onnx
-    from onnxruntime.quantization import QuantType, quantize_dynamic
+    from onnxruntime.quantization import (
+        CalibrationDataReader,
+        QuantFormat,
+        QuantType,
+        quantize_dynamic,
+        quantize_static,
+    )
     from onnxruntime.quantization.matmul_nbits_quantizer import MatMulNBitsQuantizer
 
+    meta = json.loads((out_dir / "meta.json").read_text(encoding="utf-8"))
+    n_eff = int(meta["n_eff_layers"])
+    h_kv = int(meta["num_kv_heads"])
+    head_dim = int(meta["head_dim"])
+    hidden = int(meta["hidden_size"])
+    sum_levels = int(meta["sum_levels"])
+    vocab_size = int(meta["vocab_size"])
+
+    class _SyntheticCalibReader(CalibrationDataReader):
+        def __init__(self, stem_name: str, n_samples: int = 8) -> None:
+            rng = np.random.default_rng(123)
+            self._items: List[Dict[str, np.ndarray]] = []
+            for _ in range(n_samples):
+                past = {
+                    f"past_{kv}_{i}": np.zeros((1, h_kv, 4, head_dim), dtype=np.float32)
+                    for i in range(n_eff)
+                    for kv in ("k", "v")
+                }
+                if stem_name == "exact_kv_step":
+                    self._items.append(
+                        {
+                            "input_ids": rng.integers(16, vocab_size, size=(1, 2), dtype=np.int64),
+                            "position_ids": np.array([[4, 5]], dtype=np.int64),
+                            **past,
+                        }
+                    )
+                elif stem_name == "concept_level_kv":
+                    self._items.append(
+                        {
+                            "x_level": rng.standard_normal((1, 8, hidden)).astype(np.float32),
+                            "position_ids": np.arange(4, 12, dtype=np.int64).reshape(1, 8),
+                            **past,
+                        }
+                    )
+                else:
+                    self._items.append(
+                        {"flat_codes": np.zeros((1, sum_levels), dtype=np.int64)}
+                    )
+            self._iter = iter(self._items)
+
+        def get_next(self) -> Optional[Dict[str, np.ndarray]]:
+            return next(self._iter, None)
+
+        def rewind(self) -> None:
+            self._iter = iter(self._items)
+
     stems = ["exact_kv_step", "concept_level_kv", "stage1_decoder"]
-    sizes_mb: Dict[str, Dict[str, float]] = {"fp32": {}, "int8": {}, "int4_nbits": {}}
+    sizes_mb: Dict[str, Dict[str, float]] = {"fp32": {}, "int8": {}, "int8_qdq": {}, "int4_nbits": {}}
     quant_notes: Dict[str, str] = {}
 
     for stem in stems:
         fp32_p = out_dir / f"{stem}_fp32.onnx"
         int8_p = out_dir / f"{stem}_int8.onnx"
+        int8_qdq_p = out_dir / f"{stem}_int8_qdq.onnx"
         int4_p = out_dir / f"{stem}_int4_nbits.onnx"
 
         sizes_mb["fp32"][stem] = round(fp32_p.stat().st_size / (1024 * 1024), 3)
@@ -301,6 +370,20 @@ def _quantize_onnx_graphs(out_dir: Path) -> Dict[str, Any]:
             sizes_mb["int8"][stem] = round(int8_p.stat().st_size / (1024 * 1024), 3)
         except Exception as exc:
             quant_notes[f"{stem}_int8"] = f"FAILED: {type(exc).__name__}: {exc}"
+
+        # INT8 QDQ Static (Item 2.2: QuantFormat.QDQ for CPU/DirectML/NNAPI)
+        try:
+            quantize_static(
+                model_input=str(fp32_p),
+                model_output=str(int8_qdq_p),
+                calibration_data_reader=_SyntheticCalibReader(stem),
+                quant_format=QuantFormat.QDQ,
+                activation_type=QuantType.QUInt8,
+                weight_type=QuantType.QInt8,
+            )
+            sizes_mb["int8_qdq"][stem] = round(int8_qdq_p.stat().st_size / (1024 * 1024), 3)
+        except Exception as exc:
+            quant_notes[f"{stem}_int8_qdq"] = f"FAILED: {type(exc).__name__}: {exc}"
 
         # INT4 MatMulNBits (block_size=32, fused MLAS/DirectML INT4 kernel!)
         try:
@@ -326,7 +409,7 @@ def _quantize_onnx_graphs(out_dir: Path) -> Dict[str, Any]:
 def run_ort_benchmark(
     onnx_dir: Path,
     provider: str,
-    precisions: Sequence[str] = ("fp32", "int8", "int4_nbits"),
+    precisions: Sequence[str] = ("fp32", "int8", "int8_qdq", "int4_nbits"),
     prefix_len: int = 64,
     gen_tokens: int = 64,
     warmup: int = 1,
@@ -554,10 +637,13 @@ def main() -> None:
     parser.add_argument("--preset", type=str, default="nano")
     parser.add_argument("--onnx-dir", type=str, default="experiments/onnx_edge_nano")
     parser.add_argument("--soak-sec", type=float, default=20.0)
+    parser.add_argument("--full-soak", action="store_true", help="Run full 5-minute (300s) thermal soak per Item 2.1")
     parser.add_argument("--dml-worker", action="store_true")
     parser.add_argument("--skip-export", action="store_true")
     args = parser.parse_args()
 
+    if args.full_soak:
+        args.soak_sec = 300.0
     onnx_dir = Path(args.onnx_dir)
     if args.dml_worker:
         res = run_ort_benchmark(
@@ -588,7 +674,7 @@ def main() -> None:
     cpu_ort = run_ort_benchmark(
         onnx_dir=onnx_dir,
         provider="CPUExecutionProvider",
-        precisions=("fp32", "int8", "int4_nbits"),
+        precisions=("fp32", "int8", "int8_qdq", "int4_nbits"),
         iters=3,
         soak_sec=args.soak_sec,
     )

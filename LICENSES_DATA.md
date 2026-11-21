@@ -48,3 +48,16 @@ This document records the verified licenses, usage conditions, and release risks
 - [ ] Replace `flytech/python-codes-25k` (Gemma Terms of Use) in `train_ctx0an_base.py` before any formal public training release.
 - [ ] Keep `wikitext` (`CC-BY-SA-3.0`) and `SAFIM` (`CC-BY-SA-4.0`) out of any redistributed dataset packages; use SAFIM for evaluation only.
 - [ ] Retain `THIRD_PARTY_NOTICES.md` with attribution for `ODC-By-1.0`, `CDLA-Sharing-1.0`, `MIT`, and `CC-BY-SA` resources.
+
+
+---
+
+## Verified SeqKD Teacher Models (`experiments/distill_seqkd.py`)
+
+| Teacher Model | License (SPDX) | Source URL | Notes |
+|---|---|---|---|
+| `Qwen/Qwen3-4B-Instruct-2507` | `Apache-2.0` | https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507 | General English, Python, math, tool calling |
+| `Qwen/Qwen2.5-Coder-7B-Instruct` | `Apache-2.0` | https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct | Python & FIM code synthesis |
+| `microsoft/Phi-4-mini-instruct` | `MIT` | https://huggingface.co/microsoft/Phi-4-mini-instruct | Concise math/logic synthesis |
+| `HuggingFaceTB/SmolLM3-3B` | `Apache-2.0` | https://huggingface.co/HuggingFaceTB/SmolLM3-3B | Open-recipe 3B synthesis |
+| `prism-ml/Ternary-Bonsai-2-4B-gguf` / `27B` | `Apache-2.0` | https://huggingface.co/collections/prism-ml/bonsai-2 | Cap `<think>` length via `--max-think-chars` |
