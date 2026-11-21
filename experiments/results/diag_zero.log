@@ -1,0 +1,56 @@
+
+### ARITHMETIC (greedy, 8 tokens max)
+  prompt='Compute 89-6+7 =' want=90 got=' | iidd]'
+  prompt='Compute 88+6+16 =' want=110 got='    eeeess:'
+  prompt='Compute 3-19-14 =' want=-30 got=' |||||| '
+  prompt='Compute 98-7-39 =' want=52 got=' | idd]\n'
+  prompt='Compute 13+17-37 =' want=-7 got='==]\n            e'
+  prompt='Compute 88-12+22 =' want=98 got='ssssssss'
+  prompt='Compute 25-21+2 =' want=6 got='ssssssse'
+  prompt='Compute 40+20+38 =' want=98 got='fttttt[i'
+
+### TOOL CALLS
+  --- copy_span = False
+    want='10-5-11' expr='7777' parsed=True ok=True val={'expression': '7777', 'value': 7777}
+      raw='{"name": "calculator","arguments": {"expression": "7777"}}'
+    want='9-5+12' expr='7777' parsed=True ok=True val={'expression': '7777', 'value': 7777}
+      raw='{"name": "calculator","arguments": {"expression": "7777"}}'
+    want='32-6+19' expr='7777' parsed=True ok=True val={'expression': '7777', 'value': 7777}
+      raw='{"name": "calculator","arguments": {"expression": "7777"}}'
+    want='30+13-12' expr='77*7' parsed=True ok=True val={'expression': '77*7', 'value': 539}
+      raw='{"name": "calculator","arguments": {"expression": "77*7"}}'
+    want='30+3+8' expr='7777' parsed=True ok=True val={'expression': '7777', 'value': 7777}
+      raw='{"name": "calculator","arguments": {"expression": "7777"}}'
+    want='12-17+6' expr='7777' parsed=True ok=True val={'expression': '7777', 'value': 7777}
+      raw='{"name": "calculator","arguments": {"expression": "7777"}}'
+    want='33-10-11' expr='77*7' parsed=True ok=True val={'expression': '77*7', 'value': 539}
+      raw='{"name": "calculator","arguments": {"expression": "77*7"}}'
+    want='33*13+1' expr='7777' parsed=True ok=True val={'expression': '7777', 'value': 7777}
+      raw='{"name": "calculator","arguments": {"expression": "7777"}}'
+    -> parsed 8/8, expr-exact 0/8
+  --- copy_span = True
+    want='10-5-11' expr='10-5-11' parsed=True ok=True val={'expression': '10-5-11', 'value': -6}
+      raw='{"name": "calculator","arguments": {"expression": "10-5-11"}}'
+    want='9-5+12' expr='9-5+12' parsed=True ok=True val={'expression': '9-5+12', 'value': 16}
+      raw='{"name": "calculator","arguments": {"expression": "9-5+12"}}'
+    want='32-6+19' expr='32-6+19' parsed=True ok=True val={'expression': '32-6+19', 'value': 45}
+      raw='{"name": "calculator","arguments": {"expression": "32-6+19"}}'
+    want='30+13-12' expr='30+13-12' parsed=True ok=True val={'expression': '30+13-12', 'value': 31}
+      raw='{"name": "calculator","arguments": {"expression": "30+13-12"}}'
+    want='30+3+8' expr='30+3+8' parsed=True ok=True val={'expression': '30+3+8', 'value': 41}
+      raw='{"name": "calculator","arguments": {"expression": "30+3+8"}}'
+    want='12-17+6' expr='12-17+6' parsed=True ok=True val={'expression': '12-17+6', 'value': 1}
+      raw='{"name": "calculator","arguments": {"expression": "12-17+6"}}'
+    want='33-10-11' expr='33-10-11' parsed=True ok=True val={'expression': '33-10-11', 'value': 12}
+      raw='{"name": "calculator","arguments": {"expression": "33-10-11"}}'
+    want='33*13+1' expr='33*13+1' parsed=True ok=True val={'expression': '33*13+1', 'value': 430}
+      raw='{"name": "calculator","arguments": {"expression": "33*13+1"}}'
+    -> parsed 8/8, expr-exact 8/8
+
+### FIM
+  pg_fim_v3_000 want='        out.append(v * 5 + 1)\n'
+    got='    returrr' keywords=['tu', 'retur'] reward={'parses': False, 'compiles': False, 'tests_passed': False}
+  pg_fim_v3_001 want='        if n % 6 == 0:\n            hits += 1\n'
+    got='ttttttttu  :::::' keywords=['tu', 'n', 'n'] reward={'parses': False, 'compiles': False, 'tests_passed': False}
+  pg_fim_v3_002 want='        res.append(6 if x > 6 else x)\n'
+    got='tttta :\n::                    :' keywords=['t', 'val', 'va'] reward={'parses': False, 'compiles': False, 'tests_passed': False}

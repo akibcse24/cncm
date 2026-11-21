@@ -1,0 +1,203 @@
+{
+  "experiment": "benchmarks_rigor",
+  "timestamp_utc": "2026-11-20T15:13:48.263591+00:00",
+  "git_commit": "328ed04",
+  "host": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "cpu_count": 16,
+    "torch_version": "2.15.0+cpu",
+    "cuda_available": false
+  },
+  "manifest": {
+    "note": "SHA-256 hashes committed BEFORE evaluation; old 24 tasks (seed=9999) are dev split only.",
+    "files": {
+      "pg_fim_v3_test.json": "2105e210edf55c4c24ff07e3155603f2eaf9213768cf03f32cbf966180f3a4bd",
+      "heldout_arithmetic_1000.json": "6287447b763e52ce567428e4132fc73b72797bdfe5a7b1d0209b9b17a9bdd1bf",
+      "heldout_tool_calling_500.json": "703bd22ae5681fee3815c0db9dec9780a3b417a974134bd02a165acb539ae51d"
+    }
+  },
+  "model_preset": "tiny_test",
+  "pg_fim_dev_old24": {
+    "suite": "pg_fim_dev_old24",
+    "n": 24,
+    "parse": {
+      "k": 3,
+      "n": 24,
+      "rate": 0.125,
+      "ci_low": 0.04344,
+      "ci_high": 0.31004
+    },
+    "compile": {
+      "k": 3,
+      "n": 24,
+      "rate": 0.125,
+      "ci_low": 0.04344,
+      "ci_high": 0.31004
+    },
+    "pass_at_1": {
+      "k": 0,
+      "n": 24,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.13798
+    },
+    "elapsed_sec": 8.53
+  },
+  "pg_fim_v3_fresh_untouched_60": {
+    "suite": "pg_fim_v3_fresh_60",
+    "n": 60,
+    "parse": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.06017
+    },
+    "compile": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.06017
+    },
+    "pass_at_1": {
+      "k": 0,
+      "n": 60,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.06017
+    },
+    "elapsed_sec": 18.73
+  },
+  "humaneval_infilling": {
+    "suite": "openai/human-eval-infilling (MIT, n=100)",
+    "n": 100,
+    "parse": {
+      "k": 1,
+      "n": 100,
+      "rate": 0.01,
+      "ci_low": 0.00177,
+      "ci_high": 0.05449
+    },
+    "compile": {
+      "k": 1,
+      "n": 100,
+      "rate": 0.01,
+      "ci_low": 0.00177,
+      "ci_high": 0.05449
+    },
+    "pass_at_1": {
+      "k": 0,
+      "n": 100,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.03699
+    },
+    "elapsed_sec": 36.3
+  },
+  "safim_python": {
+    "suite": "gonglinyuan/safim (CC-BY-SA-4.0, n=100)",
+    "n": 100,
+    "parse": {
+      "k": 0,
+      "n": 100,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.03699
+    },
+    "compile": {
+      "k": 0,
+      "n": 100,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.03699
+    },
+    "pass_at_1": {
+      "k": 0,
+      "n": 100,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.03699
+    },
+    "elapsed_sec": 35.27
+  },
+  "heldout_arithmetic_1000": {
+    "suite": "heldout_arithmetic_1000",
+    "n": 1000,
+    "exact_match": {
+      "k": 0,
+      "n": 1000,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.00383
+    },
+    "elapsed_sec": 79.14
+  },
+  "heldout_tool_calling_500_syntax_only": {
+    "mode": "syntax_only_grammar",
+    "n": 500,
+    "json_syntax_valid": {
+      "k": 500,
+      "n": 500,
+      "rate": 1.0,
+      "ci_low": 0.99238,
+      "ci_high": 1.0
+    },
+    "tool_name_accuracy": {
+      "k": 500,
+      "n": 500,
+      "rate": 1.0,
+      "ci_low": 0.99238,
+      "ci_high": 1.0
+    },
+    "semantic_expression_exact": {
+      "k": 0,
+      "n": 500,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.00762
+    },
+    "semantic_evaluated_value_exact": {
+      "k": 0,
+      "n": 500,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.00762
+    },
+    "elapsed_sec": 170.9
+  },
+  "heldout_tool_calling_500_copy_span": {
+    "mode": "prompt_span_copy_grammar",
+    "n": 500,
+    "json_syntax_valid": {
+      "k": 500,
+      "n": 500,
+      "rate": 1.0,
+      "ci_low": 0.99238,
+      "ci_high": 1.0
+    },
+    "tool_name_accuracy": {
+      "k": 500,
+      "n": 500,
+      "rate": 1.0,
+      "ci_low": 0.99238,
+      "ci_high": 1.0
+    },
+    "semantic_expression_exact": {
+      "k": 500,
+      "n": 500,
+      "rate": 1.0,
+      "ci_low": 0.99238,
+      "ci_high": 1.0
+    },
+    "semantic_evaluated_value_exact": {
+      "k": 0,
+      "n": 500,
+      "rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.00762
+    },
+    "elapsed_sec": 175.2
+  }
+}

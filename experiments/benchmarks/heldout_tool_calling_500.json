@@ -1,0 +1,4002 @@
+[
+  {
+    "id": "tool_0000",
+    "prompt": "<|user|>Calculate 10-5-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10-5-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10-5-11",
+    "expected_value": -6.0
+  },
+  {
+    "id": "tool_0001",
+    "prompt": "<|user|>Calculate 9-5+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9-5+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9-5+12",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0002",
+    "prompt": "<|user|>Calculate 32-6+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32-6+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32-6+19",
+    "expected_value": 45.0
+  },
+  {
+    "id": "tool_0003",
+    "prompt": "<|user|>Calculate 30+13-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30+13-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30+13-12",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0004",
+    "prompt": "<|user|>Calculate 30+3+8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30+3+8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30+3+8",
+    "expected_value": 41.0
+  },
+  {
+    "id": "tool_0005",
+    "prompt": "<|user|>Calculate 12-17+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12-17+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12-17+6",
+    "expected_value": 1.0
+  },
+  {
+    "id": "tool_0006",
+    "prompt": "<|user|>Calculate 33-10-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33-10-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33-10-11",
+    "expected_value": 12.0
+  },
+  {
+    "id": "tool_0007",
+    "prompt": "<|user|>Calculate 33*13+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*13+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*13+1",
+    "expected_value": 430.0
+  },
+  {
+    "id": "tool_0008",
+    "prompt": "<|user|>Calculate 39-3-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39-3-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39-3-21",
+    "expected_value": 15.0
+  },
+  {
+    "id": "tool_0009",
+    "prompt": "<|user|>Calculate 4+15-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+15-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+15-6",
+    "expected_value": 13.0
+  },
+  {
+    "id": "tool_0010",
+    "prompt": "<|user|>Calculate 25*18+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25*18+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25*18+24",
+    "expected_value": 474.0
+  },
+  {
+    "id": "tool_0011",
+    "prompt": "<|user|>Calculate 34+18+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34+18+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34+18+24",
+    "expected_value": 76.0
+  },
+  {
+    "id": "tool_0012",
+    "prompt": "<|user|>Calculate 31*12+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31*12+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31*12+15",
+    "expected_value": 387.0
+  },
+  {
+    "id": "tool_0013",
+    "prompt": "<|user|>Calculate 35*17+13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 35*17+13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "35*17+13",
+    "expected_value": 608.0
+  },
+  {
+    "id": "tool_0014",
+    "prompt": "<|user|>Calculate 48-11-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48-11-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48-11-13",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0015",
+    "prompt": "<|user|>Calculate 4*2-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4*2-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4*2-16",
+    "expected_value": -8.0
+  },
+  {
+    "id": "tool_0016",
+    "prompt": "<|user|>Calculate 48-5-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48-5-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48-5-7",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0017",
+    "prompt": "<|user|>Calculate 16+17+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+17+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+17+19",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0018",
+    "prompt": "<|user|>Calculate 23-8+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23-8+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23-8+27",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0019",
+    "prompt": "<|user|>Calculate 46+17+17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46+17+17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46+17+17",
+    "expected_value": 80.0
+  },
+  {
+    "id": "tool_0020",
+    "prompt": "<|user|>Calculate 17+17+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+17+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+17+18",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0021",
+    "prompt": "<|user|>Calculate 24-12-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24-12-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24-12-17",
+    "expected_value": -5.0
+  },
+  {
+    "id": "tool_0022",
+    "prompt": "<|user|>Calculate 11-5+10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11-5+10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11-5+10",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0023",
+    "prompt": "<|user|>Calculate 40*5-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40*5-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40*5-4",
+    "expected_value": 196.0
+  },
+  {
+    "id": "tool_0024",
+    "prompt": "<|user|>Calculate 18-7-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-7-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-7-10",
+    "expected_value": 1.0
+  },
+  {
+    "id": "tool_0025",
+    "prompt": "<|user|>Calculate 18-10-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-10-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-10-20",
+    "expected_value": -12.0
+  },
+  {
+    "id": "tool_0026",
+    "prompt": "<|user|>Calculate 40+6+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40+6+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40+6+14",
+    "expected_value": 60.0
+  },
+  {
+    "id": "tool_0027",
+    "prompt": "<|user|>Calculate 18*17-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18*17-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18*17-28",
+    "expected_value": 278.0
+  },
+  {
+    "id": "tool_0028",
+    "prompt": "<|user|>Calculate 15-4+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-4+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-4+21",
+    "expected_value": 32.0
+  },
+  {
+    "id": "tool_0029",
+    "prompt": "<|user|>Calculate 17+11+8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+11+8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+11+8",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0030",
+    "prompt": "<|user|>Calculate 46+3+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46+3+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46+3+25",
+    "expected_value": 74.0
+  },
+  {
+    "id": "tool_0031",
+    "prompt": "<|user|>Calculate 47*11+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47*11+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47*11+24",
+    "expected_value": 541.0
+  },
+  {
+    "id": "tool_0032",
+    "prompt": "<|user|>Calculate 31+7-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31+7-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31+7-10",
+    "expected_value": 28.0
+  },
+  {
+    "id": "tool_0033",
+    "prompt": "<|user|>Calculate 6+9+23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6+9+23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6+9+23",
+    "expected_value": 38.0
+  },
+  {
+    "id": "tool_0034",
+    "prompt": "<|user|>Calculate 19*10-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19*10-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19*10-25",
+    "expected_value": 165.0
+  },
+  {
+    "id": "tool_0035",
+    "prompt": "<|user|>Calculate 48-13+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48-13+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48-13+2",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0036",
+    "prompt": "<|user|>Calculate 22+13-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22+13-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22+13-4",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0037",
+    "prompt": "<|user|>Calculate 30*3+13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30*3+13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30*3+13",
+    "expected_value": 103.0
+  },
+  {
+    "id": "tool_0038",
+    "prompt": "<|user|>Calculate 13*19+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 13*19+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "13*19+25",
+    "expected_value": 272.0
+  },
+  {
+    "id": "tool_0039",
+    "prompt": "<|user|>Calculate 10-16+8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10-16+8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10-16+8",
+    "expected_value": 2.0
+  },
+  {
+    "id": "tool_0040",
+    "prompt": "<|user|>Calculate 25-19+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25-19+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25-19+2",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0041",
+    "prompt": "<|user|>Calculate 3+15+5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3+15+5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3+15+5",
+    "expected_value": 23.0
+  },
+  {
+    "id": "tool_0042",
+    "prompt": "<|user|>Calculate 17+11-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+11-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+11-19",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0043",
+    "prompt": "<|user|>Calculate 20*5+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20*5+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20*5+9",
+    "expected_value": 109.0
+  },
+  {
+    "id": "tool_0044",
+    "prompt": "<|user|>Calculate 4+19-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+19-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+19-20",
+    "expected_value": 3.0
+  },
+  {
+    "id": "tool_0045",
+    "prompt": "<|user|>Calculate 18+14-27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18+14-27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18+14-27",
+    "expected_value": 5.0
+  },
+  {
+    "id": "tool_0046",
+    "prompt": "<|user|>Calculate 35-4+29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 35-4+29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "35-4+29",
+    "expected_value": 60.0
+  },
+  {
+    "id": "tool_0047",
+    "prompt": "<|user|>Calculate 17+11-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+11-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+11-12",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0048",
+    "prompt": "<|user|>Calculate 17+13-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+13-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+13-26",
+    "expected_value": 4.0
+  },
+  {
+    "id": "tool_0049",
+    "prompt": "<|user|>Calculate 32*4+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*4+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*4+25",
+    "expected_value": 153.0
+  },
+  {
+    "id": "tool_0050",
+    "prompt": "<|user|>Calculate 43+3-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43+3-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43+3-4",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0051",
+    "prompt": "<|user|>Calculate 50*5+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50*5+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50*5+6",
+    "expected_value": 256.0
+  },
+  {
+    "id": "tool_0052",
+    "prompt": "<|user|>Calculate 31+6-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31+6-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31+6-9",
+    "expected_value": 28.0
+  },
+  {
+    "id": "tool_0053",
+    "prompt": "<|user|>Calculate 9-3-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9-3-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9-3-14",
+    "expected_value": -8.0
+  },
+  {
+    "id": "tool_0054",
+    "prompt": "<|user|>Calculate 36+13+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36+13+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36+13+16",
+    "expected_value": 65.0
+  },
+  {
+    "id": "tool_0055",
+    "prompt": "<|user|>Calculate 18*4+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18*4+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18*4+6",
+    "expected_value": 78.0
+  },
+  {
+    "id": "tool_0056",
+    "prompt": "<|user|>Calculate 27*7+29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27*7+29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27*7+29",
+    "expected_value": 218.0
+  },
+  {
+    "id": "tool_0057",
+    "prompt": "<|user|>Calculate 38-19-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38-19-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38-19-3",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0058",
+    "prompt": "<|user|>Calculate 21*15-30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21*15-30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21*15-30",
+    "expected_value": 285.0
+  },
+  {
+    "id": "tool_0059",
+    "prompt": "<|user|>Calculate 43+15+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43+15+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43+15+1",
+    "expected_value": 59.0
+  },
+  {
+    "id": "tool_0060",
+    "prompt": "<|user|>Calculate 41-18+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41-18+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41-18+21",
+    "expected_value": 44.0
+  },
+  {
+    "id": "tool_0061",
+    "prompt": "<|user|>Calculate 47-15-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47-15-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47-15-28",
+    "expected_value": 4.0
+  },
+  {
+    "id": "tool_0062",
+    "prompt": "<|user|>Calculate 8+3+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 8+3+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "8+3+3",
+    "expected_value": 14.0
+  },
+  {
+    "id": "tool_0063",
+    "prompt": "<|user|>Calculate 15*17-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15*17-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15*17-22",
+    "expected_value": 233.0
+  },
+  {
+    "id": "tool_0064",
+    "prompt": "<|user|>Calculate 49-10-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49-10-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49-10-16",
+    "expected_value": 23.0
+  },
+  {
+    "id": "tool_0065",
+    "prompt": "<|user|>Calculate 13+2+26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 13+2+26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "13+2+26",
+    "expected_value": 41.0
+  },
+  {
+    "id": "tool_0066",
+    "prompt": "<|user|>Calculate 32*12+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*12+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*12+11",
+    "expected_value": 395.0
+  },
+  {
+    "id": "tool_0067",
+    "prompt": "<|user|>Calculate 37*7-2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37*7-2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37*7-2",
+    "expected_value": 257.0
+  },
+  {
+    "id": "tool_0068",
+    "prompt": "<|user|>Calculate 50+7-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50+7-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50+7-28",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0069",
+    "prompt": "<|user|>Calculate 30*5-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30*5-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30*5-14",
+    "expected_value": 136.0
+  },
+  {
+    "id": "tool_0070",
+    "prompt": "<|user|>Calculate 12+2-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12+2-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12+2-5",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0071",
+    "prompt": "<|user|>Calculate 22+13-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22+13-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22+13-12",
+    "expected_value": 23.0
+  },
+  {
+    "id": "tool_0072",
+    "prompt": "<|user|>Calculate 18-6+20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-6+20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-6+20",
+    "expected_value": 32.0
+  },
+  {
+    "id": "tool_0073",
+    "prompt": "<|user|>Calculate 16+6+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+6+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+6+2",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0074",
+    "prompt": "<|user|>Calculate 17-13-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17-13-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17-13-9",
+    "expected_value": -5.0
+  },
+  {
+    "id": "tool_0075",
+    "prompt": "<|user|>Calculate 33+16+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33+16+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33+16+3",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0076",
+    "prompt": "<|user|>Calculate 21+18+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21+18+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21+18+21",
+    "expected_value": 60.0
+  },
+  {
+    "id": "tool_0077",
+    "prompt": "<|user|>Calculate 33-3+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33-3+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33-3+3",
+    "expected_value": 33.0
+  },
+  {
+    "id": "tool_0078",
+    "prompt": "<|user|>Calculate 4*12+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4*12+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4*12+30",
+    "expected_value": 78.0
+  },
+  {
+    "id": "tool_0079",
+    "prompt": "<|user|>Calculate 25+4-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25+4-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25+4-23",
+    "expected_value": 6.0
+  },
+  {
+    "id": "tool_0080",
+    "prompt": "<|user|>Calculate 44-6+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44-6+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44-6+9",
+    "expected_value": 47.0
+  },
+  {
+    "id": "tool_0081",
+    "prompt": "<|user|>Calculate 39+18-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39+18-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39+18-5",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0082",
+    "prompt": "<|user|>Calculate 19+19-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19+19-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19+19-14",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0083",
+    "prompt": "<|user|>Calculate 16-18+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16-18+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16-18+1",
+    "expected_value": -1.0
+  },
+  {
+    "id": "tool_0084",
+    "prompt": "<|user|>Calculate 27+17+8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27+17+8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27+17+8",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0085",
+    "prompt": "<|user|>Calculate 9+13-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9+13-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9+13-15",
+    "expected_value": 7.0
+  },
+  {
+    "id": "tool_0086",
+    "prompt": "<|user|>Calculate 48+15-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48+15-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48+15-9",
+    "expected_value": 54.0
+  },
+  {
+    "id": "tool_0087",
+    "prompt": "<|user|>Calculate 47+5-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47+5-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47+5-26",
+    "expected_value": 26.0
+  },
+  {
+    "id": "tool_0088",
+    "prompt": "<|user|>Calculate 49*16+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49*16+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49*16+27",
+    "expected_value": 811.0
+  },
+  {
+    "id": "tool_0089",
+    "prompt": "<|user|>Calculate 22+3-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22+3-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22+3-17",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0090",
+    "prompt": "<|user|>Calculate 5*19-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5*19-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5*19-5",
+    "expected_value": 90.0
+  },
+  {
+    "id": "tool_0091",
+    "prompt": "<|user|>Calculate 43*10+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43*10+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43*10+21",
+    "expected_value": 451.0
+  },
+  {
+    "id": "tool_0092",
+    "prompt": "<|user|>Calculate 44-6-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44-6-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44-6-1",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0093",
+    "prompt": "<|user|>Calculate 40+17-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40+17-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40+17-12",
+    "expected_value": 45.0
+  },
+  {
+    "id": "tool_0094",
+    "prompt": "<|user|>Calculate 44*17-30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44*17-30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44*17-30",
+    "expected_value": 718.0
+  },
+  {
+    "id": "tool_0095",
+    "prompt": "<|user|>Calculate 24-17-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24-17-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24-17-5",
+    "expected_value": 2.0
+  },
+  {
+    "id": "tool_0096",
+    "prompt": "<|user|>Calculate 17+3-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+3-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+3-14",
+    "expected_value": 6.0
+  },
+  {
+    "id": "tool_0097",
+    "prompt": "<|user|>Calculate 16-6+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16-6+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16-6+16",
+    "expected_value": 26.0
+  },
+  {
+    "id": "tool_0098",
+    "prompt": "<|user|>Calculate 16-19+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16-19+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16-19+11",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0099",
+    "prompt": "<|user|>Calculate 44*11-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44*11-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44*11-9",
+    "expected_value": 475.0
+  },
+  {
+    "id": "tool_0100",
+    "prompt": "<|user|>Calculate 50*16-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50*16-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50*16-6",
+    "expected_value": 794.0
+  },
+  {
+    "id": "tool_0101",
+    "prompt": "<|user|>Calculate 9*9+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9*9+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9*9+30",
+    "expected_value": 111.0
+  },
+  {
+    "id": "tool_0102",
+    "prompt": "<|user|>Calculate 27-5-29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27-5-29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27-5-29",
+    "expected_value": -7.0
+  },
+  {
+    "id": "tool_0103",
+    "prompt": "<|user|>Calculate 23*18-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23*18-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23*18-23",
+    "expected_value": 391.0
+  },
+  {
+    "id": "tool_0104",
+    "prompt": "<|user|>Calculate 32-17+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32-17+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32-17+21",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0105",
+    "prompt": "<|user|>Calculate 16+13-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+13-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+13-20",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0106",
+    "prompt": "<|user|>Calculate 12-5+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12-5+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12-5+2",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0107",
+    "prompt": "<|user|>Calculate 18-16-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-16-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-16-8",
+    "expected_value": -6.0
+  },
+  {
+    "id": "tool_0108",
+    "prompt": "<|user|>Calculate 36*7-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36*7-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36*7-3",
+    "expected_value": 249.0
+  },
+  {
+    "id": "tool_0109",
+    "prompt": "<|user|>Calculate 28-11-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 28-11-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "28-11-8",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0110",
+    "prompt": "<|user|>Calculate 6-16+17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6-16+17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6-16+17",
+    "expected_value": 7.0
+  },
+  {
+    "id": "tool_0111",
+    "prompt": "<|user|>Calculate 22+7-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22+7-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22+7-10",
+    "expected_value": 19.0
+  },
+  {
+    "id": "tool_0112",
+    "prompt": "<|user|>Calculate 44+6-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44+6-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44+6-17",
+    "expected_value": 33.0
+  },
+  {
+    "id": "tool_0113",
+    "prompt": "<|user|>Calculate 31+3-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31+3-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31+3-19",
+    "expected_value": 15.0
+  },
+  {
+    "id": "tool_0114",
+    "prompt": "<|user|>Calculate 28-7-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 28-7-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "28-7-13",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0115",
+    "prompt": "<|user|>Calculate 47+18-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47+18-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47+18-4",
+    "expected_value": 61.0
+  },
+  {
+    "id": "tool_0116",
+    "prompt": "<|user|>Calculate 19-18+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19-18+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19-18+1",
+    "expected_value": 2.0
+  },
+  {
+    "id": "tool_0117",
+    "prompt": "<|user|>Calculate 31*15-30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31*15-30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31*15-30",
+    "expected_value": 435.0
+  },
+  {
+    "id": "tool_0118",
+    "prompt": "<|user|>Calculate 27-19+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27-19+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27-19+6",
+    "expected_value": 14.0
+  },
+  {
+    "id": "tool_0119",
+    "prompt": "<|user|>Calculate 43*14-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43*14-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43*14-8",
+    "expected_value": 594.0
+  },
+  {
+    "id": "tool_0120",
+    "prompt": "<|user|>Calculate 39*17-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39*17-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39*17-14",
+    "expected_value": 649.0
+  },
+  {
+    "id": "tool_0121",
+    "prompt": "<|user|>Calculate 32+10-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32+10-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32+10-3",
+    "expected_value": 39.0
+  },
+  {
+    "id": "tool_0122",
+    "prompt": "<|user|>Calculate 40-7+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40-7+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40-7+3",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0123",
+    "prompt": "<|user|>Calculate 16*15-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*15-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*15-3",
+    "expected_value": 237.0
+  },
+  {
+    "id": "tool_0124",
+    "prompt": "<|user|>Calculate 21-19-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21-19-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21-19-10",
+    "expected_value": -8.0
+  },
+  {
+    "id": "tool_0125",
+    "prompt": "<|user|>Calculate 40+15+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40+15+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40+15+14",
+    "expected_value": 69.0
+  },
+  {
+    "id": "tool_0126",
+    "prompt": "<|user|>Calculate 37-17-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37-17-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37-17-10",
+    "expected_value": 10.0
+  },
+  {
+    "id": "tool_0127",
+    "prompt": "<|user|>Calculate 43+11-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43+11-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43+11-16",
+    "expected_value": 38.0
+  },
+  {
+    "id": "tool_0128",
+    "prompt": "<|user|>Calculate 15-19-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-19-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-19-21",
+    "expected_value": -25.0
+  },
+  {
+    "id": "tool_0129",
+    "prompt": "<|user|>Calculate 23+17+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23+17+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23+17+11",
+    "expected_value": 51.0
+  },
+  {
+    "id": "tool_0130",
+    "prompt": "<|user|>Calculate 15-18-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-18-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-18-5",
+    "expected_value": -8.0
+  },
+  {
+    "id": "tool_0131",
+    "prompt": "<|user|>Calculate 39-8+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39-8+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39-8+14",
+    "expected_value": 45.0
+  },
+  {
+    "id": "tool_0132",
+    "prompt": "<|user|>Calculate 28+19-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 28+19-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "28+19-9",
+    "expected_value": 38.0
+  },
+  {
+    "id": "tool_0133",
+    "prompt": "<|user|>Calculate 8*18+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 8*18+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "8*18+24",
+    "expected_value": 168.0
+  },
+  {
+    "id": "tool_0134",
+    "prompt": "<|user|>Calculate 18-3-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-3-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-3-26",
+    "expected_value": -11.0
+  },
+  {
+    "id": "tool_0135",
+    "prompt": "<|user|>Calculate 13*18+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 13*18+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "13*18+18",
+    "expected_value": 252.0
+  },
+  {
+    "id": "tool_0136",
+    "prompt": "<|user|>Calculate 20*14+20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20*14+20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20*14+20",
+    "expected_value": 300.0
+  },
+  {
+    "id": "tool_0137",
+    "prompt": "<|user|>Calculate 45-16+13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45-16+13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45-16+13",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0138",
+    "prompt": "<|user|>Calculate 48*5-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48*5-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48*5-1",
+    "expected_value": 239.0
+  },
+  {
+    "id": "tool_0139",
+    "prompt": "<|user|>Calculate 50*14-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50*14-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50*14-5",
+    "expected_value": 695.0
+  },
+  {
+    "id": "tool_0140",
+    "prompt": "<|user|>Calculate 18-10-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-10-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-10-26",
+    "expected_value": -18.0
+  },
+  {
+    "id": "tool_0141",
+    "prompt": "<|user|>Calculate 21*19-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21*19-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21*19-6",
+    "expected_value": 393.0
+  },
+  {
+    "id": "tool_0142",
+    "prompt": "<|user|>Calculate 27*11-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27*11-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27*11-26",
+    "expected_value": 271.0
+  },
+  {
+    "id": "tool_0143",
+    "prompt": "<|user|>Calculate 33*3+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*3+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*3+19",
+    "expected_value": 118.0
+  },
+  {
+    "id": "tool_0144",
+    "prompt": "<|user|>Calculate 19*2+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19*2+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19*2+21",
+    "expected_value": 59.0
+  },
+  {
+    "id": "tool_0145",
+    "prompt": "<|user|>Calculate 32-4+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32-4+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32-4+14",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0146",
+    "prompt": "<|user|>Calculate 10*7-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10*7-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10*7-15",
+    "expected_value": 55.0
+  },
+  {
+    "id": "tool_0147",
+    "prompt": "<|user|>Calculate 29-7+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29-7+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29-7+9",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0148",
+    "prompt": "<|user|>Calculate 44*15+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44*15+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44*15+14",
+    "expected_value": 674.0
+  },
+  {
+    "id": "tool_0149",
+    "prompt": "<|user|>Calculate 32*3-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*3-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*3-28",
+    "expected_value": 68.0
+  },
+  {
+    "id": "tool_0150",
+    "prompt": "<|user|>Calculate 17*16-18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17*16-18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17*16-18",
+    "expected_value": 254.0
+  },
+  {
+    "id": "tool_0151",
+    "prompt": "<|user|>Calculate 30*11+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30*11+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30*11+21",
+    "expected_value": 351.0
+  },
+  {
+    "id": "tool_0152",
+    "prompt": "<|user|>Calculate 33*8-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*8-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*8-21",
+    "expected_value": 243.0
+  },
+  {
+    "id": "tool_0153",
+    "prompt": "<|user|>Calculate 46-9+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46-9+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46-9+11",
+    "expected_value": 48.0
+  },
+  {
+    "id": "tool_0154",
+    "prompt": "<|user|>Calculate 31-13+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31-13+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31-13+16",
+    "expected_value": 34.0
+  },
+  {
+    "id": "tool_0155",
+    "prompt": "<|user|>Calculate 36*10-27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36*10-27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36*10-27",
+    "expected_value": 333.0
+  },
+  {
+    "id": "tool_0156",
+    "prompt": "<|user|>Calculate 45*3+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45*3+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45*3+3",
+    "expected_value": 138.0
+  },
+  {
+    "id": "tool_0157",
+    "prompt": "<|user|>Calculate 40*15-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40*15-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40*15-19",
+    "expected_value": 581.0
+  },
+  {
+    "id": "tool_0158",
+    "prompt": "<|user|>Calculate 11+14-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11+14-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11+14-21",
+    "expected_value": 4.0
+  },
+  {
+    "id": "tool_0159",
+    "prompt": "<|user|>Calculate 6+8+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6+8+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6+8+16",
+    "expected_value": 30.0
+  },
+  {
+    "id": "tool_0160",
+    "prompt": "<|user|>Calculate 27+11-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27+11-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27+11-21",
+    "expected_value": 17.0
+  },
+  {
+    "id": "tool_0161",
+    "prompt": "<|user|>Calculate 12+10+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12+10+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12+10+18",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0162",
+    "prompt": "<|user|>Calculate 25-14-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25-14-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25-14-23",
+    "expected_value": -12.0
+  },
+  {
+    "id": "tool_0163",
+    "prompt": "<|user|>Calculate 42*15-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42*15-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42*15-23",
+    "expected_value": 607.0
+  },
+  {
+    "id": "tool_0164",
+    "prompt": "<|user|>Calculate 29*9-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29*9-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29*9-25",
+    "expected_value": 236.0
+  },
+  {
+    "id": "tool_0165",
+    "prompt": "<|user|>Calculate 37+19+17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37+19+17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37+19+17",
+    "expected_value": 73.0
+  },
+  {
+    "id": "tool_0166",
+    "prompt": "<|user|>Calculate 29+19+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29+19+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29+19+4",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0167",
+    "prompt": "<|user|>Calculate 29-10-2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29-10-2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29-10-2",
+    "expected_value": 17.0
+  },
+  {
+    "id": "tool_0168",
+    "prompt": "<|user|>Calculate 30+17+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30+17+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30+17+3",
+    "expected_value": 50.0
+  },
+  {
+    "id": "tool_0169",
+    "prompt": "<|user|>Calculate 10*16+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10*16+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10*16+4",
+    "expected_value": 164.0
+  },
+  {
+    "id": "tool_0170",
+    "prompt": "<|user|>Calculate 47-3-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47-3-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47-3-7",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0171",
+    "prompt": "<|user|>Calculate 16*10-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*10-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*10-9",
+    "expected_value": 151.0
+  },
+  {
+    "id": "tool_0172",
+    "prompt": "<|user|>Calculate 17+2+29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+2+29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+2+29",
+    "expected_value": 48.0
+  },
+  {
+    "id": "tool_0173",
+    "prompt": "<|user|>Calculate 11*15+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11*15+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11*15+4",
+    "expected_value": 169.0
+  },
+  {
+    "id": "tool_0174",
+    "prompt": "<|user|>Calculate 7-12+26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7-12+26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7-12+26",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0175",
+    "prompt": "<|user|>Calculate 49+16-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49+16-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49+16-5",
+    "expected_value": 60.0
+  },
+  {
+    "id": "tool_0176",
+    "prompt": "<|user|>Calculate 34+8-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34+8-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34+8-3",
+    "expected_value": 39.0
+  },
+  {
+    "id": "tool_0177",
+    "prompt": "<|user|>Calculate 20+16+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20+16+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20+16+19",
+    "expected_value": 55.0
+  },
+  {
+    "id": "tool_0178",
+    "prompt": "<|user|>Calculate 49+7-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49+7-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49+7-1",
+    "expected_value": 55.0
+  },
+  {
+    "id": "tool_0179",
+    "prompt": "<|user|>Calculate 16*4-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*4-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*4-12",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0180",
+    "prompt": "<|user|>Calculate 15*12-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15*12-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15*12-28",
+    "expected_value": 152.0
+  },
+  {
+    "id": "tool_0181",
+    "prompt": "<|user|>Calculate 19-6-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19-6-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19-6-20",
+    "expected_value": -7.0
+  },
+  {
+    "id": "tool_0182",
+    "prompt": "<|user|>Calculate 28+7+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 28+7+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "28+7+18",
+    "expected_value": 53.0
+  },
+  {
+    "id": "tool_0183",
+    "prompt": "<|user|>Calculate 32+9+22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32+9+22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32+9+22",
+    "expected_value": 63.0
+  },
+  {
+    "id": "tool_0184",
+    "prompt": "<|user|>Calculate 39*18-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39*18-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39*18-14",
+    "expected_value": 688.0
+  },
+  {
+    "id": "tool_0185",
+    "prompt": "<|user|>Calculate 39-2+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39-2+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39-2+14",
+    "expected_value": 51.0
+  },
+  {
+    "id": "tool_0186",
+    "prompt": "<|user|>Calculate 29*10+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29*10+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29*10+11",
+    "expected_value": 301.0
+  },
+  {
+    "id": "tool_0187",
+    "prompt": "<|user|>Calculate 12+5+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12+5+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12+5+2",
+    "expected_value": 19.0
+  },
+  {
+    "id": "tool_0188",
+    "prompt": "<|user|>Calculate 22+14-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22+14-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22+14-20",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0189",
+    "prompt": "<|user|>Calculate 26+7-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26+7-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26+7-15",
+    "expected_value": 18.0
+  },
+  {
+    "id": "tool_0190",
+    "prompt": "<|user|>Calculate 50*5+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50*5+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50*5+12",
+    "expected_value": 262.0
+  },
+  {
+    "id": "tool_0191",
+    "prompt": "<|user|>Calculate 31*7+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31*7+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31*7+3",
+    "expected_value": 220.0
+  },
+  {
+    "id": "tool_0192",
+    "prompt": "<|user|>Calculate 21+8+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21+8+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21+8+25",
+    "expected_value": 54.0
+  },
+  {
+    "id": "tool_0193",
+    "prompt": "<|user|>Calculate 23*12+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23*12+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23*12+12",
+    "expected_value": 288.0
+  },
+  {
+    "id": "tool_0194",
+    "prompt": "<|user|>Calculate 21-18+10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21-18+10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21-18+10",
+    "expected_value": 13.0
+  },
+  {
+    "id": "tool_0195",
+    "prompt": "<|user|>Calculate 12+5-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12+5-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12+5-9",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0196",
+    "prompt": "<|user|>Calculate 49*7-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49*7-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49*7-6",
+    "expected_value": 337.0
+  },
+  {
+    "id": "tool_0197",
+    "prompt": "<|user|>Calculate 26*15-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26*15-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26*15-16",
+    "expected_value": 374.0
+  },
+  {
+    "id": "tool_0198",
+    "prompt": "<|user|>Calculate 3*4+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3*4+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3*4+12",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0199",
+    "prompt": "<|user|>Calculate 21-11+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21-11+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21-11+9",
+    "expected_value": 19.0
+  },
+  {
+    "id": "tool_0200",
+    "prompt": "<|user|>Calculate 25-2+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25-2+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25-2+3",
+    "expected_value": 26.0
+  },
+  {
+    "id": "tool_0201",
+    "prompt": "<|user|>Calculate 37-4+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37-4+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37-4+9",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0202",
+    "prompt": "<|user|>Calculate 33*8+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*8+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*8+9",
+    "expected_value": 273.0
+  },
+  {
+    "id": "tool_0203",
+    "prompt": "<|user|>Calculate 33*16-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*16-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*16-5",
+    "expected_value": 523.0
+  },
+  {
+    "id": "tool_0204",
+    "prompt": "<|user|>Calculate 33*16-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*16-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*16-19",
+    "expected_value": 509.0
+  },
+  {
+    "id": "tool_0205",
+    "prompt": "<|user|>Calculate 26-13+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26-13+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26-13+15",
+    "expected_value": 28.0
+  },
+  {
+    "id": "tool_0206",
+    "prompt": "<|user|>Calculate 10*18-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10*18-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10*18-7",
+    "expected_value": 173.0
+  },
+  {
+    "id": "tool_0207",
+    "prompt": "<|user|>Calculate 3-4+29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3-4+29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3-4+29",
+    "expected_value": 28.0
+  },
+  {
+    "id": "tool_0208",
+    "prompt": "<|user|>Calculate 16*4+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*4+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*4+27",
+    "expected_value": 91.0
+  },
+  {
+    "id": "tool_0209",
+    "prompt": "<|user|>Calculate 35*12-29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 35*12-29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "35*12-29",
+    "expected_value": 391.0
+  },
+  {
+    "id": "tool_0210",
+    "prompt": "<|user|>Calculate 48+13-30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48+13-30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48+13-30",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0211",
+    "prompt": "<|user|>Calculate 3*12-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3*12-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3*12-6",
+    "expected_value": 30.0
+  },
+  {
+    "id": "tool_0212",
+    "prompt": "<|user|>Calculate 26*19-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26*19-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26*19-16",
+    "expected_value": 478.0
+  },
+  {
+    "id": "tool_0213",
+    "prompt": "<|user|>Calculate 49-12+9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49-12+9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49-12+9",
+    "expected_value": 46.0
+  },
+  {
+    "id": "tool_0214",
+    "prompt": "<|user|>Calculate 27-4+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27-4+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27-4+1",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0215",
+    "prompt": "<|user|>Calculate 18-8+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-8+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-8+30",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0216",
+    "prompt": "<|user|>Calculate 7+11+28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7+11+28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7+11+28",
+    "expected_value": 46.0
+  },
+  {
+    "id": "tool_0217",
+    "prompt": "<|user|>Calculate 24+4-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24+4-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24+4-26",
+    "expected_value": 2.0
+  },
+  {
+    "id": "tool_0218",
+    "prompt": "<|user|>Calculate 42-13-24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42-13-24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42-13-24",
+    "expected_value": 5.0
+  },
+  {
+    "id": "tool_0219",
+    "prompt": "<|user|>Calculate 36*4-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36*4-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36*4-14",
+    "expected_value": 130.0
+  },
+  {
+    "id": "tool_0220",
+    "prompt": "<|user|>Calculate 16+18+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+18+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+18+27",
+    "expected_value": 61.0
+  },
+  {
+    "id": "tool_0221",
+    "prompt": "<|user|>Calculate 26*10+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26*10+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26*10+19",
+    "expected_value": 279.0
+  },
+  {
+    "id": "tool_0222",
+    "prompt": "<|user|>Calculate 17*12+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17*12+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17*12+14",
+    "expected_value": 218.0
+  },
+  {
+    "id": "tool_0223",
+    "prompt": "<|user|>Calculate 6-3+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6-3+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6-3+24",
+    "expected_value": 27.0
+  },
+  {
+    "id": "tool_0224",
+    "prompt": "<|user|>Calculate 48*10-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48*10-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48*10-16",
+    "expected_value": 464.0
+  },
+  {
+    "id": "tool_0225",
+    "prompt": "<|user|>Calculate 23*18-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23*18-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23*18-17",
+    "expected_value": 397.0
+  },
+  {
+    "id": "tool_0226",
+    "prompt": "<|user|>Calculate 12*9+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12*9+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12*9+21",
+    "expected_value": 129.0
+  },
+  {
+    "id": "tool_0227",
+    "prompt": "<|user|>Calculate 16+12-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+12-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+12-11",
+    "expected_value": 17.0
+  },
+  {
+    "id": "tool_0228",
+    "prompt": "<|user|>Calculate 33*10+26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*10+26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*10+26",
+    "expected_value": 356.0
+  },
+  {
+    "id": "tool_0229",
+    "prompt": "<|user|>Calculate 31+18+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31+18+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31+18+14",
+    "expected_value": 63.0
+  },
+  {
+    "id": "tool_0230",
+    "prompt": "<|user|>Calculate 45-9+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45-9+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45-9+12",
+    "expected_value": 48.0
+  },
+  {
+    "id": "tool_0231",
+    "prompt": "<|user|>Calculate 39*5-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39*5-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39*5-21",
+    "expected_value": 174.0
+  },
+  {
+    "id": "tool_0232",
+    "prompt": "<|user|>Calculate 12+6+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12+6+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12+6+27",
+    "expected_value": 45.0
+  },
+  {
+    "id": "tool_0233",
+    "prompt": "<|user|>Calculate 3*10-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3*10-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3*10-3",
+    "expected_value": 27.0
+  },
+  {
+    "id": "tool_0234",
+    "prompt": "<|user|>Calculate 31-3-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31-3-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31-3-20",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0235",
+    "prompt": "<|user|>Calculate 5*4+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5*4+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5*4+18",
+    "expected_value": 38.0
+  },
+  {
+    "id": "tool_0236",
+    "prompt": "<|user|>Calculate 46-12+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46-12+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46-12+15",
+    "expected_value": 49.0
+  },
+  {
+    "id": "tool_0237",
+    "prompt": "<|user|>Calculate 16*3-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*3-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*3-28",
+    "expected_value": 20.0
+  },
+  {
+    "id": "tool_0238",
+    "prompt": "<|user|>Calculate 3-16+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3-16+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3-16+25",
+    "expected_value": 12.0
+  },
+  {
+    "id": "tool_0239",
+    "prompt": "<|user|>Calculate 7+5-29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7+5-29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7+5-29",
+    "expected_value": -17.0
+  },
+  {
+    "id": "tool_0240",
+    "prompt": "<|user|>Calculate 17*16+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17*16+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17*16+12",
+    "expected_value": 284.0
+  },
+  {
+    "id": "tool_0241",
+    "prompt": "<|user|>Calculate 12-11-2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12-11-2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12-11-2",
+    "expected_value": -1.0
+  },
+  {
+    "id": "tool_0242",
+    "prompt": "<|user|>Calculate 31*4-27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31*4-27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31*4-27",
+    "expected_value": 97.0
+  },
+  {
+    "id": "tool_0243",
+    "prompt": "<|user|>Calculate 33-18+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33-18+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33-18+16",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0244",
+    "prompt": "<|user|>Calculate 4+3+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+3+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+3+12",
+    "expected_value": 19.0
+  },
+  {
+    "id": "tool_0245",
+    "prompt": "<|user|>Calculate 9+4+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9+4+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9+4+15",
+    "expected_value": 28.0
+  },
+  {
+    "id": "tool_0246",
+    "prompt": "<|user|>Calculate 18-7-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-7-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-7-7",
+    "expected_value": 4.0
+  },
+  {
+    "id": "tool_0247",
+    "prompt": "<|user|>Calculate 34-5-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34-5-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34-5-14",
+    "expected_value": 15.0
+  },
+  {
+    "id": "tool_0248",
+    "prompt": "<|user|>Calculate 42-16+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42-16+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42-16+30",
+    "expected_value": 56.0
+  },
+  {
+    "id": "tool_0249",
+    "prompt": "<|user|>Calculate 15+19+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15+19+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15+19+30",
+    "expected_value": 64.0
+  },
+  {
+    "id": "tool_0250",
+    "prompt": "<|user|>Calculate 41*18-30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41*18-30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41*18-30",
+    "expected_value": 708.0
+  },
+  {
+    "id": "tool_0251",
+    "prompt": "<|user|>Calculate 49-3+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49-3+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49-3+24",
+    "expected_value": 70.0
+  },
+  {
+    "id": "tool_0252",
+    "prompt": "<|user|>Calculate 5+7-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5+7-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5+7-28",
+    "expected_value": -16.0
+  },
+  {
+    "id": "tool_0253",
+    "prompt": "<|user|>Calculate 21+17+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21+17+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21+17+2",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0254",
+    "prompt": "<|user|>Calculate 21*18+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21*18+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21*18+21",
+    "expected_value": 399.0
+  },
+  {
+    "id": "tool_0255",
+    "prompt": "<|user|>Calculate 25+13+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25+13+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25+13+16",
+    "expected_value": 54.0
+  },
+  {
+    "id": "tool_0256",
+    "prompt": "<|user|>Calculate 47-2-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47-2-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47-2-5",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0257",
+    "prompt": "<|user|>Calculate 28-12-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 28-12-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "28-12-22",
+    "expected_value": -6.0
+  },
+  {
+    "id": "tool_0258",
+    "prompt": "<|user|>Calculate 6*8+13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6*8+13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6*8+13",
+    "expected_value": 61.0
+  },
+  {
+    "id": "tool_0259",
+    "prompt": "<|user|>Calculate 42*14+17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42*14+17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42*14+17",
+    "expected_value": 605.0
+  },
+  {
+    "id": "tool_0260",
+    "prompt": "<|user|>Calculate 39+14-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39+14-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39+14-20",
+    "expected_value": 33.0
+  },
+  {
+    "id": "tool_0261",
+    "prompt": "<|user|>Calculate 50*11-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50*11-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50*11-25",
+    "expected_value": 525.0
+  },
+  {
+    "id": "tool_0262",
+    "prompt": "<|user|>Calculate 11+4-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11+4-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11+4-12",
+    "expected_value": 3.0
+  },
+  {
+    "id": "tool_0263",
+    "prompt": "<|user|>Calculate 18-5+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-5+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-5+12",
+    "expected_value": 25.0
+  },
+  {
+    "id": "tool_0264",
+    "prompt": "<|user|>Calculate 43+12+10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43+12+10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43+12+10",
+    "expected_value": 65.0
+  },
+  {
+    "id": "tool_0265",
+    "prompt": "<|user|>Calculate 31-12-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31-12-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31-12-22",
+    "expected_value": -3.0
+  },
+  {
+    "id": "tool_0266",
+    "prompt": "<|user|>Calculate 36+11+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36+11+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36+11+4",
+    "expected_value": 51.0
+  },
+  {
+    "id": "tool_0267",
+    "prompt": "<|user|>Calculate 45+3-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45+3-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45+3-5",
+    "expected_value": 43.0
+  },
+  {
+    "id": "tool_0268",
+    "prompt": "<|user|>Calculate 17+16-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+16-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+16-23",
+    "expected_value": 10.0
+  },
+  {
+    "id": "tool_0269",
+    "prompt": "<|user|>Calculate 49*2-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49*2-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49*2-5",
+    "expected_value": 93.0
+  },
+  {
+    "id": "tool_0270",
+    "prompt": "<|user|>Calculate 31*18-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31*18-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31*18-26",
+    "expected_value": 532.0
+  },
+  {
+    "id": "tool_0271",
+    "prompt": "<|user|>Calculate 46*13-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46*13-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46*13-20",
+    "expected_value": 578.0
+  },
+  {
+    "id": "tool_0272",
+    "prompt": "<|user|>Calculate 40+16+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40+16+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40+16+7",
+    "expected_value": 63.0
+  },
+  {
+    "id": "tool_0273",
+    "prompt": "<|user|>Calculate 7-6-29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7-6-29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7-6-29",
+    "expected_value": -28.0
+  },
+  {
+    "id": "tool_0274",
+    "prompt": "<|user|>Calculate 42*19-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42*19-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42*19-4",
+    "expected_value": 794.0
+  },
+  {
+    "id": "tool_0275",
+    "prompt": "<|user|>Calculate 42-11+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42-11+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42-11+16",
+    "expected_value": 47.0
+  },
+  {
+    "id": "tool_0276",
+    "prompt": "<|user|>Calculate 5*9-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5*9-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5*9-8",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0277",
+    "prompt": "<|user|>Calculate 8*17-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 8*17-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "8*17-8",
+    "expected_value": 128.0
+  },
+  {
+    "id": "tool_0278",
+    "prompt": "<|user|>Calculate 30+4-24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30+4-24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30+4-24",
+    "expected_value": 10.0
+  },
+  {
+    "id": "tool_0279",
+    "prompt": "<|user|>Calculate 18+7+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18+7+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18+7+12",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0280",
+    "prompt": "<|user|>Calculate 3+18-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3+18-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3+18-22",
+    "expected_value": -1.0
+  },
+  {
+    "id": "tool_0281",
+    "prompt": "<|user|>Calculate 42+15+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42+15+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42+15+1",
+    "expected_value": 58.0
+  },
+  {
+    "id": "tool_0282",
+    "prompt": "<|user|>Calculate 16+6+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+6+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+6+2",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0283",
+    "prompt": "<|user|>Calculate 5*16-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5*16-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5*16-8",
+    "expected_value": 72.0
+  },
+  {
+    "id": "tool_0284",
+    "prompt": "<|user|>Calculate 13*9+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 13*9+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "13*9+4",
+    "expected_value": 121.0
+  },
+  {
+    "id": "tool_0285",
+    "prompt": "<|user|>Calculate 17-18+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17-18+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17-18+14",
+    "expected_value": 13.0
+  },
+  {
+    "id": "tool_0286",
+    "prompt": "<|user|>Calculate 12*3+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12*3+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12*3+27",
+    "expected_value": 63.0
+  },
+  {
+    "id": "tool_0287",
+    "prompt": "<|user|>Calculate 27*5+20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27*5+20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27*5+20",
+    "expected_value": 155.0
+  },
+  {
+    "id": "tool_0288",
+    "prompt": "<|user|>Calculate 4+19+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+19+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+19+6",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0289",
+    "prompt": "<|user|>Calculate 35-9-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 35-9-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "35-9-25",
+    "expected_value": 1.0
+  },
+  {
+    "id": "tool_0290",
+    "prompt": "<|user|>Calculate 21*10-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21*10-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21*10-11",
+    "expected_value": 199.0
+  },
+  {
+    "id": "tool_0291",
+    "prompt": "<|user|>Calculate 6-7-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6-7-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6-7-1",
+    "expected_value": -2.0
+  },
+  {
+    "id": "tool_0292",
+    "prompt": "<|user|>Calculate 15-14+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-14+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-14+14",
+    "expected_value": 15.0
+  },
+  {
+    "id": "tool_0293",
+    "prompt": "<|user|>Calculate 48-12+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48-12+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48-12+4",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0294",
+    "prompt": "<|user|>Calculate 26-7-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26-7-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26-7-16",
+    "expected_value": 3.0
+  },
+  {
+    "id": "tool_0295",
+    "prompt": "<|user|>Calculate 3-9-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3-9-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3-9-9",
+    "expected_value": -15.0
+  },
+  {
+    "id": "tool_0296",
+    "prompt": "<|user|>Calculate 49+17-24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49+17-24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49+17-24",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0297",
+    "prompt": "<|user|>Calculate 43-9+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 43-9+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "43-9+30",
+    "expected_value": 64.0
+  },
+  {
+    "id": "tool_0298",
+    "prompt": "<|user|>Calculate 36*3+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36*3+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36*3+21",
+    "expected_value": 129.0
+  },
+  {
+    "id": "tool_0299",
+    "prompt": "<|user|>Calculate 5-19-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5-19-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5-19-12",
+    "expected_value": -26.0
+  },
+  {
+    "id": "tool_0300",
+    "prompt": "<|user|>Calculate 16+6-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+6-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+6-17",
+    "expected_value": 5.0
+  },
+  {
+    "id": "tool_0301",
+    "prompt": "<|user|>Calculate 40*17-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40*17-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40*17-25",
+    "expected_value": 655.0
+  },
+  {
+    "id": "tool_0302",
+    "prompt": "<|user|>Calculate 39*8-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39*8-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39*8-25",
+    "expected_value": 287.0
+  },
+  {
+    "id": "tool_0303",
+    "prompt": "<|user|>Calculate 34-3-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34-3-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34-3-10",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0304",
+    "prompt": "<|user|>Calculate 50-8-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50-8-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50-8-13",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0305",
+    "prompt": "<|user|>Calculate 12+15-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12+15-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12+15-15",
+    "expected_value": 12.0
+  },
+  {
+    "id": "tool_0306",
+    "prompt": "<|user|>Calculate 10+5-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10+5-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10+5-8",
+    "expected_value": 7.0
+  },
+  {
+    "id": "tool_0307",
+    "prompt": "<|user|>Calculate 21*7-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 21*7-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "21*7-22",
+    "expected_value": 125.0
+  },
+  {
+    "id": "tool_0308",
+    "prompt": "<|user|>Calculate 24-9-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24-9-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24-9-4",
+    "expected_value": 11.0
+  },
+  {
+    "id": "tool_0309",
+    "prompt": "<|user|>Calculate 37-14+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37-14+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37-14+18",
+    "expected_value": 41.0
+  },
+  {
+    "id": "tool_0310",
+    "prompt": "<|user|>Calculate 6*6+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6*6+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6*6+18",
+    "expected_value": 54.0
+  },
+  {
+    "id": "tool_0311",
+    "prompt": "<|user|>Calculate 18+14+8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18+14+8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18+14+8",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0312",
+    "prompt": "<|user|>Calculate 50+8-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50+8-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50+8-8",
+    "expected_value": 50.0
+  },
+  {
+    "id": "tool_0313",
+    "prompt": "<|user|>Calculate 10*17+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10*17+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10*17+19",
+    "expected_value": 189.0
+  },
+  {
+    "id": "tool_0314",
+    "prompt": "<|user|>Calculate 46+6+29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46+6+29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46+6+29",
+    "expected_value": 81.0
+  },
+  {
+    "id": "tool_0315",
+    "prompt": "<|user|>Calculate 20-18+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20-18+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20-18+2",
+    "expected_value": 4.0
+  },
+  {
+    "id": "tool_0316",
+    "prompt": "<|user|>Calculate 42*7+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42*7+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42*7+21",
+    "expected_value": 315.0
+  },
+  {
+    "id": "tool_0317",
+    "prompt": "<|user|>Calculate 38+15-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38+15-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38+15-23",
+    "expected_value": 30.0
+  },
+  {
+    "id": "tool_0318",
+    "prompt": "<|user|>Calculate 24+10-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24+10-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24+10-1",
+    "expected_value": 33.0
+  },
+  {
+    "id": "tool_0319",
+    "prompt": "<|user|>Calculate 48*16-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48*16-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48*16-1",
+    "expected_value": 767.0
+  },
+  {
+    "id": "tool_0320",
+    "prompt": "<|user|>Calculate 17-2-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17-2-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17-2-4",
+    "expected_value": 11.0
+  },
+  {
+    "id": "tool_0321",
+    "prompt": "<|user|>Calculate 5+10-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5+10-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5+10-13",
+    "expected_value": 2.0
+  },
+  {
+    "id": "tool_0322",
+    "prompt": "<|user|>Calculate 22*13-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22*13-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22*13-21",
+    "expected_value": 265.0
+  },
+  {
+    "id": "tool_0323",
+    "prompt": "<|user|>Calculate 16+10+10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+10+10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+10+10",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0324",
+    "prompt": "<|user|>Calculate 38*14-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38*14-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38*14-16",
+    "expected_value": 516.0
+  },
+  {
+    "id": "tool_0325",
+    "prompt": "<|user|>Calculate 42+5+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42+5+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42+5+14",
+    "expected_value": 61.0
+  },
+  {
+    "id": "tool_0326",
+    "prompt": "<|user|>Calculate 16+13-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16+13-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16+13-3",
+    "expected_value": 26.0
+  },
+  {
+    "id": "tool_0327",
+    "prompt": "<|user|>Calculate 11+7+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11+7+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11+7+2",
+    "expected_value": 20.0
+  },
+  {
+    "id": "tool_0328",
+    "prompt": "<|user|>Calculate 15-8+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-8+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-8+24",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0329",
+    "prompt": "<|user|>Calculate 49*11+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49*11+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49*11+12",
+    "expected_value": 551.0
+  },
+  {
+    "id": "tool_0330",
+    "prompt": "<|user|>Calculate 24+4+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24+4+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24+4+27",
+    "expected_value": 55.0
+  },
+  {
+    "id": "tool_0331",
+    "prompt": "<|user|>Calculate 47+10+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47+10+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47+10+12",
+    "expected_value": 69.0
+  },
+  {
+    "id": "tool_0332",
+    "prompt": "<|user|>Calculate 18+16-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18+16-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18+16-19",
+    "expected_value": 15.0
+  },
+  {
+    "id": "tool_0333",
+    "prompt": "<|user|>Calculate 42*3-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42*3-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42*3-14",
+    "expected_value": 112.0
+  },
+  {
+    "id": "tool_0334",
+    "prompt": "<|user|>Calculate 19-4+23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19-4+23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19-4+23",
+    "expected_value": 38.0
+  },
+  {
+    "id": "tool_0335",
+    "prompt": "<|user|>Calculate 27*4-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27*4-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27*4-19",
+    "expected_value": 89.0
+  },
+  {
+    "id": "tool_0336",
+    "prompt": "<|user|>Calculate 30-11-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30-11-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30-11-15",
+    "expected_value": 4.0
+  },
+  {
+    "id": "tool_0337",
+    "prompt": "<|user|>Calculate 28*18-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 28*18-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "28*18-13",
+    "expected_value": 491.0
+  },
+  {
+    "id": "tool_0338",
+    "prompt": "<|user|>Calculate 6+10-18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6+10-18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6+10-18",
+    "expected_value": -2.0
+  },
+  {
+    "id": "tool_0339",
+    "prompt": "<|user|>Calculate 27-15+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27-15+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27-15+16",
+    "expected_value": 28.0
+  },
+  {
+    "id": "tool_0340",
+    "prompt": "<|user|>Calculate 49-19-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49-19-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49-19-1",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0341",
+    "prompt": "<|user|>Calculate 34-15+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34-15+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34-15+2",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0342",
+    "prompt": "<|user|>Calculate 35-2-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 35-2-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "35-2-11",
+    "expected_value": 22.0
+  },
+  {
+    "id": "tool_0343",
+    "prompt": "<|user|>Calculate 39-3-18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39-3-18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39-3-18",
+    "expected_value": 18.0
+  },
+  {
+    "id": "tool_0344",
+    "prompt": "<|user|>Calculate 32*16-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*16-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*16-19",
+    "expected_value": 493.0
+  },
+  {
+    "id": "tool_0345",
+    "prompt": "<|user|>Calculate 23-18-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23-18-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23-18-13",
+    "expected_value": -8.0
+  },
+  {
+    "id": "tool_0346",
+    "prompt": "<|user|>Calculate 14+9+17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 14+9+17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "14+9+17",
+    "expected_value": 40.0
+  },
+  {
+    "id": "tool_0347",
+    "prompt": "<|user|>Calculate 27-11+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27-11+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27-11+1",
+    "expected_value": 17.0
+  },
+  {
+    "id": "tool_0348",
+    "prompt": "<|user|>Calculate 31+3+17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31+3+17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31+3+17",
+    "expected_value": 51.0
+  },
+  {
+    "id": "tool_0349",
+    "prompt": "<|user|>Calculate 15-14+10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-14+10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-14+10",
+    "expected_value": 11.0
+  },
+  {
+    "id": "tool_0350",
+    "prompt": "<|user|>Calculate 15+6-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15+6-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15+6-14",
+    "expected_value": 7.0
+  },
+  {
+    "id": "tool_0351",
+    "prompt": "<|user|>Calculate 38-12-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38-12-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38-12-5",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0352",
+    "prompt": "<|user|>Calculate 9*13-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9*13-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9*13-6",
+    "expected_value": 111.0
+  },
+  {
+    "id": "tool_0353",
+    "prompt": "<|user|>Calculate 41*5+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41*5+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41*5+24",
+    "expected_value": 229.0
+  },
+  {
+    "id": "tool_0354",
+    "prompt": "<|user|>Calculate 26+7-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26+7-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26+7-20",
+    "expected_value": 13.0
+  },
+  {
+    "id": "tool_0355",
+    "prompt": "<|user|>Calculate 34+4+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34+4+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34+4+7",
+    "expected_value": 45.0
+  },
+  {
+    "id": "tool_0356",
+    "prompt": "<|user|>Calculate 31-11-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31-11-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31-11-11",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0357",
+    "prompt": "<|user|>Calculate 48*6-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48*6-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48*6-5",
+    "expected_value": 283.0
+  },
+  {
+    "id": "tool_0358",
+    "prompt": "<|user|>Calculate 45*19+28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45*19+28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45*19+28",
+    "expected_value": 883.0
+  },
+  {
+    "id": "tool_0359",
+    "prompt": "<|user|>Calculate 48-10-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48-10-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48-10-22",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0360",
+    "prompt": "<|user|>Calculate 30+2-19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30+2-19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30+2-19",
+    "expected_value": 13.0
+  },
+  {
+    "id": "tool_0361",
+    "prompt": "<|user|>Calculate 47+12-9 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47+12-9 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47+12-9",
+    "expected_value": 50.0
+  },
+  {
+    "id": "tool_0362",
+    "prompt": "<|user|>Calculate 36*16-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 36*16-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "36*16-26",
+    "expected_value": 550.0
+  },
+  {
+    "id": "tool_0363",
+    "prompt": "<|user|>Calculate 29-2+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29-2+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29-2+24",
+    "expected_value": 51.0
+  },
+  {
+    "id": "tool_0364",
+    "prompt": "<|user|>Calculate 41+15+2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41+15+2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41+15+2",
+    "expected_value": 58.0
+  },
+  {
+    "id": "tool_0365",
+    "prompt": "<|user|>Calculate 46*6+20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46*6+20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46*6+20",
+    "expected_value": 296.0
+  },
+  {
+    "id": "tool_0366",
+    "prompt": "<|user|>Calculate 37+6-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37+6-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37+6-22",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0367",
+    "prompt": "<|user|>Calculate 9*15-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9*15-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9*15-1",
+    "expected_value": 134.0
+  },
+  {
+    "id": "tool_0368",
+    "prompt": "<|user|>Calculate 23*18+19 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23*18+19 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23*18+19",
+    "expected_value": 433.0
+  },
+  {
+    "id": "tool_0369",
+    "prompt": "<|user|>Calculate 48*17+4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48*17+4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48*17+4",
+    "expected_value": 820.0
+  },
+  {
+    "id": "tool_0370",
+    "prompt": "<|user|>Calculate 10+13-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10+13-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10+13-13",
+    "expected_value": 10.0
+  },
+  {
+    "id": "tool_0371",
+    "prompt": "<|user|>Calculate 48-9-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48-9-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48-9-13",
+    "expected_value": 26.0
+  },
+  {
+    "id": "tool_0372",
+    "prompt": "<|user|>Calculate 12-11-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12-11-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12-11-25",
+    "expected_value": -24.0
+  },
+  {
+    "id": "tool_0373",
+    "prompt": "<|user|>Calculate 10-17-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10-17-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10-17-14",
+    "expected_value": -21.0
+  },
+  {
+    "id": "tool_0374",
+    "prompt": "<|user|>Calculate 45+18+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45+18+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45+18+3",
+    "expected_value": 66.0
+  },
+  {
+    "id": "tool_0375",
+    "prompt": "<|user|>Calculate 46-14-24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46-14-24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46-14-24",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0376",
+    "prompt": "<|user|>Calculate 29-6-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29-6-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29-6-6",
+    "expected_value": 17.0
+  },
+  {
+    "id": "tool_0377",
+    "prompt": "<|user|>Calculate 37+2-5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37+2-5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37+2-5",
+    "expected_value": 34.0
+  },
+  {
+    "id": "tool_0378",
+    "prompt": "<|user|>Calculate 32*2+16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*2+16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*2+16",
+    "expected_value": 80.0
+  },
+  {
+    "id": "tool_0379",
+    "prompt": "<|user|>Calculate 31-15+5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31-15+5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31-15+5",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0380",
+    "prompt": "<|user|>Calculate 42*19-27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42*19-27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42*19-27",
+    "expected_value": 771.0
+  },
+  {
+    "id": "tool_0381",
+    "prompt": "<|user|>Calculate 16*18+23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*18+23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*18+23",
+    "expected_value": 311.0
+  },
+  {
+    "id": "tool_0382",
+    "prompt": "<|user|>Calculate 41-2+26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41-2+26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41-2+26",
+    "expected_value": 65.0
+  },
+  {
+    "id": "tool_0383",
+    "prompt": "<|user|>Calculate 27+9-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 27+9-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "27+9-20",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0384",
+    "prompt": "<|user|>Calculate 15-14-18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-14-18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-14-18",
+    "expected_value": -17.0
+  },
+  {
+    "id": "tool_0385",
+    "prompt": "<|user|>Calculate 19*18+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19*18+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19*18+14",
+    "expected_value": 356.0
+  },
+  {
+    "id": "tool_0386",
+    "prompt": "<|user|>Calculate 10+9+22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10+9+22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10+9+22",
+    "expected_value": 41.0
+  },
+  {
+    "id": "tool_0387",
+    "prompt": "<|user|>Calculate 37*11-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 37*11-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "37*11-22",
+    "expected_value": 385.0
+  },
+  {
+    "id": "tool_0388",
+    "prompt": "<|user|>Calculate 29-17+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29-17+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29-17+11",
+    "expected_value": 23.0
+  },
+  {
+    "id": "tool_0389",
+    "prompt": "<|user|>Calculate 38+2+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38+2+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38+2+24",
+    "expected_value": 64.0
+  },
+  {
+    "id": "tool_0390",
+    "prompt": "<|user|>Calculate 50-6+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50-6+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50-6+7",
+    "expected_value": 51.0
+  },
+  {
+    "id": "tool_0391",
+    "prompt": "<|user|>Calculate 5*3-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 5*3-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "5*3-23",
+    "expected_value": -8.0
+  },
+  {
+    "id": "tool_0392",
+    "prompt": "<|user|>Calculate 10+14+5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10+14+5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10+14+5",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0393",
+    "prompt": "<|user|>Calculate 26-17+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26-17+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26-17+25",
+    "expected_value": 34.0
+  },
+  {
+    "id": "tool_0394",
+    "prompt": "<|user|>Calculate 33*12-3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33*12-3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33*12-3",
+    "expected_value": 393.0
+  },
+  {
+    "id": "tool_0395",
+    "prompt": "<|user|>Calculate 23*13-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23*13-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23*13-14",
+    "expected_value": 285.0
+  },
+  {
+    "id": "tool_0396",
+    "prompt": "<|user|>Calculate 7+7-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7+7-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7+7-17",
+    "expected_value": -3.0
+  },
+  {
+    "id": "tool_0397",
+    "prompt": "<|user|>Calculate 34+17-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 34+17-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "34+17-4",
+    "expected_value": 47.0
+  },
+  {
+    "id": "tool_0398",
+    "prompt": "<|user|>Calculate 47-16+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47-16+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47-16+21",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0399",
+    "prompt": "<|user|>Calculate 41+4+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41+4+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41+4+7",
+    "expected_value": 52.0
+  },
+  {
+    "id": "tool_0400",
+    "prompt": "<|user|>Calculate 12*18+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12*18+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12*18+1",
+    "expected_value": 217.0
+  },
+  {
+    "id": "tool_0401",
+    "prompt": "<|user|>Calculate 20*18-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20*18-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20*18-4",
+    "expected_value": 356.0
+  },
+  {
+    "id": "tool_0402",
+    "prompt": "<|user|>Calculate 3+10+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 3+10+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "3+10+11",
+    "expected_value": 24.0
+  },
+  {
+    "id": "tool_0403",
+    "prompt": "<|user|>Calculate 22-2+13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22-2+13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22-2+13",
+    "expected_value": 33.0
+  },
+  {
+    "id": "tool_0404",
+    "prompt": "<|user|>Calculate 48+9+14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48+9+14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48+9+14",
+    "expected_value": 71.0
+  },
+  {
+    "id": "tool_0405",
+    "prompt": "<|user|>Calculate 18*14-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18*14-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18*14-16",
+    "expected_value": 236.0
+  },
+  {
+    "id": "tool_0406",
+    "prompt": "<|user|>Calculate 17*7-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17*7-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17*7-7",
+    "expected_value": 112.0
+  },
+  {
+    "id": "tool_0407",
+    "prompt": "<|user|>Calculate 44*13+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44*13+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44*13+27",
+    "expected_value": 599.0
+  },
+  {
+    "id": "tool_0408",
+    "prompt": "<|user|>Calculate 9-19-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 9-19-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "9-19-20",
+    "expected_value": -30.0
+  },
+  {
+    "id": "tool_0409",
+    "prompt": "<|user|>Calculate 10-2-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 10-2-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "10-2-1",
+    "expected_value": 7.0
+  },
+  {
+    "id": "tool_0410",
+    "prompt": "<|user|>Calculate 20*16+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20*16+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20*16+18",
+    "expected_value": 338.0
+  },
+  {
+    "id": "tool_0411",
+    "prompt": "<|user|>Calculate 7+3+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7+3+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7+3+27",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0412",
+    "prompt": "<|user|>Calculate 11+18-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11+18-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11+18-10",
+    "expected_value": 19.0
+  },
+  {
+    "id": "tool_0413",
+    "prompt": "<|user|>Calculate 38+8-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38+8-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38+8-26",
+    "expected_value": 20.0
+  },
+  {
+    "id": "tool_0414",
+    "prompt": "<|user|>Calculate 6+8+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6+8+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6+8+15",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0415",
+    "prompt": "<|user|>Calculate 49*10+28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49*10+28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49*10+28",
+    "expected_value": 518.0
+  },
+  {
+    "id": "tool_0416",
+    "prompt": "<|user|>Calculate 24-4+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24-4+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24-4+11",
+    "expected_value": 31.0
+  },
+  {
+    "id": "tool_0417",
+    "prompt": "<|user|>Calculate 19-7-24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19-7-24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19-7-24",
+    "expected_value": -12.0
+  },
+  {
+    "id": "tool_0418",
+    "prompt": "<|user|>Calculate 40-5-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40-5-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40-5-13",
+    "expected_value": 22.0
+  },
+  {
+    "id": "tool_0419",
+    "prompt": "<|user|>Calculate 47+13-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 47+13-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "47+13-14",
+    "expected_value": 46.0
+  },
+  {
+    "id": "tool_0420",
+    "prompt": "<|user|>Calculate 19*17-12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19*17-12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19*17-12",
+    "expected_value": 311.0
+  },
+  {
+    "id": "tool_0421",
+    "prompt": "<|user|>Calculate 41-3+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41-3+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41-3+15",
+    "expected_value": 53.0
+  },
+  {
+    "id": "tool_0422",
+    "prompt": "<|user|>Calculate 13*4-27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 13*4-27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "13*4-27",
+    "expected_value": 25.0
+  },
+  {
+    "id": "tool_0423",
+    "prompt": "<|user|>Calculate 25*18-18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25*18-18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25*18-18",
+    "expected_value": 432.0
+  },
+  {
+    "id": "tool_0424",
+    "prompt": "<|user|>Calculate 26*12-13 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 26*12-13 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "26*12-13",
+    "expected_value": 299.0
+  },
+  {
+    "id": "tool_0425",
+    "prompt": "<|user|>Calculate 44+7-29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 44+7-29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "44+7-29",
+    "expected_value": 22.0
+  },
+  {
+    "id": "tool_0426",
+    "prompt": "<|user|>Calculate 16-9-10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16-9-10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16-9-10",
+    "expected_value": -3.0
+  },
+  {
+    "id": "tool_0427",
+    "prompt": "<|user|>Calculate 12-3+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12-3+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12-3+12",
+    "expected_value": 21.0
+  },
+  {
+    "id": "tool_0428",
+    "prompt": "<|user|>Calculate 30+12-30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30+12-30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30+12-30",
+    "expected_value": 12.0
+  },
+  {
+    "id": "tool_0429",
+    "prompt": "<|user|>Calculate 11-9-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11-9-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11-9-4",
+    "expected_value": -2.0
+  },
+  {
+    "id": "tool_0430",
+    "prompt": "<|user|>Calculate 38*12-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38*12-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38*12-1",
+    "expected_value": 455.0
+  },
+  {
+    "id": "tool_0431",
+    "prompt": "<|user|>Calculate 11*10+20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11*10+20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11*10+20",
+    "expected_value": 130.0
+  },
+  {
+    "id": "tool_0432",
+    "prompt": "<|user|>Calculate 22+9+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22+9+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22+9+12",
+    "expected_value": 43.0
+  },
+  {
+    "id": "tool_0433",
+    "prompt": "<|user|>Calculate 15+12-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15+12-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15+12-7",
+    "expected_value": 20.0
+  },
+  {
+    "id": "tool_0434",
+    "prompt": "<|user|>Calculate 41*5-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41*5-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41*5-14",
+    "expected_value": 191.0
+  },
+  {
+    "id": "tool_0435",
+    "prompt": "<|user|>Calculate 48*15+25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 48*15+25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "48*15+25",
+    "expected_value": 745.0
+  },
+  {
+    "id": "tool_0436",
+    "prompt": "<|user|>Calculate 29+5+12 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 29+5+12 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "29+5+12",
+    "expected_value": 46.0
+  },
+  {
+    "id": "tool_0437",
+    "prompt": "<|user|>Calculate 33+5+28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 33+5+28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "33+5+28",
+    "expected_value": 66.0
+  },
+  {
+    "id": "tool_0438",
+    "prompt": "<|user|>Calculate 41-3+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 41-3+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "41-3+27",
+    "expected_value": 65.0
+  },
+  {
+    "id": "tool_0439",
+    "prompt": "<|user|>Calculate 12*13-20 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 12*13-20 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "12*13-20",
+    "expected_value": 136.0
+  },
+  {
+    "id": "tool_0440",
+    "prompt": "<|user|>Calculate 22-16+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22-16+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22-16+30",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0441",
+    "prompt": "<|user|>Calculate 6*10+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6*10+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6*10+15",
+    "expected_value": 75.0
+  },
+  {
+    "id": "tool_0442",
+    "prompt": "<|user|>Calculate 14+5-1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 14+5-1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "14+5-1",
+    "expected_value": 18.0
+  },
+  {
+    "id": "tool_0443",
+    "prompt": "<|user|>Calculate 40+18-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40+18-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40+18-21",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0444",
+    "prompt": "<|user|>Calculate 22-14+5 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22-14+5 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22-14+5",
+    "expected_value": 13.0
+  },
+  {
+    "id": "tool_0445",
+    "prompt": "<|user|>Calculate 31+17-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 31+17-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "31+17-11",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0446",
+    "prompt": "<|user|>Calculate 40-18+15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40-18+15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40-18+15",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0447",
+    "prompt": "<|user|>Calculate 38*13+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38*13+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38*13+1",
+    "expected_value": 495.0
+  },
+  {
+    "id": "tool_0448",
+    "prompt": "<|user|>Calculate 32+2+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32+2+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32+2+3",
+    "expected_value": 37.0
+  },
+  {
+    "id": "tool_0449",
+    "prompt": "<|user|>Calculate 19*19+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19*19+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19*19+24",
+    "expected_value": 385.0
+  },
+  {
+    "id": "tool_0450",
+    "prompt": "<|user|>Calculate 42-19+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 42-19+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "42-19+21",
+    "expected_value": 44.0
+  },
+  {
+    "id": "tool_0451",
+    "prompt": "<|user|>Calculate 38+12+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38+12+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38+12+6",
+    "expected_value": 56.0
+  },
+  {
+    "id": "tool_0452",
+    "prompt": "<|user|>Calculate 22*7-11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22*7-11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22*7-11",
+    "expected_value": 143.0
+  },
+  {
+    "id": "tool_0453",
+    "prompt": "<|user|>Calculate 13*14+8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 13*14+8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "13*14+8",
+    "expected_value": 190.0
+  },
+  {
+    "id": "tool_0454",
+    "prompt": "<|user|>Calculate 16*17-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16*17-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16*17-25",
+    "expected_value": 247.0
+  },
+  {
+    "id": "tool_0455",
+    "prompt": "<|user|>Calculate 24-15-29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 24-15-29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "24-15-29",
+    "expected_value": -20.0
+  },
+  {
+    "id": "tool_0456",
+    "prompt": "<|user|>Calculate 46-5-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46-5-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46-5-23",
+    "expected_value": 18.0
+  },
+  {
+    "id": "tool_0457",
+    "prompt": "<|user|>Calculate 8-6-25 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 8-6-25 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "8-6-25",
+    "expected_value": -23.0
+  },
+  {
+    "id": "tool_0458",
+    "prompt": "<|user|>Calculate 19-14+11 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19-14+11 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19-14+11",
+    "expected_value": 16.0
+  },
+  {
+    "id": "tool_0459",
+    "prompt": "<|user|>Calculate 15*5+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15*5+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15*5+7",
+    "expected_value": 82.0
+  },
+  {
+    "id": "tool_0460",
+    "prompt": "<|user|>Calculate 39+19+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39+19+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39+19+3",
+    "expected_value": 61.0
+  },
+  {
+    "id": "tool_0461",
+    "prompt": "<|user|>Calculate 7-3-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7-3-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7-3-15",
+    "expected_value": -11.0
+  },
+  {
+    "id": "tool_0462",
+    "prompt": "<|user|>Calculate 8*8-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 8*8-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "8*8-15",
+    "expected_value": 49.0
+  },
+  {
+    "id": "tool_0463",
+    "prompt": "<|user|>Calculate 8*18-2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 8*18-2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "8*18-2",
+    "expected_value": 142.0
+  },
+  {
+    "id": "tool_0464",
+    "prompt": "<|user|>Calculate 4+10+24 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+10+24 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+10+24",
+    "expected_value": 38.0
+  },
+  {
+    "id": "tool_0465",
+    "prompt": "<|user|>Calculate 32*17-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*17-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*17-21",
+    "expected_value": 523.0
+  },
+  {
+    "id": "tool_0466",
+    "prompt": "<|user|>Calculate 7-13-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 7-13-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "7-13-21",
+    "expected_value": -27.0
+  },
+  {
+    "id": "tool_0467",
+    "prompt": "<|user|>Calculate 38+6+29 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 38+6+29 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "38+6+29",
+    "expected_value": 73.0
+  },
+  {
+    "id": "tool_0468",
+    "prompt": "<|user|>Calculate 11+11+21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11+11+21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11+11+21",
+    "expected_value": 43.0
+  },
+  {
+    "id": "tool_0469",
+    "prompt": "<|user|>Calculate 18-6+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 18-6+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "18-6+30",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0470",
+    "prompt": "<|user|>Calculate 14+5-22 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 14+5-22 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "14+5-22",
+    "expected_value": -3.0
+  },
+  {
+    "id": "tool_0471",
+    "prompt": "<|user|>Calculate 32*4-8 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32*4-8 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32*4-8",
+    "expected_value": 120.0
+  },
+  {
+    "id": "tool_0472",
+    "prompt": "<|user|>Calculate 15-19+27 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15-19+27 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15-19+27",
+    "expected_value": 23.0
+  },
+  {
+    "id": "tool_0473",
+    "prompt": "<|user|>Calculate 25*8+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25*8+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25*8+6",
+    "expected_value": 206.0
+  },
+  {
+    "id": "tool_0474",
+    "prompt": "<|user|>Calculate 39+7-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 39+7-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "39+7-4",
+    "expected_value": 42.0
+  },
+  {
+    "id": "tool_0475",
+    "prompt": "<|user|>Calculate 20-10+23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 20-10+23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "20-10+23",
+    "expected_value": 33.0
+  },
+  {
+    "id": "tool_0476",
+    "prompt": "<|user|>Calculate 50+5-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 50+5-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "50+5-26",
+    "expected_value": 29.0
+  },
+  {
+    "id": "tool_0477",
+    "prompt": "<|user|>Calculate 17*10+1 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17*10+1 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17*10+1",
+    "expected_value": 171.0
+  },
+  {
+    "id": "tool_0478",
+    "prompt": "<|user|>Calculate 19-13+3 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 19-13+3 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "19-13+3",
+    "expected_value": 9.0
+  },
+  {
+    "id": "tool_0479",
+    "prompt": "<|user|>Calculate 11*10-17 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11*10-17 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11*10-17",
+    "expected_value": 93.0
+  },
+  {
+    "id": "tool_0480",
+    "prompt": "<|user|>Calculate 4+11-7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+11-7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+11-7",
+    "expected_value": 8.0
+  },
+  {
+    "id": "tool_0481",
+    "prompt": "<|user|>Calculate 6+9-14 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 6+9-14 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "6+9-14",
+    "expected_value": 1.0
+  },
+  {
+    "id": "tool_0482",
+    "prompt": "<|user|>Calculate 23+9+23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23+9+23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23+9+23",
+    "expected_value": 55.0
+  },
+  {
+    "id": "tool_0483",
+    "prompt": "<|user|>Calculate 15+17-2 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 15+17-2 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "15+17-2",
+    "expected_value": 30.0
+  },
+  {
+    "id": "tool_0484",
+    "prompt": "<|user|>Calculate 4+11-26 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+11-26 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+11-26",
+    "expected_value": -11.0
+  },
+  {
+    "id": "tool_0485",
+    "prompt": "<|user|>Calculate 40*18-15 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 40*18-15 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "40*18-15",
+    "expected_value": 705.0
+  },
+  {
+    "id": "tool_0486",
+    "prompt": "<|user|>Calculate 45+2-21 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45+2-21 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45+2-21",
+    "expected_value": 26.0
+  },
+  {
+    "id": "tool_0487",
+    "prompt": "<|user|>Calculate 16-10-6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 16-10-6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "16-10-6",
+    "expected_value": 0.0
+  },
+  {
+    "id": "tool_0488",
+    "prompt": "<|user|>Calculate 17+5+23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 17+5+23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "17+5+23",
+    "expected_value": 45.0
+  },
+  {
+    "id": "tool_0489",
+    "prompt": "<|user|>Calculate 4+7+6 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 4+7+6 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "4+7+6",
+    "expected_value": 17.0
+  },
+  {
+    "id": "tool_0490",
+    "prompt": "<|user|>Calculate 32-18-28 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32-18-28 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32-18-28",
+    "expected_value": -14.0
+  },
+  {
+    "id": "tool_0491",
+    "prompt": "<|user|>Calculate 30-5+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 30-5+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "30-5+7",
+    "expected_value": 32.0
+  },
+  {
+    "id": "tool_0492",
+    "prompt": "<|user|>Calculate 45-11+10 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 45-11+10 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "45-11+10",
+    "expected_value": 44.0
+  },
+  {
+    "id": "tool_0493",
+    "prompt": "<|user|>Calculate 23+5-23 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 23+5-23 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "23+5-23",
+    "expected_value": 5.0
+  },
+  {
+    "id": "tool_0494",
+    "prompt": "<|user|>Calculate 46+16+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 46+16+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "46+16+30",
+    "expected_value": 92.0
+  },
+  {
+    "id": "tool_0495",
+    "prompt": "<|user|>Calculate 11+3-4 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 11+3-4 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "11+3-4",
+    "expected_value": 10.0
+  },
+  {
+    "id": "tool_0496",
+    "prompt": "<|user|>Calculate 22-16+30 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 22-16+30 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "22-16+30",
+    "expected_value": 36.0
+  },
+  {
+    "id": "tool_0497",
+    "prompt": "<|user|>Calculate 49+17-16 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 49+17-16 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "49+17-16",
+    "expected_value": 50.0
+  },
+  {
+    "id": "tool_0498",
+    "prompt": "<|user|>Calculate 32+3+18 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 32+3+18 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "32+3+18",
+    "expected_value": 53.0
+  },
+  {
+    "id": "tool_0499",
+    "prompt": "<|user|>Calculate 25*8+7 using the calculator.<|end|><|assistant|><tool_call>",
+    "raw_user_prompt": "Calculate 25*8+7 using the calculator.",
+    "expected_tool": "calculator",
+    "expected_expression": "25*8+7",
+    "expected_value": 207.0
+  }
+]

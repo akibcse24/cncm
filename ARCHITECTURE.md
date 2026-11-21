@@ -110,6 +110,7 @@ where $A_{u,r} \in \mathbb{R}^{H \times \rho}$ and $B_{u,r} \in \mathbb{R}^{\rho
 - **`mini`**: `12` unique layers × `2` loops = **24 effective layers** in **~40M unique parameters** (`<30 MB` INT4).
 - **`base`**: `12` unique layers × `2` loops = **24 effective layers** in **~93M unique parameters**.
 - Optional `BitQuantLinear(nn.Linear)` enables STE fake-quantization-aware training (QAT) while remaining 100% drop-in compatible with `Int4PackedLinear` post-training export.
+- **Controlled caveat (Tier A, 3 seeds, local CPU).** At `tiny_test` scale, non-looped (`num_loops=1`) beat looped (`2 unique × 3`) on held-out Exact NLL after 400 equal steps (`2.789 ± 0.506` vs `3.326 ± 0.161`, paired `p = 0.042`), so `num_loops=1` is the defensible default until a larger-budget run reverses this. Likewise the fair QAT control (FP32 +40 steps vs INT4-QAT +40 steps) shows a `-0.0025 [-0.0134, +0.0085]` NLL difference (`p = 0.44`), i.e. the earlier QAT gain came from the extra 40 training steps, not from QAT itself. Both are recorded in `CLAIMS.md` §5.
 
 ---
 

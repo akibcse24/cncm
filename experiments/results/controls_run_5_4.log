@@ -1,0 +1,5 @@
+
+=== [5.4] Productive GRPO RL (SFT Warm-Start + G=16 + T=1.0, 3 seeds) ===
+  GRPO Reward: init=0.0000 -> final=0.0000
+
+[CONTROLS COMPLETE] Saved -> C:\Users\Qbits\Downloads\ctx0an\experiments\results\controls_summary.json (258.36s)

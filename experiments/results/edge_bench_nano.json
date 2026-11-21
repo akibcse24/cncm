@@ -1,0 +1,218 @@
+{
+  "experiment": "edge_bench_nano",
+  "timestamp_utc": "2026-11-20T15:00:22.601695+00:00",
+  "git_commit": "328ed04",
+  "host": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "cpu_count": 16,
+    "torch_version": "2.15.0+cpu",
+    "cuda_available": false
+  },
+  "preset": "nano",
+  "meta": {
+    "preset": "nano",
+    "n_eff_layers": 21,
+    "num_kv_heads": 2,
+    "head_dim": 64,
+    "hidden_size": 384,
+    "vocab_size": 4096,
+    "chunk_size": 64,
+    "levels": [
+      1,
+      2,
+      4,
+      8,
+      12,
+      20,
+      36,
+      64
+    ],
+    "sum_levels": 147,
+    "params": {
+      "total": 15047744,
+      "generator": 13326624,
+      "concept_tokenizer": 1721120,
+      "trainable": 13326624,
+      "active_total": 15047744,
+      "active_generator": 13326624
+    }
+  },
+  "onnx_quantization": {
+    "file_sizes_mb": {
+      "fp32": {
+        "exact_kv_step": 55.798,
+        "concept_level_kv": 43.799,
+        "stage1_decoder": 3.026
+      },
+      "int8": {
+        "exact_kv_step": 56.999,
+        "concept_level_kv": 54.0
+      },
+      "int4_nbits": {
+        "exact_kv_step": 56.487,
+        "concept_level_kv": 49.55,
+        "stage1_decoder": 0.659
+      }
+    },
+    "quant_notes": {
+      "stage1_decoder_int8": "FAILED: ValueError: Expected concept_tokenizer.quantizer.phi_modules.1.pw.weight to be an initializer"
+    }
+  },
+  "pytorch_cpu_reference": {
+    "pytorch_fp32": {
+      "concept_64tok_ms": 343.65,
+      "concept_tok_per_sec": 186.23,
+      "exact_ar_64tok_ms": 1601.67,
+      "exact_ar_tok_per_sec": 39.96,
+      "speedup": 4.661
+    },
+    "pytorch_fp32_mb": 58.42,
+    "pytorch_int4_dequant": {
+      "concept_64tok_ms": 893.32,
+      "concept_tok_per_sec": 71.64,
+      "exact_ar_64tok_ms": 5185.47,
+      "exact_ar_tok_per_sec": 12.34,
+      "speedup": 5.805
+    },
+    "pytorch_int4_mb": 12.62,
+    "pytorch_int4_vs_fp32_speed_ratio": 0.385
+  },
+  "ort_cpu": {
+    "provider": "CPUExecutionProvider",
+    "ort_version": "1.32.0",
+    "prefix_len": 64,
+    "gen_tokens": 64,
+    "precisions": {
+      "fp32": {
+        "exact_ar_ttft_ms": 47.54,
+        "exact_ar_64tok_ms": 838.89,
+        "exact_ar_tok_per_sec": 76.29,
+        "concept_prefill_ms": 69.79,
+        "concept_ttft_64tok_chunk_ms": 370.78,
+        "concept_64tok_ms": 370.78,
+        "concept_tok_per_sec": 172.61,
+        "concept_speedup_vs_exact_ar": 2.262,
+        "telemetry": {
+          "rss_mb": 625.74,
+          "private_mb": 1215.47,
+          "power_plugged": true,
+          "battery_percent": 95.0,
+          "thermal_zone_c": 27.9,
+          "cpu_perf_pct": 159.3
+        }
+      },
+      "int8": {
+        "skipped": "missing onnx file"
+      },
+      "int4_nbits": {
+        "exact_ar_ttft_ms": 72.61,
+        "exact_ar_64tok_ms": 882.38,
+        "exact_ar_tok_per_sec": 72.53,
+        "concept_prefill_ms": 78.02,
+        "concept_ttft_64tok_chunk_ms": 372.88,
+        "concept_64tok_ms": 372.88,
+        "concept_tok_per_sec": 171.64,
+        "concept_speedup_vs_exact_ar": 2.366,
+        "telemetry": {
+          "rss_mb": 634.62,
+          "private_mb": 1225.22,
+          "power_plugged": true,
+          "battery_percent": 95.0,
+          "thermal_zone_c": 27.9,
+          "cpu_perf_pct": 150.9
+        },
+        "thermal_soak": {
+          "duration_sec": 18.16,
+          "chunks_completed": 29,
+          "first_quarter_tok_per_sec": 154.4,
+          "last_quarter_tok_per_sec": 149.92,
+          "throttle_ratio_last_over_first": 0.971,
+          "start_telemetry": {
+            "rss_mb": 634.63,
+            "private_mb": 1225.22,
+            "power_plugged": true,
+            "battery_percent": 95.0,
+            "thermal_zone_c": 27.9,
+            "cpu_perf_pct": 165.1
+          },
+          "end_telemetry": {
+            "rss_mb": 634.62,
+            "private_mb": 1225.19,
+            "power_plugged": true,
+            "battery_percent": 95.0,
+            "thermal_zone_c": 27.9,
+            "cpu_perf_pct": 130.7
+          }
+        }
+      }
+    }
+  },
+  "ort_directml_igpu": {
+    "provider": "DmlExecutionProvider",
+    "ort_version": "1.24.4",
+    "prefix_len": 64,
+    "gen_tokens": 64,
+    "precisions": {
+      "fp32": {
+        "exact_ar_ttft_ms": 39.59,
+        "exact_ar_64tok_ms": 11330.7,
+        "exact_ar_tok_per_sec": 5.65,
+        "concept_prefill_ms": 40.77,
+        "concept_ttft_64tok_chunk_ms": 1592.1,
+        "concept_64tok_ms": 1592.1,
+        "concept_tok_per_sec": 40.2,
+        "concept_speedup_vs_exact_ar": 7.117,
+        "telemetry": {
+          "rss_mb": 907.18,
+          "private_mb": 1331.89,
+          "power_plugged": true,
+          "battery_percent": 95.0,
+          "thermal_zone_c": 27.9,
+          "cpu_perf_pct": 141.4
+        }
+      },
+      "int4_nbits": {
+        "exact_ar_ttft_ms": 47.2,
+        "exact_ar_64tok_ms": 14740.92,
+        "exact_ar_tok_per_sec": 4.34,
+        "concept_prefill_ms": 44.2,
+        "concept_ttft_64tok_chunk_ms": 2012.51,
+        "concept_64tok_ms": 2012.51,
+        "concept_tok_per_sec": 31.8,
+        "concept_speedup_vs_exact_ar": 7.325,
+        "telemetry": {
+          "rss_mb": 1218.36,
+          "private_mb": 1642.31,
+          "power_plugged": true,
+          "battery_percent": 95.0,
+          "thermal_zone_c": 27.9,
+          "cpu_perf_pct": 144.9
+        },
+        "thermal_soak": {
+          "duration_sec": 19.18,
+          "chunks_completed": 6,
+          "first_quarter_tok_per_sec": 30.32,
+          "last_quarter_tok_per_sec": 29.84,
+          "throttle_ratio_last_over_first": 0.984,
+          "start_telemetry": {
+            "rss_mb": 1218.38,
+            "private_mb": 1642.3,
+            "power_plugged": true,
+            "battery_percent": 95.0,
+            "thermal_zone_c": 27.9,
+            "cpu_perf_pct": 147.3
+          },
+          "end_telemetry": {
+            "rss_mb": 1289.87,
+            "private_mb": 1712.82,
+            "power_plugged": true,
+            "battery_percent": 95.0,
+            "thermal_zone_c": 27.9,
+            "cpu_perf_pct": 167.1
+          }
+        }
+      }
+    }
+  }
+}

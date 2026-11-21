@@ -401,6 +401,32 @@ _PRESETS: Dict[str, Dict[str, Any]] = {
         moe_shared_intermediate_size=768,
         moe_aux_loss_weight=0.01,
     ),
+    # Equal-total-memory Dense control for `base_moe` (~221.3M total & active params, 24 effective layers)
+    # Matches `base_moe` FFN parameter budget (9 * 768 = 6912 dense SwiGLU width) for controlled Dense-vs-MoE A/B.
+    "base_dense220": dict(
+        preset_name="base_dense220",
+        vocab_size=6400,
+        chunk_size=64,
+        levels=(1, 2, 4, 8, 12, 20, 36, 64),
+        d_vq=256,
+        fsq_levels=(8, 8, 8, 8),
+        dec_layers=1,
+        dec_num_heads=4,
+        dec_intermediate_size=768,
+        pre_quant_norm_groups=8,
+        hidden_size=768,
+        num_unique_layers=12,
+        num_loops=2,
+        loop_adapter_rank=32,
+        num_attention_heads=12,
+        num_key_value_heads=3,
+        intermediate_size=6912,
+        concept_head_hidden=160,
+        max_position_embeddings=4096,
+        rope_theta=100000.0,
+        tie_word_embeddings=True,
+        use_qat_linear=False,
+    ),
 }
 
 

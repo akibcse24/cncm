@@ -1,0 +1,28 @@
+{
+  "preset": "nano",
+  "n_eff_layers": 21,
+  "num_kv_heads": 2,
+  "head_dim": 64,
+  "hidden_size": 384,
+  "vocab_size": 4096,
+  "chunk_size": 64,
+  "levels": [
+    1,
+    2,
+    4,
+    8,
+    12,
+    20,
+    36,
+    64
+  ],
+  "sum_levels": 147,
+  "params": {
+    "total": 15047744,
+    "generator": 13326624,
+    "concept_tokenizer": 1721120,
+    "trainable": 13326624,
+    "active_total": 15047744,
+    "active_generator": 13326624
+  }
+}

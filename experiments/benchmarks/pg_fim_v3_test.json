@@ -1,0 +1,702 @@
+[
+  {
+    "task_id": "pg_fim_v3_000",
+    "prefix": "def scale_and_bias_0(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 5 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_0([1, 2, 3]) == [6, 11, 16]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_001",
+    "prefix": "def count_multiples_1(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 6 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_1([6, 12, 7, 18]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_002",
+    "prefix": "def clamp_high_2(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(6 if x > 6 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_2([0, 10, 1]) == [0, 6, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_003",
+    "prefix": "def dot_offset_3(xs, ys):\n    acc = 3\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_3([2, 3], [4, 5]) == 26",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_004",
+    "prefix": "def invert_pairs_4(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_4([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_005",
+    "prefix": "def first_above_5(seq):\n    for item in seq:\n",
+    "middle": "        if item > 6:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_5([1, 8, 11]) == 8",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_006",
+    "prefix": "def scale_and_bias_6(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 6 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_6([1, 2, 3]) == [7, 13, 19]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_007",
+    "prefix": "def count_multiples_7(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 4 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_7([4, 8, 5, 12]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_008",
+    "prefix": "def clamp_high_8(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(4 if x > 4 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_8([0, 8, 1]) == [0, 4, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_009",
+    "prefix": "def dot_offset_9(xs, ys):\n    acc = 2\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_9([2, 3], [4, 5]) == 25",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_010",
+    "prefix": "def invert_pairs_10(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_10([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_011",
+    "prefix": "def first_above_11(seq):\n    for item in seq:\n",
+    "middle": "        if item > 4:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_11([1, 6, 9]) == 6",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_012",
+    "prefix": "def scale_and_bias_12(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 4 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_12([1, 2, 3]) == [5, 9, 13]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_013",
+    "prefix": "def count_multiples_13(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 7 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_13([7, 14, 8, 21]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_014",
+    "prefix": "def clamp_high_14(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(2 if x > 2 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_14([0, 6, 1]) == [0, 2, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_015",
+    "prefix": "def dot_offset_15(xs, ys):\n    acc = 4\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_15([2, 3], [4, 5]) == 27",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_016",
+    "prefix": "def invert_pairs_16(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_16([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_017",
+    "prefix": "def first_above_17(seq):\n    for item in seq:\n",
+    "middle": "        if item > 7:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_17([1, 9, 12]) == 9",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_018",
+    "prefix": "def scale_and_bias_18(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 6 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_18([1, 2, 3]) == [7, 13, 19]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_019",
+    "prefix": "def count_multiples_19(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 9 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_19([9, 18, 10, 27]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_020",
+    "prefix": "def clamp_high_20(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(7 if x > 7 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_20([0, 11, 1]) == [0, 7, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_021",
+    "prefix": "def dot_offset_21(xs, ys):\n    acc = 7\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_21([2, 3], [4, 5]) == 30",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_022",
+    "prefix": "def invert_pairs_22(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_22([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_023",
+    "prefix": "def first_above_23(seq):\n    for item in seq:\n",
+    "middle": "        if item > 3:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_23([1, 5, 8]) == 5",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_024",
+    "prefix": "def scale_and_bias_24(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 3 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_24([1, 2, 3]) == [4, 7, 10]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_025",
+    "prefix": "def count_multiples_25(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 6 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_25([6, 12, 7, 18]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_026",
+    "prefix": "def clamp_high_26(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(6 if x > 6 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_26([0, 10, 1]) == [0, 6, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_027",
+    "prefix": "def dot_offset_27(xs, ys):\n    acc = 5\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_27([2, 3], [4, 5]) == 28",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_028",
+    "prefix": "def invert_pairs_28(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_28([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_029",
+    "prefix": "def first_above_29(seq):\n    for item in seq:\n",
+    "middle": "        if item > 6:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_29([1, 8, 11]) == 8",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_030",
+    "prefix": "def scale_and_bias_30(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 2 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_30([1, 2, 3]) == [3, 5, 7]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_031",
+    "prefix": "def count_multiples_31(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 3 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_31([3, 6, 4, 9]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_032",
+    "prefix": "def clamp_high_32(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(3 if x > 3 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_32([0, 7, 1]) == [0, 3, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_033",
+    "prefix": "def dot_offset_33(xs, ys):\n    acc = 6\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_33([2, 3], [4, 5]) == 29",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_034",
+    "prefix": "def invert_pairs_34(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_34([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_035",
+    "prefix": "def first_above_35(seq):\n    for item in seq:\n",
+    "middle": "        if item > 5:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_35([1, 7, 10]) == 7",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_036",
+    "prefix": "def scale_and_bias_36(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 4 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_36([1, 2, 3]) == [5, 9, 13]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_037",
+    "prefix": "def count_multiples_37(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 3 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_37([3, 6, 4, 9]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_038",
+    "prefix": "def clamp_high_38(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(4 if x > 4 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_38([0, 8, 1]) == [0, 4, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_039",
+    "prefix": "def dot_offset_39(xs, ys):\n    acc = 2\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_39([2, 3], [4, 5]) == 25",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_040",
+    "prefix": "def invert_pairs_40(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_40([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_041",
+    "prefix": "def first_above_41(seq):\n    for item in seq:\n",
+    "middle": "        if item > 4:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_41([1, 6, 9]) == 6",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_042",
+    "prefix": "def scale_and_bias_42(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 8 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_42([1, 2, 3]) == [9, 17, 25]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_043",
+    "prefix": "def count_multiples_43(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 2 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_43([2, 4, 3, 6]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_044",
+    "prefix": "def clamp_high_44(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(5 if x > 5 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_44([0, 9, 1]) == [0, 5, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_045",
+    "prefix": "def dot_offset_45(xs, ys):\n    acc = 8\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_45([2, 3], [4, 5]) == 31",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_046",
+    "prefix": "def invert_pairs_46(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_46([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_047",
+    "prefix": "def first_above_47(seq):\n    for item in seq:\n",
+    "middle": "        if item > 2:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_47([1, 4, 7]) == 4",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_048",
+    "prefix": "def scale_and_bias_48(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 3 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_48([1, 2, 3]) == [4, 7, 10]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_049",
+    "prefix": "def count_multiples_49(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 8 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_49([8, 16, 9, 24]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_050",
+    "prefix": "def clamp_high_50(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(3 if x > 3 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_50([0, 7, 1]) == [0, 3, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_051",
+    "prefix": "def dot_offset_51(xs, ys):\n    acc = 4\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_51([2, 3], [4, 5]) == 27",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_052",
+    "prefix": "def invert_pairs_52(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_52([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_053",
+    "prefix": "def first_above_53(seq):\n    for item in seq:\n",
+    "middle": "        if item > 8:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_53([1, 10, 13]) == 10",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_054",
+    "prefix": "def scale_and_bias_54(nums):\n    out = []\n    for v in nums:\n",
+    "middle": "        out.append(v * 4 + 1)\n",
+    "suffix": "    return out\n",
+    "test_code": "assert scale_and_bias_54([1, 2, 3]) == [5, 9, 13]",
+    "oracle_keywords": [
+      "out",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_055",
+    "prefix": "def count_multiples_55(arr):\n    hits = 0\n    for n in arr:\n",
+    "middle": "        if n % 7 == 0:\n            hits += 1\n",
+    "suffix": "    return hits\n",
+    "test_code": "assert count_multiples_55([7, 14, 8, 21]) == 3",
+    "oracle_keywords": [
+      "hits",
+      "if"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_056",
+    "prefix": "def clamp_high_56(vals):\n    res = []\n    for x in vals:\n",
+    "middle": "        res.append(3 if x > 3 else x)\n",
+    "suffix": "    return res\n",
+    "test_code": "assert clamp_high_56([0, 7, 1]) == [0, 3, 1]",
+    "oracle_keywords": [
+      "res",
+      "append"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_057",
+    "prefix": "def dot_offset_57(xs, ys):\n    acc = 6\n    for a, b in zip(xs, ys):\n",
+    "middle": "        acc += a * b\n",
+    "suffix": "    return acc\n",
+    "test_code": "assert dot_offset_57([2, 3], [4, 5]) == 29",
+    "oracle_keywords": [
+      "acc"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_058",
+    "prefix": "def invert_pairs_58(pairs):\n    mapping = {}\n    for k, v in pairs:\n",
+    "middle": "        mapping[v] = k\n",
+    "suffix": "    return mapping\n",
+    "test_code": "assert invert_pairs_58([('a', 1), ('b', 2)]) == {1: 'a', 2: 'b'}",
+    "oracle_keywords": [
+      "mapping"
+    ],
+    "language": "python"
+  },
+  {
+    "task_id": "pg_fim_v3_059",
+    "prefix": "def first_above_59(seq):\n    for item in seq:\n",
+    "middle": "        if item > 5:\n            return item\n",
+    "suffix": "    return -1\n",
+    "test_code": "assert first_above_59([1, 7, 10]) == 7",
+    "oracle_keywords": [
+      "if",
+      "return"
+    ],
+    "language": "python"
+  }
+]

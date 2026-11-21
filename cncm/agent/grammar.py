@@ -8,6 +8,7 @@ blocks. Works with any byte-level, character-level, or subword BPE tokenizer.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Set, Tuple, Union
 
 import torch
@@ -22,6 +23,21 @@ _COMPLETE = 2
 _MATH_OPS = frozenset("+-*/")
 _DIGITS = frozenset("0123456789")
 _NONZERO_DIGITS = frozenset("123456789")
+_PROMPT_MATH_RE = re.compile(r"\b\d+(?:\s*[+\-*/]\s*\d+)+\b")
+
+
+def extract_prompt_math_spans(prompt_text: str) -> List[str]:
+    """Extract normalized arithmetic expressions (e.g. '17*6+9') from a user prompt."""
+    if not prompt_text:
+        return []
+    seen: Set[str] = set()
+    spans: List[str] = []
+    for match in _PROMPT_MATH_RE.findall(prompt_text):
+        norm = re.sub(r"\s+", "", match)
+        if norm and norm not in seen:
+            seen.add(norm)
+            spans.append(norm)
+    return spans
 
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
@@ -80,6 +96,7 @@ class _ToolCallPrefixRecognizer:
         max_number_len: int = 8,
         allow_spaces: bool = False,
         force_close_optional: bool = False,
+        allowed_math_expressions: Optional[Sequence[str]] = None,
     ) -> None:
         self.tools = tools
         self.tool_names = list(tools.keys())
@@ -88,6 +105,11 @@ class _ToolCallPrefixRecognizer:
         self.max_number_len = max(1, max_number_len)
         self.allow_spaces = allow_spaces
         self.force_close_optional = force_close_optional
+        self.allowed_math_expressions: Optional[List[str]] = (
+            [str(e) for e in allowed_math_expressions if str(e)]
+            if allowed_math_expressions
+            else None
+        )
 
     def classify(self, text: str) -> int:
         """Return ``_INVALID``, ``_PREFIX``, or ``_COMPLETE`` for ``text``."""
@@ -323,6 +345,9 @@ class _ToolCallPrefixRecognizer:
             fmt = prop_schema.get("format", "")
             if typ == "string":
                 if fmt == "math_expression":
+                    if self.allowed_math_expressions:
+                        st, _ = match_choice_in_quotes(self.allowed_math_expressions)
+                        return st
                     return match_math_string()
                 return match_general_string()
             if typ == "integer":
@@ -469,6 +494,8 @@ class JSONSchemaConstrainedMasker:
         max_tokens: Optional[int] = None,
         allow_spaces: bool = True,
         prefix_len: Optional[int] = None,
+        prompt_text: Optional[str] = None,
+        allowed_math_expressions: Optional[Sequence[str]] = None,
     ) -> None:
         self.tokenizer = tokenizer
         self.registry = registry
@@ -478,6 +505,15 @@ class JSONSchemaConstrainedMasker:
         self.max_tokens = max_tokens
         self.allow_spaces = allow_spaces
         self.prefix_len = prefix_len
+        if allowed_math_expressions is not None:
+            self.allowed_math_expressions: Optional[List[str]] = [
+                str(e) for e in allowed_math_expressions if str(e)
+            ] or None
+        elif prompt_text is not None:
+            spans = extract_prompt_math_spans(prompt_text)
+            self.allowed_math_expressions = spans if spans else None
+        else:
+            self.allowed_math_expressions = None
 
         if allowed_tools is not None:
             names = [n for n in allowed_tools if n in registry]
@@ -607,6 +643,7 @@ class JSONSchemaConstrainedMasker:
             max_number_len=self.max_number_len,
             allow_spaces=self.allow_spaces,
             force_close_optional=force_close,
+            allowed_math_expressions=self.allowed_math_expressions,
         )
 
         cur_status = recognizer.classify(buf)

@@ -1,0 +1,8 @@
+{
+  "note": "SHA-256 hashes committed BEFORE evaluation; old 24 tasks (seed=9999) are dev split only.",
+  "files": {
+    "pg_fim_v3_test.json": "2105e210edf55c4c24ff07e3155603f2eaf9213768cf03f32cbf966180f3a4bd",
+    "heldout_arithmetic_1000.json": "6287447b763e52ce567428e4132fc73b72797bdfe5a7b1d0209b9b17a9bdd1bf",
+    "heldout_tool_calling_500.json": "703bd22ae5681fee3815c0db9dec9780a3b417a974134bd02a165acb539ae51d"
+  }
+}

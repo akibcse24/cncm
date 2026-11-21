@@ -557,9 +557,13 @@ def run_moe_vs_dense_benchmark() -> Dict[str, Any]:
             "inference_benchmark": infer_bench,
         }
 
-    # Run Controlled A/B: 200 Phase-1 steps + 200 Phase-2 steps each (~3.1M Stage 2 tokens/variant)
-    dense_res = run_variant("Previous Dense Base (SwiGLU)", "base", p1_steps=200, p2_steps=200)
-    moe_res = run_variant("New ctx0an Base-MoE (1 Shared + 8 Routed Top-2)", "base_moe", p1_steps=200, p2_steps=200)
+    # Run Controlled 3-Way A/B/C:
+    #   (A) Dense Base (93.9M, equal-active-FLOPs)
+    #   (B) Base-MoE (221.45M total / 94.05M active)
+    #   (C) Dense Base-220M (221.3M total & active, equal-total-memory control!)
+    dense_res = run_variant("Previous Dense Base (SwiGLU, ~94M)", "base", p1_steps=200, p2_steps=200)
+    moe_res = run_variant("New ctx0an Base-MoE (1 Shared + 8 Routed Top-2, 221M/94M active)", "base_moe", p1_steps=200, p2_steps=200)
+    dense220_res = run_variant("Equal-Memory Dense Control (SwiGLU, ~221M)", "base_dense220", p1_steps=200, p2_steps=200)
 
     # Compute Head-to-Head Deltas (negative delta = MoE better NLL/entropy/gap)
     d_p1_nll = round(
@@ -625,6 +629,7 @@ def run_moe_vs_dense_benchmark() -> Dict[str, Any]:
         },
         "dense_base": dense_res,
         "ctx0an_base_moe": moe_res,
+        "dense_base_220m_equal_memory": dense220_res,
         "comparison_deltas_moe_minus_dense": {
             "phase1_val_exact_nll_delta": d_p1_nll,
             "phase2_val_exact_nll_delta": d_p2_nll,

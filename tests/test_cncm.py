@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import gc
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -916,11 +917,16 @@ def test_demo_cli_end_to_end() -> None:
     """Run `python demo_cncm.py` end-to-end and assert exit code 0."""
     demo_path = REPO_ROOT / "demo_cncm.py"
     assert demo_path.exists()
+    # The demo prints non-ASCII glyphs; force UTF-8 on both sides so the Windows
+    # console code page cannot break decoding of the captured output.
+    env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     proc = subprocess.run(
         [sys.executable, str(demo_path), "--stage1-steps", "4", "--stage2-steps", "4", "--grpo-steps", "2"],
         cwd=str(REPO_ROOT),
         capture_output=True,
-        text=True,
+        encoding="utf-8",
+        errors="replace",
+        env=env,
         timeout=120,
     )
     assert proc.returncode == 0, f"demo_cncm.py failed (rc={proc.returncode}):\nSTDOUT:\n{proc.stdout}\nSTDERR:\n{proc.stderr}"

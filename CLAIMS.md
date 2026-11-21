@@ -20,7 +20,7 @@ This ledger tracks every architectural, performance, and quality claim in `ARCHI
 | **V8** | Packed INT4 footprint = **`12.29 MB`** (`nano`, `4.59×` smaller than `56.32 MB` FP32) | [x] Verified | `modal_audit_report.json` (`E3`) & `modal_verify_report.json` |
 | **V9** | Stage 1 **held-out** reconstruction accuracy = **`99.93%`** (16,384 held-out tokens, zero leakage) | [x] Verified | `modal_audit_report.json` (`stage1_heldout_phase_a: 0.99927`, `recon_ce = 0.0525`) |
 | **V10** | **Grad-accum equivalence** (`1×16` vs `4×4` microbatches) exact to `< 5e-7` on both Stage 1 & Stage 2 | [x] Verified | `modal_audit_report.json` (`E2`: Stage 1 `4.77e-7`, Stage 2 `5.96e-8`) |
-| **V11** | **Quantization quality (FP32 / BF16 / FP16 / INT8 / INT4 + QAT)** preserves held-out NLL & `99.93%` recon | [x] Verified | `modal_audit_report.json` (`E3`: FP32 `0.8578`, INT8 `0.8582`, PTQ INT4 `0.8631`, 40-step QAT INT4 **`0.8240`**) |
+| **V11** | **Quantization quality (FP32 / BF16 / FP16 / INT8 / INT4 + QAT)** preserves held-out NLL & `99.93%` recon | [x] Verified for INT8/INT4 parity; **QAT attribution retracted** | `modal_audit_report.json` (`E3`: FP32 `0.8578`, INT8 `0.8582`, PTQ INT4 `0.8631`, 40-step QAT INT4 `0.8240`), but the fair Tier A control (§5, item 1.3) shows the QAT gain is the extra 40 steps: QAT+40 `4.0570` vs FP32+40 `4.0594` (`Δ = -0.0025 [-0.0134, +0.0085]`, `p = 0.44`) |
 | **V12** | **INT8 KV cache drift** is negligible across single-turn (`ΔNLL = -9e-5`) and **4-turn multi-turn chat** (`100.0%` top-1 agreement on all 4 turns) | [x] Verified | `modal_audit_report.json` (`E3`) & `modal_thesis_ablations.py` (`A3`: mean logit diff `0.0000 -> 0.0059`, `top1 = 1.0`) |
 
 ---
@@ -60,26 +60,62 @@ This ledger tracks every architectural, performance, and quality claim in `ARCHI
 
 ## 4. Reproducing This Audit
 
+```bash
+# 1. Local unit & invariant verification
+python -m pytest -v tests/test_cncm.py
+
+# 2. Tier A controlled experiments (local CPU, 3 seeds, ~44 min total)
+python experiments/run_controls.py                    # full suite -> experiments/results/controls_summary.json
+python experiments/run_controls.py exp_5_2_looping    # or a single experiment by name
+
+# 3. Held-out benchmark suites (local CPU)
+python experiments/eval_benchmarks.py                 # -> experiments/results/benchmarks_rigor.json
+
+# 4. Edge / ONNX Runtime benchmark on this laptop (CPU + Iris Xe via DirectML)
+#    results: experiments/results/edge_bench_nano.json (no committed runner script)
+
+# 5. Section E GPU audit on Modal (~$0.23 on NVIDIA A10G)
+modal run modal_audit.py --preset nano --stage1-steps 350 --stage2-steps 500 --ar-steps 500
 ```
 
 ---
 
-## `ctx0an` Base-MoE Controlled A/B Claims (Modal NVIDIA A10 Verified)
+## 5. Tier A Controlled Experiments (local CPU, 3 seeds, 2026-11-20)
 
-- **Controlled A/B Benchmark (`modal_moe_benchmark.py` -> `modal_ctx0an_moe_benchmark.json`, `BENCHMARK_CTX0AN_MOE.md`)**:
-  - `base_moe` (`221.45M` total / `94.05M` active) vs. Dense `base` (`93.90M`) on identical 4-domain curated data (`3.17M` train tokens, `V=6400` BPE, shared Stage 1):
-    - **Phase 1 Val Exact-AR NLL**: `6.4026` vs. `6.4818` (`-0.0792`)
-    - **Phase 2 Val Exact-AR NLL**: `5.9886` (`398.86` PPL) vs. `6.1619` (`474.33` PPL) (`-0.1733`)
-    - **Gate #5 Align NLL / Concept Draft NLL**: `-0.2314` / `-0.5269`
-    - **MoE Routing Health**: `8/8` experts active (`0.9984` normalized load entropy), `82.85%` Loop 0→1 expert switching.
-    - **Throughput & Size Trade-off**: Dense `base` is `~1.35×` faster in training (`14,689` vs `10,625` tok/s Phase 1) and `~2.4×` smaller (`~46.6 MB` vs `~109.8 MB` INT4).
-- **Unit Tests**: `25/25` tests passing in `tests/test_cncm.py`.bash
-# 1. Local unit & invariant verification (19/19 tests)
-python -m pytest -v tests/test_cncm.py
+Harness: `experiments/harness.py` (strict 70/15/15 document splits, SHA-256 config hash, JSON ledger),
+`experiments/stats.py` (Wilson intervals, 95% t-intervals, paired t-test + paired bootstrap).
+Ledger: [`experiments/results/controls_summary.json`](experiments/results/controls_summary.json).
+Host: Intel i5-1240P, `torch 2.15.0+cpu`, no CUDA. Seeds `42 / 137 / 2026`. Model: `tiny_test`
+(`enc_layers=1`, 408k params for CNCM). All arms in one comparison share steps, batch size, LR schedule and data order.
 
-# 2. Full Section E GPU audit on Modal (~$0.23 on NVIDIA A10G)
-modal run modal_audit.py --preset nano --stage1-steps 350 --stage2-steps 500 --ar-steps 500
-```
+| # | Question | Result (mean ± 95% CI) | Verdict |
+|---|---|---|---|
+| **1.1** | Does equal-step training close the CNCM vs Pure-AR quality gap? | 120 steps, 24,576 held-out tokens: CNCM `3.976 ± 0.387` vs parameter-matched Pure-AR `3.946 ± 0.238`. Paired Δ `+0.031`, t-CI `[-0.440, +0.501]`, `p = 0.81` | **No difference detectable** at this scale. The interval is wide, so this is "not significant", *not* "equal" |
+| **1.2b** | At matched decode latency, is CNCM the better model? | Latency-matched Pure-AR (45.5k params, 41.3 ms) reaches NLL `3.747 ± 0.118`; CNCM (408k params, 92.5 ms) reaches `3.976 ± 0.387` | **Negative.** A ~9× smaller AR model is better on quality at ~half the latency (CNCM latency is noisy: `92.5 ± 118.9` ms) |
+| **1.3** | Is the QAT gain caused by QAT or by the extra 40 steps? | FP32+0 `4.1079`, PTQ-INT4+0 `4.1050`, FP32+40 `4.0594`, INT4-QAT+40 `4.0570`. True QAT effect (QAT+40 − FP32+40) `-0.0025 [-0.0134, +0.0085]`, `p = 0.44` | **The gain is the extra 40 steps.** QAT's own contribution is not measurable at this scale |
+| **1.5** | Are `λ_c / λ_e` tuned, and does tuning transfer? | VAL-selected `λ_c=0.5, λ_e=1.0` → TEST `3.914 ± 0.349` vs default `(1.0, 0.3)` `4.069 ± 0.099`. Paired Δ `-0.155 [-0.406, +0.095]`, `p = 0.12`; bootstrap CI `[-0.268, -0.075]` | **Directional only.** Lower concept weight looks better; 3 seeds cannot resolve it |
+| **5.1** | Can draft-alignment training rescue self-speculative decoding? | Acceptance `0.282 ± 0.761` → `0.012 ± 0.053`; speedup vs AR `0.262×` → `0.101×`; greedy output still bit-identical to AR | **Negative.** Distillation did not raise acceptance; self-speculation stays a documented negative result |
+| **5.2** | Does recursive looping pay off at 4× the budget? | 400 steps, looped (`2 unique × 3 loops`) `3.326 ± 0.161` vs non-looped (`2 × 1`) `2.789 ± 0.506`. Paired Δ `+0.536 [+0.047, +1.026]`, `p = 0.042` | **Negative, significant.** Looping costs quality at equal params and *more* compute → `num_loops=1` is the honest default |
+| **5.4** | Does RL work with SFT warm start, G=16, T=1.0? | 80-step SFT warm start + 10 GRPO steps: mean reward `0.0` on every seed and every step, max step reward `0.0`, `policy_updated_seed_rate = 0/3`, final KL `0.0` | **Still no learning signal.** GRPO at this scale should be described as a harness, not a result |
+
+Held-out benchmark suites ([`experiments/results/benchmarks_rigor.json`](experiments/results/benchmarks_rigor.json),
+hash-manifested before evaluation in [`experiments/benchmarks/MANIFEST.json`](experiments/benchmarks/MANIFEST.json)):
+
+| Suite | n | parse | compile | pass@1 |
+|---|---|---|---|---|
+| `pg_fim_v3` fresh test (dev-only old 24-task set excluded) | 60 | 0.0% | 0.0% | 0.0% |
+| HumanEval-Infilling (MIT) | 100 | 1.0% [0.2, 5.4] | 1.0% | 0.0% |
+| SAFIM python (CC-BY-SA-4.0) | 100 | 0.0% | 0.0% | 0.0% |
+| Held-out arithmetic (exact match) | 1000 | — | — | 0.0% |
+
+Tool-calling, 500 held-out prompts: the grammar gives `100%` JSON syntax validity and `100%` tool-name
+accuracy, but `0%` semantic expression accuracy (0/500). With the prompt-span copy constraint, expression
+copying reaches `100%` while the *evaluated value* stays `0%` — the grammar constrains syntax and copying,
+never arithmetic correctness.
+
+**What this means for the paper.** Only V7 (`7.63×` measured on A10G) and V8/V9/V10/V11/V12 survive as
+positive results. Every quality-related claim must be stated as "no measurable difference / not measurable at
+this scale", and self-speculation, QAT, looping and RL are negative results that belong in a limitations section.
 
 ---
 
