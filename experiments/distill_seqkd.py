@@ -130,6 +130,7 @@ def _query_openai_chat(
     api_key: str = "EMPTY",
     max_tokens: int = 192,
     temperature: float = 0.2,
+    enable_thinking: bool = False,
 ) -> str:
     url = api_base.rstrip("/") + "/chat/completions"
     body = json.dumps(
@@ -138,12 +139,13 @@ def _query_openai_chat(
             "messages": [
                 {
                     "role": "system",
-                    "content": "Be concise. If using <think>, keep it under 2 short sentences.",
+                    "content": "Be concise. Output only the requested JSON or Python code.",
                 },
                 {"role": "user", "content": prompt},
             ],
             "max_tokens": max_tokens,
             "temperature": temperature,
+            "chat_template_kwargs": {"enable_thinking": bool(enable_thinking)},
         }
     ).encode("utf-8")
     req = urllib.request.Request(
@@ -161,14 +163,14 @@ def _query_openai_chat(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Verified Sequence-Level KD (SeqKD) Builder for CNCM")
+    parser = argparse.ArgumentParser(description="Verified Sequence-Level KD (SeqKD) Builder for CNCM (Teacher: Bonsai-2-4B)")
     parser.add_argument("--input", type=str, default=None, help="Offline raw teacher JSONL to filter")
     parser.add_argument("--api-base", type=str, default=None, help="OpenAI-compatible teacher server URL")
-    parser.add_argument("--model", type=str, default="Qwen3-4B-Instruct-2507")
+    parser.add_argument("--model", type=str, default="Ternary-Bonsai-2-4B")
     parser.add_argument("--api-key", type=str, default="EMPTY")
     parser.add_argument("--n-samples", type=int, default=200)
     parser.add_argument("--max-think-chars", type=int, default=240)
-    parser.add_argument("--teacher-name", type=str, default="Qwen/Qwen3-4B-Instruct-2507")
+    parser.add_argument("--teacher-name", type=str, default="Ternary-Bonsai-2-4B")
     parser.add_argument("--teacher-license", type=str, default="Apache-2.0")
     parser.add_argument("--output", type=str, default="experiments/results/verified_seqkd.jsonl")
     args = parser.parse_args()
@@ -180,9 +182,13 @@ def main() -> None:
                 if line.strip():
                     raw_records.append(json.loads(line))
     elif args.api_base:
-        # Generate a balanced mix of tool-calling and arithmetic training prompts (using distinct train seeds!)
-        tool_prompts = build_heldout_tool_calling_suite(n_items=max(1, args.n_samples // 2), seed=9001)
-        arith_prompts = build_heldout_arithmetic_suite(n_items=max(1, args.n_samples // 2), seed=9002)
+        # Generate a balanced mix of tool-calling, arithmetic, and Python/PG-FIM prompts (distinct train seeds!)
+        from cncm.trainer.dataset import make_synthetic_fim_tasks
+
+        n_per = max(1, args.n_samples // 3)
+        tool_prompts = build_heldout_tool_calling_suite(n_items=n_per, seed=9001)
+        arith_prompts = build_heldout_arithmetic_suite(n_items=n_per, seed=9002)
+        fim_prompts = make_synthetic_fim_tasks(num_samples=max(1, args.n_samples - 2 * n_per), seed=9003, curriculum_stage="all")
         for item in tool_prompts:
             comp = _query_openai_chat(
                 args.api_base,
@@ -204,6 +210,28 @@ def main() -> None:
                     "domain": "math",
                     "expected_tool": "calculator",
                     "completion": comp,
+                }
+            )
+        for item in fim_prompts:
+            fim_prompt = (
+                "Output ONLY the exact Python code lines that go between PREFIX and SUFFIX (no markdown fences):\n"
+                f"PREFIX:\n{item['prefix']}\nSUFFIX:\n{item['suffix']}"
+            )
+            comp = _query_openai_chat(
+                args.api_base,
+                args.model,
+                fim_prompt,
+                api_key=args.api_key,
+            )
+            # Strip accidental markdown code fences if emitted by teacher
+            comp_clean = re.sub(r"^```(?:python)?\s*|\s*```$", "", comp.strip(), flags=re.MULTILINE)
+            raw_records.append(
+                {
+                    "domain": "python",
+                    "prefix": item["prefix"],
+                    "suffix": item["suffix"],
+                    "test_code": item.get("test_code", ""),
+                    "completion": comp_clean,
                 }
             )
     else:

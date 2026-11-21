@@ -1,0 +1,501 @@
+{
+  "experiment_name": "distill_hierarchical_nano",
+  "config_hash": "911a30d03e4b3b2b655407c5fa326d3e3a5c67e49a8c220707c380d2eb3316ee",
+  "saved_path": "/root/project/experiments/results/distill_hierarchical_nano.json",
+  "n_seeds": 1,
+  "meets_min_seed_policy": true,
+  "total_elapsed_sec": 363.317,
+  "per_seed": [
+    {
+      "seed": 42,
+      "elapsed_sec": 363.298,
+      "metrics": {
+        "seqkd_source": "real_llama_server_jsonl:/root/project/experiments/results/verified_seqkd.jsonl (31 verified records)",
+        "seqkd_loaded_records": 31,
+        "arm1_baseline_raw_exact_nll": 7.37231,
+        "arm2_seqkd_exact_nll": 0.11575,
+        "pure_ar_seqkd_exact_nll": 0.02788,
+        "arm1_baseline_raw_draft_nll": 5.41755,
+        "arm2_seqkd_draft_nll": 5.39008,
+        "arm3_dagger_draft_nll": 5.21222,
+        "arm4_full_kd_draft_nll": 5.12927,
+        "arm2_alpha_before": 0.00781,
+        "arm3_alpha_dagger": 0.00781,
+        "arm4_alpha_full_kd": 0.00781,
+        "arm4_alpha_gain_over_arm2": 0.0,
+        "arm4_subchunk_alpha_g16": 0.03125,
+        "arm4_expected_lossless_speedup": 0.5161,
+        "arm4_concept_loss": 4.59844,
+        "arm2_concept_loss": 4.63002
+      }
+    }
+  ],
+  "aggregated": {
+    "arm1_baseline_raw_draft_nll": {
+      "values": [
+        5.41755
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 5.41755,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "5.4176 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 5.41755,
+        "low": 5.41755,
+        "high": 5.41755,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "5.4176 (n=1, CI undefined)"
+    },
+    "arm1_baseline_raw_exact_nll": {
+      "values": [
+        7.37231
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 7.37231,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "7.3723 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 7.37231,
+        "low": 7.37231,
+        "high": 7.37231,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "7.3723 (n=1, CI undefined)"
+    },
+    "arm2_alpha_before": {
+      "values": [
+        0.00781
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.00781,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.0078 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.00781,
+        "low": 0.00781,
+        "high": 0.00781,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.0078 (n=1, CI undefined)"
+    },
+    "arm2_concept_loss": {
+      "values": [
+        4.63002
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 4.63002,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "4.6300 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 4.63002,
+        "low": 4.63002,
+        "high": 4.63002,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "4.6300 (n=1, CI undefined)"
+    },
+    "arm2_seqkd_draft_nll": {
+      "values": [
+        5.39008
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 5.39008,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "5.3901 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 5.39008,
+        "low": 5.39008,
+        "high": 5.39008,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "5.3901 (n=1, CI undefined)"
+    },
+    "arm2_seqkd_exact_nll": {
+      "values": [
+        0.11575
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.11575,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.1158 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.11575,
+        "low": 0.11575,
+        "high": 0.11575,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.1158 (n=1, CI undefined)"
+    },
+    "arm3_alpha_dagger": {
+      "values": [
+        0.00781
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.00781,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.0078 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.00781,
+        "low": 0.00781,
+        "high": 0.00781,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.0078 (n=1, CI undefined)"
+    },
+    "arm3_dagger_draft_nll": {
+      "values": [
+        5.21222
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 5.21222,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "5.2122 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 5.21222,
+        "low": 5.21222,
+        "high": 5.21222,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "5.2122 (n=1, CI undefined)"
+    },
+    "arm4_alpha_full_kd": {
+      "values": [
+        0.00781
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.00781,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.0078 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.00781,
+        "low": 0.00781,
+        "high": 0.00781,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.0078 (n=1, CI undefined)"
+    },
+    "arm4_alpha_gain_over_arm2": {
+      "values": [
+        0.0
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.0,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.0000 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.0000 (n=1, CI undefined)"
+    },
+    "arm4_concept_loss": {
+      "values": [
+        4.59844
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 4.59844,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "4.5984 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 4.59844,
+        "low": 4.59844,
+        "high": 4.59844,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "4.5984 (n=1, CI undefined)"
+    },
+    "arm4_expected_lossless_speedup": {
+      "values": [
+        0.5161
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.5161,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.5161 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.5161,
+        "low": 0.5161,
+        "high": 0.5161,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.5161 (n=1, CI undefined)"
+    },
+    "arm4_full_kd_draft_nll": {
+      "values": [
+        5.12927
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 5.12927,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "5.1293 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 5.12927,
+        "low": 5.12927,
+        "high": 5.12927,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "5.1293 (n=1, CI undefined)"
+    },
+    "arm4_subchunk_alpha_g16": {
+      "values": [
+        0.03125
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.03125,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.0312 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.03125,
+        "low": 0.03125,
+        "high": 0.03125,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.0312 (n=1, CI undefined)"
+    },
+    "pure_ar_seqkd_exact_nll": {
+      "values": [
+        0.02788
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 0.02788,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "0.0279 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 0.02788,
+        "low": 0.02788,
+        "high": 0.02788,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "0.0279 (n=1, CI undefined)"
+    },
+    "seqkd_loaded_records": {
+      "values": [
+        31.0
+      ],
+      "n_seeds": 1,
+      "meets_min_seed_policy": true,
+      "t_ci": {
+        "n": 1,
+        "mean": 31.0,
+        "std": 0.0,
+        "se": 0.0,
+        "half_width": NaN,
+        "low": NaN,
+        "high": NaN,
+        "confidence": 0.95,
+        "formatted": "31.0000 (n=1, CI undefined)"
+      },
+      "bootstrap_ci": {
+        "n": 1,
+        "statistic": "mean",
+        "point": 31.0,
+        "low": 31.0,
+        "high": 31.0,
+        "confidence": 0.95,
+        "n_resamples": 10000
+      },
+      "summary": "31.0000 (n=1, CI undefined)"
+    }
+  },
+  "seqkd_generation_meta": {
+    "teacher_model": "prism-ml/Ternary-Bonsai-2-4B-gguf",
+    "teacher_license_spdx": "Apache-2.0",
+    "output_jsonl": "/root/project/experiments/results/verified_seqkd.jsonl",
+    "total_seen": 48,
+    "accepted_count": 31,
+    "accept_rate": 0.6458,
+    "sha256": "285b4944bab01f6b1d468b66e2d3065b4c890c6b89e74bf6df3a8f827ae134ca"
+  },
+  "modal_hardware": {
+    "gpu_name": "NVIDIA A10",
+    "vram_gb": 23.68,
+    "total_gpu_seconds": 508.53,
+    "estimated_cost_usd": 0.15538,
+    "teacher_model": "prism-ml/Ternary-Bonsai-2-4B-gguf (Ternary-Bonsai-2-4B-PQ2_0.gguf via llama-server)",
+    "seed_policy": "single_seed_42",
+    "scaledown_window_sec": 900
+  }
+}

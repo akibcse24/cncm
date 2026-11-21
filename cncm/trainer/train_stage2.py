@@ -416,7 +416,7 @@ def _evaluate_stage2_val(
 def train_stage2(
     cfg: CNCMConfig,
     tokenizer: CNCMTextTokenizer,
-    concept_tokenizer: CNCMConceptTokenizer,
+    concept_tokenizer: Optional[CNCMConceptTokenizer] = None,
     dataset: Optional[Union[Dataset, Sequence[Any]]] = None,
     mode: str = "joint",
     steps: int = 50,
@@ -468,8 +468,10 @@ def train_stage2(
     multi-GPU DDP (`torchrun`), rolling `CheckpointManager` resume/pruning, HF Hub sync,
     and Kaggle wall-clock graceful stopping.
     """
+    if mode == "exact_only":
+        mode = "exact_ar"
     if mode not in ("joint", "pretrain", "sft", "exact_ar"):
-        raise ValueError(f"mode must be 'joint', 'pretrain', 'sft', or 'exact_ar'; got {mode!r}")
+        raise ValueError(f"mode must be 'joint', 'pretrain', 'sft', 'exact_ar', or 'exact_only'; got {mode!r}")
     if steps < 1:
         raise ValueError(f"steps must be >= 1, got {steps}")
     if grad_accum_steps < 1:
@@ -541,7 +543,11 @@ def train_stage2(
             )
 
     if model is None:
+        if concept_tokenizer is None:
+            concept_tokenizer = CNCMConceptTokenizer(cfg)
         model = CNCMModel(cfg, concept_tokenizer)
+    elif concept_tokenizer is None:
+        concept_tokenizer = model.concept_tokenizer
     model = model.to(dev)
     _enforce_frozen_concept_tokenizer(model)
     prev_grad_ckpt = bool(getattr(model, "grad_checkpointing", False))

@@ -1,0 +1,76 @@
+{
+  "gpu_name": "NVIDIA A10G",
+  "preset": "nano",
+  "real_bonsai_records_used": 31,
+  "stage1_steps": 500,
+  "stage1_final_recon_acc": 0.03345,
+  "stage2_steps": 1000,
+  "align_steps": 300,
+  "pre_align_eval": {
+    "exact_nll": 0.00187,
+    "exact_ppl": 1.002,
+    "concept_loss": 0.74942,
+    "align_nll": 0.00776,
+    "concept_draft_nll": 0.00187,
+    "draft_minus_exact_gap": 0.0,
+    "alpha_full_chunk": 1.0,
+    "alpha_subchunk_gamma": 1.0,
+    "expected_lossless_speedup_gamma": 8.5
+  },
+  "post_align_eval": {
+    "exact_nll": 0.00187,
+    "exact_ppl": 1.002,
+    "concept_loss": 0.45102,
+    "align_nll": 0.00514,
+    "concept_draft_nll": 0.00187,
+    "draft_minus_exact_gap": 0.0,
+    "alpha_full_chunk": 1.0,
+    "alpha_subchunk_gamma": 1.0,
+    "expected_lossless_speedup_gamma": 8.5
+  },
+  "latency_b1_64tok": {
+    "concept_8step_ms": 254.35,
+    "exact_ar_64step_ms": 1708.16,
+    "speedup_x": 6.716
+  },
+  "side_by_side_samples": [
+    {
+      "sample_idx": 0,
+      "prefix_match_tokens": 64,
+      "positionwise_token_agreement": 1.0,
+      "prefix_text": "luate 7*11+17.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"7*11+17\"}}<|eos|>Count words and characters using text_stats for: foxtrot",
+      "ground_truth_64tok": " gamma foxtrot helios ion\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"foxtrot gamma foxtrot helios ion\"}}<|eos|>Check the current UTC timestamp using clock_utc.\n{\"",
+      "exact_ar_64tok": " gamma foxtrot helios ion\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"foxtrot gamma foxtrot helios ion\"}}<|eos|>Check the current UTC timestamp using clock_utc.\n{\"",
+      "concept_8step_64tok": " gamma foxtrot helios ion\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"foxtrot gamma foxtrot helios ion\"}}<|eos|>Check the current UTC timestamp using clock_utc.\n{\""
+    },
+    {
+      "sample_idx": 1,
+      "prefix_match_tokens": 64,
+      "positionwise_token_agreement": 1.0,
+      "prefix_text": "\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"foxtrot gamma foxtrot helios ion\"}}<|eos|>Check the current UTC timestamp using clock_utc.\n{\"",
+      "ground_truth_64tok": "name\": \"clock_utc\", \"arguments\": {}}<|eos|>Use the calculator tool to evaluate (81+22)*35.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81+22)*35\"}}<|eos|>Count word",
+      "exact_ar_64tok": "name\": \"clock_utc\", \"arguments\": {}}<|eos|>Use the calculator tool to evaluate (81+22)*35.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81+22)*35\"}}<|eos|>Count word",
+      "concept_8step_64tok": "name\": \"clock_utc\", \"arguments\": {}}<|eos|>Use the calculator tool to evaluate (81+22)*35.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81+22)*35\"}}<|eos|>Count word"
+    },
+    {
+      "sample_idx": 2,
+      "prefix_match_tokens": 64,
+      "positionwise_token_agreement": 1.0,
+      "prefix_text": "{}}<|eos|>Use the calculator tool to evaluate (81+22)*35.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"(81+22)*35\"}}<|eos|>Count word",
+      "ground_truth_64tok": "s and characters using text_stats for: ion foxtrot foxtrot helios charlie\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"ion foxtrot foxtrot helios charlie\"}}<|eos|>Check the curr",
+      "exact_ar_64tok": "s and characters using text_stats for: ion foxtrot foxtrot helios charlie\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"ion foxtrot foxtrot helios charlie\"}}<|eos|>Check the curr",
+      "concept_8step_64tok": "s and characters using text_stats for: ion foxtrot foxtrot helios charlie\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"ion foxtrot foxtrot helios charlie\"}}<|eos|>Check the curr"
+    },
+    {
+      "sample_idx": 3,
+      "prefix_match_tokens": 64,
+      "positionwise_token_agreement": 1.0,
+      "prefix_text": " ion foxtrot foxtrot helios charlie\n{\"name\": \"text_stats\", \"arguments\": {\"text\": \"ion foxtrot foxtrot helios charlie\"}}<|eos|>Check the curr",
+      "ground_truth_64tok": "ent UTC timestamp using clock_utc.\n{\"name\": \"clock_utc\", \"arguments\": {\"utc\": true}}<|eos|>Use the calculator tool to evaluate 61*25+57.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"",
+      "exact_ar_64tok": "ent UTC timestamp using clock_utc.\n{\"name\": \"clock_utc\", \"arguments\": {\"utc\": true}}<|eos|>Use the calculator tool to evaluate 61*25+57.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \"",
+      "concept_8step_64tok": "ent UTC timestamp using clock_utc.\n{\"name\": \"clock_utc\", \"arguments\": {\"utc\": true}}<|eos|>Use the calculator tool to evaluate 61*25+57.\n{\"name\": \"calculator\", \"arguments\": {\"expression\": \""
+    }
+  ],
+  "total_gpu_seconds": 982.68,
+  "estimated_cost_usd": 0.30026
+}

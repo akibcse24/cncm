@@ -374,6 +374,21 @@ class MultiscaleRFSQ(nn.Module):
             codes.append(digits_k)
         return codes
 
+    def quantize_single_level_residual(
+        self, z_rest: torch.Tensor, level_idx: int
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Quantize remaining residual z_rest [B, L, d_vq] at level `level_idx` (Concept-DAgger).
+
+        Returns:
+          - digits_k: [B, l_k, d_q] integer FSQ codes that best correct `z_rest`
+          - delta_k: [B, L, d_vq] upsampled + Phi-refined residual contribution
+        """
+        u_k = self._downsample(z_rest.transpose(1, 2), level_idx).transpose(1, 2)
+        u_q, digits_k = self.fsq_modules[level_idx].quantize(u_k)
+        h_up = self._upsample(u_q.transpose(1, 2), level_idx)
+        delta_k = self.phi_modules[level_idx](h_up).transpose(1, 2)
+        return digits_k, delta_k
+
     def forward(
         self,
         z: torch.Tensor,

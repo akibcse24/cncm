@@ -191,6 +191,38 @@ def _build_and_export_kv_onnx(preset: str, out_dir: Path, opset: int = 18) -> Di
             )
             return h_k
 
+    def _inline_onnx_identities(fpath: Path) -> None:
+        """Eliminate Identity alias nodes emitted by PyTorch ONNX exporter for shared/looped weights.
+
+        Without this pass, `MatMulNBitsQuantizer` and `quantize_dynamic` only see the first loop's
+        `MatMul(x, W)` as an initializer while loops 2..R read `Identity(W)` (an activation edge),
+        leaving 90% of FP32 weights unquantized and causing `stage1_decoder_int8` to fail!
+        """
+        import onnx
+
+        m = onnx.load(str(fpath))
+        g = m.graph
+        out_names = {o.name for o in g.output}
+        alias_map: Dict[str, str] = {}
+        kept_nodes = []
+        for node in g.node:
+            if node.op_type == "Identity" and len(node.input) == 1 and len(node.output) == 1:
+                src = alias_map.get(node.input[0], node.input[0])
+                dst = node.output[0]
+                if dst not in out_names:
+                    alias_map[dst] = src
+                    continue
+            kept_nodes.append(node)
+
+        if alias_map:
+            for node in kept_nodes:
+                for idx, inp in enumerate(node.input):
+                    if inp in alias_map:
+                        node.input[idx] = alias_map[inp]
+            del g.node[:]
+            g.node.extend(kept_nodes)
+            onnx.save(m, str(fpath))
+
     def _export_legacy(mod: nn.Module, args: Tuple[Any, ...], fpath: Path, in_names: List[str], out_names: List[str], dyn: Dict[str, Any]) -> None:
         torch.onnx.export(
             mod,
@@ -203,6 +235,7 @@ def _build_and_export_kv_onnx(preset: str, out_dir: Path, opset: int = 18) -> Di
             do_constant_folding=True,
             dynamo=False,
         )
+        _inline_onnx_identities(fpath)
 
     past_in_names = []
     past_out_names = []

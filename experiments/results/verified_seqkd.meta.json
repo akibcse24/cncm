@@ -1,0 +1,9 @@
+{
+  "teacher_model": "prism-ml/Ternary-Bonsai-2-4B-gguf",
+  "teacher_license_spdx": "Apache-2.0",
+  "output_jsonl": "/root/project/experiments/results/verified_seqkd.jsonl",
+  "total_seen": 48,
+  "accepted_count": 31,
+  "accept_rate": 0.6458,
+  "sha256": "285b4944bab01f6b1d468b66e2d3065b4c890c6b89e74bf6df3a8f827ae134ca"
+}

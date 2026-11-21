@@ -261,13 +261,17 @@ def run_smart_pipeline(
     fim_tasks = build_pg_fim_heldout_test_bank()
     fim_eval = evaluate_fim_suite(
         fim_tasks,
-        lambda prefix, _s: tok.decode(
-            model.generate_concept_chunk(
-                torch.tensor([tok.encode(prefix)[-128:]], dtype=torch.long, device=device),
-                temperature=0.0,
-                early_exit_conf=None,
-            )["token_ids"][0].tolist()
-        ),
+        lambda prefix, suffix: model.generate_fim(
+            prefix=prefix,
+            suffix=suffix,
+            tokenizer=tok,
+            max_chunks=1,
+            temperature=0.0,
+            early_exit_conf=0.92,
+            use_plan=True,
+            enable_repair=True,
+            allow_template_fallback=False,
+        )["middle_text"],
     )
 
     report: Dict[str, Any] = {

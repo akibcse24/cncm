@@ -1,0 +1,80 @@
+{
+  "benchmark": "Vanilla NCM vs. CNCM Controlled 4-Arm Cumulative Ablation",
+  "gpu_name": "NVIDIA A10",
+  "preset": "nano",
+  "seed": 42,
+  "stage1_comparison": {
+    "vanilla_rvq_ema": {
+      "quantizer_params": 4430848,
+      "quantizer_buffer_kb": 16512.56,
+      "heldout_recon_k8": 0.0496,
+      "heldout_recon_k6_early_exit": 0.0459,
+      "heldout_recon_k4_early_exit": 0.0423,
+      "val_active_codebook_ratio": 0.005
+    },
+    "cncm_mrfsq_matryoshka": {
+      "quantizer_params": 245792,
+      "quantizer_buffer_kb": 0.69,
+      "heldout_recon_k8": 0.9904,
+      "heldout_recon_k6_early_exit": 0.5031,
+      "heldout_recon_k4_early_exit": 0.1973,
+      "val_active_codebook_ratio": 0.1753
+    },
+    "quantizer_param_reduction_x": 18.03
+  },
+  "arms": {
+    "1_vanilla_ncm": {
+      "codebook_plus_head_params": 6003712,
+      "concept_head_params": 1572864,
+      "stage1_recon_k8": 0.0496,
+      "stage1_recon_k6": 0.0459,
+      "concept_loss": 11.51247,
+      "concept_draft_nll": 8.77731,
+      "exact_nll": 8.34292,
+      "tool_syntax_valid_rate": 0.0,
+      "tool_semantic_acc_rate": 0.0,
+      "multiturn_4chunk_ms": 691.4
+    },
+    "2_plus_mrfsq_stage1": {
+      "codebook_plus_head_params": 1818656,
+      "concept_head_params": 1572864,
+      "stage1_recon_k8": 0.9904,
+      "stage1_recon_k6": 0.5031,
+      "concept_loss": 6.9894,
+      "concept_draft_nll": 8.32571,
+      "exact_nll": 8.3405,
+      "tool_syntax_valid_rate": 0.0,
+      "tool_semantic_acc_rate": 0.0,
+      "multiturn_4chunk_ms": 710.9
+    },
+    "3_plus_factorized_head_cont_rope_causal_kv": {
+      "codebook_plus_head_params": 394944,
+      "concept_head_params": 149152,
+      "stage1_recon_k8": 0.9904,
+      "stage1_recon_k6": 0.5031,
+      "concept_loss": 6.94654,
+      "concept_draft_nll": 8.35333,
+      "exact_nll": 8.40834,
+      "tool_syntax_valid_rate": 0.0,
+      "tool_semantic_acc_rate": 0.0,
+      "multiturn_4chunk_ms": 744.03,
+      "causal_kv_speedup_vs_vanilla_uncached_x": 1.002
+    },
+    "4_full_cncm_dual_mode_bonsai_distilled": {
+      "codebook_plus_head_params": 394944,
+      "concept_head_params": 149152,
+      "stage1_recon_k8": 0.9904,
+      "stage1_recon_k6": 0.5031,
+      "concept_loss": 6.05564,
+      "concept_draft_nll": 4.83638,
+      "align_nll": 1.29553,
+      "exact_nll": 0.56001,
+      "tool_syntax_valid_rate": 1.0,
+      "tool_semantic_acc_rate": 1.0,
+      "multiturn_4chunk_ms": 745.03,
+      "causal_kv_speedup_vs_vanilla_uncached_x": 1.014
+    }
+  },
+  "total_gpu_seconds": 642.81,
+  "estimated_cost_usd": 0.19641
+}
