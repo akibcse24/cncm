@@ -1,5 +1,5 @@
 # CNCM — Compact Causal-Hybrid Next-Concept Model
-
+[[https://zenodo.org/badge/DOI/10.5281/zenodo.24419823.svg]](https://doi.org/10.5281/zenodo.24419823)
 **Fast, parallel coarse-to-fine text generation and schema-constrained Agentic AI designed for low-end Android phones, consumer iGPU laptops, Apple Silicon, and desktop GPUs.**
 
 CNCM re-engineers **Next-Concept Modeling** ([HazyResearch/ncm](https://github.com/HazyResearch/ncm)) with **6 edge-first architectural components** (see [CLAIMS.md](CLAIMS.md) for the full empirical verification & audit status of every claim):
