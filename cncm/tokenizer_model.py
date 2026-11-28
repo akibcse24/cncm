@@ -315,8 +315,8 @@ class CNCMConceptTokenizer(nn.Module):
             )
             for block in self.encoder_blocks:
                 z = block(z, cos=cos, sin=sin, attn_mask=enc_mask)
-        # GroupNorm expects [B, C, L]
-        z_norm = self.pre_quant_norm(z.transpose(1, 2)).transpose(1, 2)
+        # GroupNorm expects contiguous [B, C, L] (strict on TPU/XLA backends)
+        z_norm = self.pre_quant_norm(z.transpose(1, 2).contiguous()).transpose(1, 2).contiguous()
         return z_norm
 
     def encode_codes(

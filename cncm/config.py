@@ -92,6 +92,7 @@ class CNCMConfig:
     max_position_embeddings: int = 2048
     rope_theta: float = 100000.0
     rms_norm_eps: float = 1e-6
+    use_qk_norm: bool = True
     dropout: float = 0.0
     tie_word_embeddings: bool = True
 
@@ -416,6 +417,40 @@ _PRESETS: Dict[str, Dict[str, Any]] = {
         num_experts_per_tok=2,
         moe_expert_intermediate_size=768,
         moe_shared_intermediate_size=768,
+        moe_aux_loss_weight=0.01,
+    ),
+    # Zero-Loss SmolLM2-360M (4T-token donor) -> CNCM Sparse-Upcycled MoE preset (~560M total / ~408M active)
+    # 1:1 exact match to SmolLM2-360M (960d, 32L, 15Q/5KV, head_dim=64, rope_theta=100k, V=49152, shared FFN=2560)
+    # + 8 zero-init routed experts (256d each, Top-2) + CNCM M-RFSQ Concept Head for bit-exact step-0 parity.
+    "base_moe_smol360": dict(
+        preset_name="base_moe_smol360",
+        vocab_size=49152,
+        chunk_size=64,
+        levels=(1, 2, 4, 8, 12, 20, 36, 64),
+        d_vq=256,
+        fsq_levels=(8, 8, 8, 8),
+        dec_layers=1,
+        dec_num_heads=4,
+        dec_intermediate_size=768,
+        pre_quant_norm_groups=8,
+        hidden_size=960,
+        num_unique_layers=32,
+        num_loops=1,
+        loop_adapter_rank=0,
+        num_attention_heads=15,
+        num_key_value_heads=5,
+        intermediate_size=2560,
+        concept_head_hidden=384,
+        max_position_embeddings=8192,
+        rope_theta=100000.0,
+        rms_norm_eps=1e-5,
+        use_qk_norm=False,
+        tie_word_embeddings=True,
+        use_qat_linear=False,
+        num_experts=8,
+        num_experts_per_tok=2,
+        moe_expert_intermediate_size=256,
+        moe_shared_intermediate_size=2560,
         moe_aux_loss_weight=0.01,
     ),
     # Equal-total-memory Dense control for `base_moe` (~221.3M total & active params, 24 effective layers)

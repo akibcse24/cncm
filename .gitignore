@@ -10,19 +10,29 @@ dist/
 
 # Virtual environments
 .venv/
+.venv_dml/
 venv/
 env/
 
 # Tooling caches
 .freebuff/
 
-# Model weights / checkpoints (not source)
+# Model weights / checkpoints / memmaps (not source)
 *.pt
 *.pth
 *.ckpt
 *.safetensors
 *.onnx
+*.gguf
+*.bin
 checkpoints/
+ckpt/
+smol360_exports/
+smol360_tpu_out/
+ctx0an_tpu_out/
+sidecar_out/
+sidecar_smoke/
+donor_cache/
 
 # Local archives / backups
 cncm-backup.zip

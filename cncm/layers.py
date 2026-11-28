@@ -140,6 +140,11 @@ class RotaryEmbedding(nn.Module):
             freqs = pos.float().unsqueeze(-1) * self.inv_freq
             emb = torch.cat([freqs, freqs], dim=-1)
             cos, sin = emb.cos(), emb.sin()
+        elif pos.device.type in ("xla", "tpu"):
+            # Avoid host-device `.item()` sync on TPU/XLA; cache is prebuilt to max_position_embeddings
+            safe_pos = pos.clamp(0, self.cos_cached.shape[0] - 1)
+            cos = self.cos_cached[safe_pos]
+            sin = self.sin_cached[safe_pos]
         else:
             max_pos = int(pos.max().item()) if pos.numel() > 0 else 0
             if max_pos >= self.cos_cached.shape[0]:
@@ -370,7 +375,9 @@ def _bool_to_additive_mask(
         diag = k_idx.view(1, 1, 1, -1) == self_col_indices.view(1, 1, -1, 1)
         allowed = allowed | (row_empty & diag)
 
-    neg_val = torch.finfo(dtype).min if dtype.is_floating_point else -1e9
+    # Use -1e4 for FP16 and -1e9 for BF16/FP32 instead of finfo(dtype).min (-3.38e38 in BF16),
+    # which can overflow to -inf when added to negative QK^T scores and cause NaN SDPA gradients on TPU/XLA.
+    neg_val = -1e4 if dtype == torch.float16 else -1e9
     zero = torch.zeros((), device=allowed.device, dtype=dtype)
     neg = torch.full((), neg_val, device=allowed.device, dtype=dtype)
     return torch.where(allowed, zero, neg)
@@ -535,11 +542,13 @@ def scaled_dot_product_attn_4d(
     attn_mask: torch.Tensor,
     dropout_p: float = 0.0,
 ) -> torch.Tensor:
-    """Explicit-4D SDPA (`is_causal=False`) with ONNX opset 17 matmul fallback."""
-    if torch.onnx.is_in_onnx_export():
+    """Explicit-4D SDPA (`is_causal=False`) with FP32-softmax TPU/XLA & ONNX opset 17 path."""
+    if torch.onnx.is_in_onnx_export() or q.device.type in ("xla", "tpu"):
         scale = 1.0 / math.sqrt(float(q.shape[-1]))
-        scores = torch.matmul(q, k.transpose(-2, -1)) * scale + attn_mask
-        probs = F.softmax(scores.float(), dim=-1).to(q.dtype)
+        scores = torch.matmul(q, k.transpose(-2, -1)).float() * scale + attn_mask.float()
+        probs = F.softmax(scores, dim=-1).to(q.dtype)
+        if dropout_p > 0.0:
+            probs = F.dropout(probs, p=dropout_p, training=True)
         return torch.matmul(probs, v)
 
     return F.scaled_dot_product_attention(
@@ -663,6 +672,13 @@ class MoEFFN(nn.Module):
         out = self.shared_expert(x_flat) if self.shared_expert is not None else torch.zeros_like(x_flat)
         routed_out = torch.zeros_like(x_flat)
 
+        if x_flat.device.type in ("xla", "tpu"):
+            # 100% static-shape dispatch for TPU/XLA (zero bincount/.tolist()/dynamic split -> zero XLA recompilation)
+            dispatch_weights = (one_hot * topk_weights.unsqueeze(-1)).sum(dim=1).to(dtype=routed_out.dtype)  # [N, E]
+            for e_idx, expert in enumerate(self.experts):
+                routed_out = routed_out + expert(x_flat).to(dtype=routed_out.dtype) * dispatch_weights[:, e_idx : e_idx + 1]
+            return (out.to(dtype=routed_out.dtype) + routed_out).to(dtype=x.dtype).view(bsz, seq_len, dim), aux_loss
+
         # Single-sort sparse dispatch: 1 index_select + 1 index_add_ instead of E separate nonzero() syncs
         flat_exp = topk_idx.reshape(-1)
         flat_w = topk_weights.reshape(-1)
@@ -724,6 +740,7 @@ class CNCMAttention(nn.Module):
         use_qat: bool = False,
         weight_bits: int = 8,
         act_bits: Optional[int] = 8,
+        use_qk_norm: bool = True,
     ) -> None:
         super().__init__()
         self.hidden_size = int(hidden_size)
@@ -750,9 +767,9 @@ class CNCMAttention(nn.Module):
             use_qat=use_qat, weight_bits=weight_bits, act_bits=act_bits,
         )
 
-        # Pre-RoPE QK-RMSNorm for training stability across recursive loops
-        self.q_norm = RMSNorm(self.head_dim, eps=rms_norm_eps)
-        self.k_norm = RMSNorm(self.head_dim, eps=rms_norm_eps)
+        # Pre-RoPE QK-RMSNorm for training stability across recursive loops (optional for Llama/SmolLM2 donors)
+        self.q_norm: nn.Module = RMSNorm(self.head_dim, eps=rms_norm_eps) if use_qk_norm else nn.Identity()
+        self.k_norm: nn.Module = RMSNorm(self.head_dim, eps=rms_norm_eps) if use_qk_norm else nn.Identity()
 
     def forward(
         self,
@@ -847,6 +864,7 @@ class CNCMBlock(nn.Module):
             use_qat=cfg.use_qat_linear,
             weight_bits=cfg.qat_weight_bits,
             act_bits=cfg.qat_act_bits,
+            use_qk_norm=bool(getattr(cfg, "use_qk_norm", True)),
         )
         if self.use_moe:
             self.mlp: nn.Module = MoEFFN(

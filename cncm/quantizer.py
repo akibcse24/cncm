@@ -224,29 +224,45 @@ class MultiscaleRFSQ(nn.Module):
         return torch.div(flat_l, self.radix_basis, rounding_mode="floor") % self.fsq_levels_tensor
 
     # ------------------------------------------------------------------
-    # Internal multiscale resampling helpers (pure PyTorch / ONNX safe)
+    # Internal multiscale resampling helpers (pure PyTorch / TPU / XLA / ONNX safe)
     # ------------------------------------------------------------------
+    @staticmethod
+    def _area_pool_1d(x_bcl: torch.Tensor, target_len: int) -> torch.Tensor:
+        in_len = x_bcl.shape[-1]
+        if in_len == target_len:
+            return x_bcl
+        if target_len == 1:
+            return x_bcl.mean(dim=-1, keepdim=True)
+        if in_len % target_len == 0:
+            return x_bcl.contiguous().reshape(x_bcl.shape[0], x_bcl.shape[1], target_len, in_len // target_len).mean(dim=-1)
+        return F.interpolate(x_bcl, size=target_len, mode="area")
+
+    @staticmethod
+    def _linear_upsample_1d(x_bcl: torch.Tensor, target_len: int) -> torch.Tensor:
+        in_len = x_bcl.shape[-1]
+        if in_len == target_len:
+            return x_bcl
+        if in_len == 1:
+            return x_bcl.expand(-1, -1, target_len)
+        pos = (torch.arange(target_len, device=x_bcl.device, dtype=torch.float32) + 0.5) * (
+            float(in_len) / float(target_len)
+        ) - 0.5
+        pos = pos.clamp(0.0, max(0.0, float(in_len - 1)))
+        idx0 = pos.floor().long()
+        idx1 = (idx0 + 1).clamp(max=in_len - 1)
+        w1 = (pos - idx0.to(dtype=torch.float32)).to(dtype=x_bcl.dtype).view(1, 1, target_len)
+        return x_bcl.index_select(-1, idx0) * (1.0 - w1) + x_bcl.index_select(-1, idx1) * w1
+
     def _downsample(self, x_bcl: torch.Tensor, level_idx: int) -> torch.Tensor:
         target_len = self.levels[level_idx]
         if level_idx == 0:
             return self.down_l1(x_bcl)
-        if target_len == self.chunk_size:
-            return x_bcl
-        if target_len == 1:
-            return x_bcl.mean(dim=-1, keepdim=True)
-        return F.interpolate(x_bcl, size=target_len, mode="area")
+        return self._area_pool_1d(x_bcl, target_len)
 
     def _upsample(self, x_bcl: torch.Tensor, level_idx: int) -> torch.Tensor:
         if level_idx == 0:
             return self.up_l1(x_bcl)
-        cur_len = x_bcl.shape[-1]
-        if cur_len == self.chunk_size:
-            return x_bcl
-        if cur_len == 1:
-            return x_bcl.expand(-1, -1, self.chunk_size)
-        return F.interpolate(
-            x_bcl, size=self.chunk_size, mode="linear", align_corners=False
-        )
+        return self._linear_upsample_1d(x_bcl, self.chunk_size)
 
     # ------------------------------------------------------------------
     # Decode / reconstruction / Stage-2 conditioning helpers
@@ -287,9 +303,7 @@ class MultiscaleRFSQ(nn.Module):
             return z_hat_prev
         if target_len == 1:
             return z_hat_prev.mean(dim=1, keepdim=True)
-        return F.interpolate(
-            z_hat_prev.transpose(1, 2), size=target_len, mode="area"
-        ).transpose(1, 2)
+        return self._area_pool_1d(z_hat_prev.transpose(1, 2), target_len).transpose(1, 2)
 
     def corrupt_codes(
         self,
@@ -320,11 +334,9 @@ class MultiscaleRFSQ(nn.Module):
                 continue
 
             mask = torch.rand(digits.shape[:-1], device=digits.device) < p_k
-            if not mask.any():
-                corrupted.append(digits)
-                continue
 
             # Uniform random digits per FSQ coordinate in [0, L_j - 1]
+            # (Zero host-device sync `mask.any()` so XLA/TPU compiles a single static graph!)
             rand_u = torch.rand(digits.shape, device=digits.device)
             rand_digits = torch.floor(
                 rand_u * self.fsq_levels_tensor.to(rand_u.dtype)

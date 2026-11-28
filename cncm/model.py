@@ -443,6 +443,15 @@ class CNCMModel(nn.Module):
             and past_key_values is None
             and torch.is_grad_enabled()
         )
+        is_xla_tensor = x.device.type == "xla"
+        xla_ckpt_fn = None
+        if use_ckpt and is_xla_tensor:
+            try:
+                import torch_xla.utils.checkpoint as _xla_cp  # type: ignore[import-not-found]
+
+                xla_ckpt_fn = _xla_cp.checkpoint
+            except Exception:
+                xla_ckpt_fn = None
         aux_losses: List[torch.Tensor] = []
 
         h = x
@@ -497,14 +506,38 @@ class CNCMModel(nn.Module):
                             )
                             return out_h, blk_aux if blk_aux is not None else out_h.new_zeros((), dtype=torch.float32)
 
-                        h, step_aux = torch.utils.checkpoint.checkpoint(
-                            _ckpt_moe_block,
-                            h,
-                            cos,
-                            sin,
-                            attn_mask,
-                            use_reentrant=False,
-                        )
+                        if is_xla_tensor:
+                            if xla_ckpt_fn is not None and h.requires_grad:
+                                h, step_aux = xla_ckpt_fn(
+                                    _ckpt_moe_block,
+                                    h,
+                                    cos,
+                                    sin,
+                                    attn_mask,
+                                    use_reentrant=True,
+                                    preserve_rng_state=False,
+                                )
+                            elif h.requires_grad:
+                                h, step_aux = torch.utils.checkpoint.checkpoint(
+                                    _ckpt_moe_block,
+                                    h,
+                                    cos,
+                                    sin,
+                                    attn_mask,
+                                    use_reentrant=True,
+                                    preserve_rng_state=False,
+                                )
+                            else:
+                                h, step_aux = _ckpt_moe_block(h, cos, sin, attn_mask)
+                        else:
+                            h, step_aux = torch.utils.checkpoint.checkpoint(
+                                _ckpt_moe_block,
+                                h,
+                                cos,
+                                sin,
+                                attn_mask,
+                                use_reentrant=False,
+                            )
                         aux_losses.append(step_aux)
                     else:
                         def _ckpt_block(
@@ -532,14 +565,38 @@ class CNCMModel(nn.Module):
                             )
                             return out_h
 
-                        h = torch.utils.checkpoint.checkpoint(
-                            _ckpt_block,
-                            h,
-                            cos,
-                            sin,
-                            attn_mask,
-                            use_reentrant=False,
-                        )
+                        if is_xla_tensor:
+                            if xla_ckpt_fn is not None and h.requires_grad:
+                                h = xla_ckpt_fn(
+                                    _ckpt_block,
+                                    h,
+                                    cos,
+                                    sin,
+                                    attn_mask,
+                                    use_reentrant=True,
+                                    preserve_rng_state=False,
+                                )
+                            elif h.requires_grad:
+                                h = torch.utils.checkpoint.checkpoint(
+                                    _ckpt_block,
+                                    h,
+                                    cos,
+                                    sin,
+                                    attn_mask,
+                                    use_reentrant=True,
+                                    preserve_rng_state=False,
+                                )
+                            else:
+                                h = _ckpt_block(h, cos, sin, attn_mask)
+                        else:
+                            h = torch.utils.checkpoint.checkpoint(
+                                _ckpt_block,
+                                h,
+                                cos,
+                                sin,
+                                attn_mask,
+                                use_reentrant=False,
+                            )
                     present = None
                 else:
                     if return_aux_loss and getattr(block, "use_moe", False):
@@ -788,15 +845,14 @@ class CNCMModel(nn.Module):
             if q_len > 1:
                 shift_logits = logits[:, :-1, :].contiguous().float()
                 shift_labels = labels[:, 1:].contiguous().to(device=device, dtype=torch.long)
-                valid_count = (shift_labels != -100).sum()
-                if valid_count.item() > 0:
-                    loss = F.cross_entropy(
-                        shift_logits.view(-1, self.cfg.vocab_size),
-                        shift_labels.view(-1),
-                        ignore_index=-100,
-                    )
-                else:
-                    loss = logits.sum() * 0.0
+                valid_count = (shift_labels != -100).sum().to(dtype=shift_logits.dtype)
+                loss_sum = F.cross_entropy(
+                    shift_logits.view(-1, self.cfg.vocab_size),
+                    shift_labels.view(-1),
+                    ignore_index=-100,
+                    reduction="sum",
+                )
+                loss = loss_sum / valid_count.clamp(min=1.0)
             else:
                 loss = logits.sum() * 0.0
             if self.cfg.num_experts > 0 and self.cfg.moe_aux_loss_weight > 0.0:
@@ -847,17 +903,22 @@ class CNCMModel(nn.Module):
             align_logits = self.exact_head(h_fine).float()
             align_targets = target_ids.to(device=device, dtype=torch.long).clone()
             non_pad_align = align_targets != self.cfg.pad_token_id
-            if non_pad_align.any():
-                align_targets = align_targets.masked_fill(~non_pad_align, -100)
-            valid_align = (align_targets != -100).sum()
-            if valid_align.item() > 0:
-                align_loss: torch.Tensor = F.cross_entropy(
+            has_non_pad = non_pad_align.any()
+            align_targets = torch.where(
+                has_non_pad & (~non_pad_align),
+                torch.full_like(align_targets, -100),
+                align_targets,
+            )
+            valid_align = (align_targets != -100).sum().to(dtype=align_logits.dtype)
+            align_loss: torch.Tensor = (
+                F.cross_entropy(
                     align_logits.reshape(-1, self.cfg.vocab_size),
                     align_targets.reshape(-1),
                     ignore_index=-100,
+                    reduction="sum",
                 )
-            else:
-                align_loss = align_logits.sum() * 0.0
+                / valid_align.clamp(min=1.0)
+            )
         else:
             align_loss = concept_loss.new_zeros(())
 

@@ -452,10 +452,17 @@ def setup_ddp_if_needed(backend: Optional[str] = None, timeout_minutes: int = 60
             chosen = "nccl" if torch.cuda.is_available() else "gloo"
         if torch.cuda.is_available():
             torch.cuda.set_device(local_rank)
-        dist.init_process_group(
-            backend=chosen,
-            timeout=datetime.timedelta(minutes=max(5, int(timeout_minutes))),
-        )
+        init_kwargs: dict[str, Any] = {
+            "backend": chosen,
+            "timeout": datetime.timedelta(minutes=max(5, int(timeout_minutes))),
+        }
+        if chosen == "nccl" and torch.cuda.is_available():
+            init_kwargs["device_id"] = torch.device(f"cuda:{local_rank}")
+        try:
+            dist.init_process_group(**init_kwargs)
+        except TypeError:
+            init_kwargs.pop("device_id", None)
+            dist.init_process_group(**init_kwargs)
     return get_dist_info()
 
 
@@ -539,16 +546,46 @@ def make_dataloader(
 
 
 def resolve_hf_token() -> Optional[str]:
-    """Read `HF_TOKEN` from environment variables or Kaggle Secrets without logging it."""
+    """Read `HF_TOKEN` from environment variables, `.env` files, Kaggle Secrets, or HF cache without logging it."""
     token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
-    if token:
+    if token and token.strip():
         return token.strip()
+    for env_path in (
+        Path.cwd() / ".env",
+        Path(__file__).resolve().parents[2] / ".env",
+        Path.home() / ".env",
+    ):
+        if env_path.exists():
+            try:
+                for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+                    line = raw_line.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    if line.startswith("export "):
+                        line = line[len("export ") :].strip()
+                    k, v = line.split("=", 1)
+                    if k.strip() in ("HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"):
+                        val = v.strip().strip('"').strip("'")
+                        if val:
+                            os.environ["HF_TOKEN"] = val
+                            return val
+            except OSError:
+                pass
     try:
         from kaggle_secrets import UserSecretsClient  # type: ignore[import-not-found]
 
         secret = UserSecretsClient().get_secret("HF_TOKEN")
-        if secret:
+        if secret and str(secret).strip():
+            os.environ["HF_TOKEN"] = str(secret).strip()
             return str(secret).strip()
+    except Exception:
+        pass
+    try:
+        from huggingface_hub import get_token  # type: ignore[import-not-found]
+
+        cached = get_token()
+        if cached and str(cached).strip():
+            return str(cached).strip()
     except Exception:
         pass
     return None
