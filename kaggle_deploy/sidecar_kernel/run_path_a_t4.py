@@ -77,7 +77,7 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     donor_repo = os.environ.get("DONOR_REPO", "HuggingFaceTB/SmolLM2-360M-Instruct")
-    chunk_size = os.environ.get("CHUNK_SIZE", "32")
+    chunk_size = os.environ.get("CHUNK_SIZE", "16")
 
     env = os.environ.copy()
     env["PYTHONPATH"] = str(work_src) + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
@@ -94,18 +94,23 @@ def main() -> None:
         except Exception:
             pass
 
+    # V2 Generalization Profile (~25-30 min on Free T4, ~13.6 MB `.sidecar.gguf` output):
+    # - 50% ChatML (smol-smoltalk) + 50% Cosmopedia-v2
+    # - 24,576 unique sequences (23,348 train + 512 held-out val; ~8.4 GB in /tmp)
+    # - Variable prefix length [8..64] + L=16 chunk horizon + 1,500 Stage-1 steps (>92% recon)
     cmd = [
         sys.executable,
         str(work_src / "universal_surgery.py"),
         "--donor", donor_repo,
         "--chunk-size", chunk_size,
-        "--prefix-len", "128",
-        "--cache-seqs", "4096",
-        "--cache-batch-size", "32",
-        "--stage1-steps", "500",
+        "--prefix-len", "64",
+        "--var-prefix-min", "8",
+        "--cache-seqs", "24576",
+        "--cache-batch-size", "64",
+        "--stage1-steps", "1500",
         "--stage1-batch-size", "64",
-        "--ridge-samples", "1024",
-        "--stage2-steps", "2000",
+        "--ridge-samples", "2048",
+        "--stage2-steps", "3000",
         "--batch-size", "32",
         "--quant", "q4_0",
         "--cache-dir", str(tmp_cache),

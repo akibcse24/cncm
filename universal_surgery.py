@@ -106,7 +106,7 @@ def _load_or_build_token_sequences(
             seqs = np.tile(seqs, (reps, 1))[:n_seqs]
         return np.clip(seqs.astype(np.int32), 0, vocab_size - 1)
 
-    # Online HF streaming corpus fallback (for Kaggle / Colab runs when `--tokens-bin` is omitted)
+    # Online HF streaming corpus fallback (50% ChatML smol-smoltalk + 50% Cosmopedia-v2 for chat + prose generalization)
     from datasets import load_dataset  # type: ignore[import-not-found]
     from huggingface_hub import hf_hub_download  # type: ignore[import-not-found]
     from tokenizers import Tokenizer  # type: ignore[import-not-found]
@@ -118,18 +118,53 @@ def _load_or_build_token_sequences(
     )
     tok = Tokenizer.from_file(str(tok_path))
     needed_tokens = n_seqs * seq_len
-    collected: List[int] = []
+    chat_target = needed_tokens // 2
+    collected_chat: List[int] = []
+    collected_prose: List[int] = []
 
-    ds = load_dataset("HuggingFaceTB/smollm-corpus", "cosmopedia-v2", split="train", streaming=True)
-    for row in ds:
-        txt = row.get("text", "")
-        if txt:
-            collected.extend(tok.encode(txt).ids)
-            if len(collected) >= needed_tokens:
-                break
+    try:
+        ds_chat = load_dataset("HuggingFaceTB/smol-smoltalk", split="train", streaming=True)
+        for row in ds_chat:
+            msgs = row.get("messages") or []
+            if not msgs:
+                continue
+            parts: List[str] = []
+            for m in msgs:
+                role = m.get("role", "user")
+                content = m.get("content", "")
+                if content:
+                    parts.append(f"<|im_start|>{role}\n{content}<|im_end|>\n")
+            if parts:
+                collected_chat.extend(tok.encode("".join(parts)).ids)
+                if len(collected_chat) >= chat_target:
+                    break
+        print(f"      [DATA] Streamed {len(collected_chat):,} ChatML tokens from smol-smoltalk", flush=True)
+    except Exception as exc:
+        print(f"      [DATA WARN] smol-smoltalk unavailable ({exc}); filling from cosmopedia-v2", flush=True)
 
-    arr = np.asarray(collected[:needed_tokens], dtype=np.int32).reshape(n_seqs, seq_len)
-    return np.clip(arr, 0, vocab_size - 1)
+    prose_needed = max(0, needed_tokens - len(collected_chat))
+    if prose_needed > 0:
+        ds_prose = load_dataset("HuggingFaceTB/smollm-corpus", "cosmopedia-v2", split="train", streaming=True)
+        for row in ds_prose:
+            txt = row.get("text", "")
+            if txt:
+                collected_prose.extend(tok.encode(txt).ids)
+                if len(collected_prose) >= prose_needed:
+                    break
+        print(f"      [DATA] Streamed {len(collected_prose):,} prose tokens from cosmopedia-v2", flush=True)
+
+    # Interleave chat and prose sequences so train & held-out val splits both contain ChatML + prose!
+    n_chat = min(n_seqs, len(collected_chat) // seq_len)
+    n_prose = n_seqs - n_chat
+    seqs_list: List[np.ndarray] = []
+    if n_chat > 0:
+        seqs_list.append(np.asarray(collected_chat[: n_chat * seq_len], dtype=np.int32).reshape(n_chat, seq_len))
+    if n_prose > 0:
+        seqs_list.append(np.asarray(collected_prose[: n_prose * seq_len], dtype=np.int32).reshape(n_prose, seq_len))
+    arr = np.concatenate(seqs_list, axis=0)
+    rng = np.random.default_rng(int(args.seed))
+    rng.shuffle(arr, axis=0)
+    return np.clip(arr[:n_seqs], 0, vocab_size - 1)
 
 
 def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
@@ -288,9 +323,17 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
     del warm_batches
 
     # ------------------------------------------------------------------
-    # Stage 2C: Zero-Backprop Sidecar + Dual-Mode Router Training
+    # Stage 2C: Zero-Backprop Sidecar + Dual-Mode Router Training (with Variable Prefix & Held-Out Val)
     # ------------------------------------------------------------------
-    print(f"[5/6] Training Sidecar from offline cache ({args.stage2_steps} steps, 0 donor FLOPs)...", flush=True)
+    n_total = len(cache)
+    n_val = min(max(4, n_total // 20), 512) if n_total >= 16 else 0
+    n_train = max(1, n_total - n_val)
+    var_p_min = max(4, min(int(args.var_prefix_min), int(args.prefix_len)))
+    print(
+        f"[5/6] Training Sidecar from offline cache ({args.stage2_steps} steps, 0 donor FLOPs | "
+        f"train={n_train}, val={n_val}, var_prefix=[{var_p_min}..{args.prefix_len}])...",
+        flush=True,
+    )
     sidecar.train(True)
     opt_s2 = torch.optim.AdamW(
         sidecar.sidecar_trainable_parameters(),
@@ -300,14 +343,27 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
     s2_warmup = max(1, int(args.stage2_steps) // 10)
     rng = np.random.default_rng(int(args.seed) + 99)
     s2_metrics: Dict[str, float] = {}
+    val_metrics: Dict[str, float] = {}
 
     for step in range(int(args.stage2_steps)):
         lr_now = _cosine_lr(step, int(args.stage2_steps), float(args.stage2_lr), s2_warmup)
         for pg in opt_s2.param_groups:
             pg["lr"] = lr_now
 
-        b_indices = rng.integers(0, len(cache), size=bsz)
+        b_indices = rng.integers(0, n_train, size=min(bsz, n_train))
         batch = cache.get_batch(b_indices, device=device)
+
+        # Variable prefix length training (50% random trailing prefix in [var_p_min..prefix_len])
+        # so short ChatML prompts (10-30 tok) are 100% in-distribution for S_prefix!
+        if var_p_min < int(args.prefix_len) and float(rng.random()) < 0.5:
+            k_keep = int(rng.integers(var_p_min, int(args.prefix_len) + 1))
+            batch = {
+                "prefix_ids": batch["prefix_ids"][:, -k_keep:],
+                "target_ids": batch["target_ids"],
+                "prefix_unit_taps": batch["prefix_unit_taps"][:, -k_keep:],
+                "topk_idx": batch["topk_idx"],
+                "topk_logprobs": batch["topk_logprobs"],
+            }
 
         opt_s2.zero_grad(set_to_none=True)
         out_s2 = sidecar.forward_train_from_cache(
@@ -329,7 +385,26 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
                 "kl": round(float(out_s2["kl_loss"].item()), 4),
                 "router": round(float(out_s2["router_loss"].item()), 4),
             }
-            print(f"      [Stage 2] step {step + 1}/{args.stage2_steps} | {s2_metrics}", flush=True)
+            val_str = ""
+            if n_val > 0 and ((step + 1) == int(args.stage2_steps) or (step + 1) % max(1, int(args.log_every) * 2) == 0):
+                sidecar.eval()
+                with torch.no_grad():
+                    v_idx = np.arange(n_train, min(n_total, n_train + min(bsz, n_val)))
+                    v_out = sidecar.forward_train_from_cache(
+                        cache.get_batch(v_idx, device=device),
+                        donor_emb_f32,
+                        donor_head_f32,
+                        corrupt_rate=0.0,
+                        kl_weight=float(args.kl_weight),
+                        router_weight=float(args.router_weight),
+                    )
+                    val_metrics = {
+                        "val_concept": round(float(v_out["concept_loss"].item()), 4),
+                        "val_kl": round(float(v_out["kl_loss"].item()), 4),
+                    }
+                    val_str = f" | {val_metrics}"
+                sidecar.train(True)
+            print(f"      [Stage 2] step {step + 1}/{args.stage2_steps} | {s2_metrics}{val_str}", flush=True)
 
     sidecar.eval()
     cache.close()
@@ -377,6 +452,7 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
         "stage1_final": s1_metrics,
         "ridge_warmstart": ridge_stats,
         "stage2_final": s2_metrics,
+        "stage2_val_final": val_metrics,
         "gguf_export": gguf_info,
         "lossless_speculative_eval": {
             "bit_exact_greedy_match": lossless_exact_match,
@@ -415,6 +491,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
     ap.add_argument("--chunk-size", type=int, default=32, choices=[16, 32, 64], help="Concept chunk horizon L (16, 32, or 64)")
     ap.add_argument("--prefix-len", type=int, default=128, help="Prefix token length per cached training example")
+    ap.add_argument("--var-prefix-min", type=int, default=8, help="Min random prefix length for variable-prefix generalization")
     ap.add_argument("--sidecar-layers", type=int, default=4, help="Number of CNCM-DeltaNet layers in sidecar")
     ap.add_argument("--sidecar-hidden", type=int, default=0, help="Sidecar hidden dim (0 = auto 512 / donor-scaled)")
     ap.add_argument("--d-vq", type=int, default=0, help="SVD Stage 1 latent dim (0 = auto 256 / donor-scaled)")
