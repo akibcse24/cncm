@@ -270,13 +270,14 @@ class TestSidecarSVDTrainingAndLosslessDecode(unittest.TestCase):
 
                 prompt = torch.randint(4, 300, (1, 10))
                 exact_out = donor.generate_exact(prompt, max_new_tokens=20, temperature=0.0, eos_token_id=-1)
-                spec_out = loaded.generate_speculative_lossless(
-                    donor, prompt, max_new_tokens=20, draft_horizon=8, temperature=0.0, eos_token_id=-1
-                )
-                self.assertTrue(
-                    torch.equal(exact_out, spec_out["token_ids"]),
-                    f"Lossless mismatch under quant={q_fmt}!",
-                )
+                for d_mode in ("ar", "concept"):
+                    spec_out = loaded.generate_speculative_lossless(
+                        donor, prompt, max_new_tokens=20, draft_horizon=5, draft_mode=d_mode, temperature=0.0, eos_token_id=-1
+                    )
+                    self.assertTrue(
+                        torch.equal(exact_out, spec_out["token_ids"]),
+                        f"Lossless mismatch under quant={q_fmt}, draft_mode={d_mode}!",
+                    )
 
     def test_universal_surgery_end_to_end_smoke(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

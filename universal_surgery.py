@@ -383,6 +383,8 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
                 "loss": round(float(out_s2["loss"].item()), 4),
                 "concept": round(float(out_s2["concept_loss"].item()), 4),
                 "kl": round(float(out_s2["kl_loss"].item()), 4),
+                "ar_kl": round(float(out_s2["ar_kl_loss"].item()), 4),
+                "ar_acc": round(float(out_s2["ar_top1_acc"].item()), 4),
                 "router": round(float(out_s2["router_loss"].item()), 4),
             }
             val_str = ""
@@ -401,6 +403,8 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
                     val_metrics = {
                         "val_concept": round(float(v_out["concept_loss"].item()), 4),
                         "val_kl": round(float(v_out["kl_loss"].item()), 4),
+                        "val_ar_kl": round(float(v_out["ar_kl_loss"].item()), 4),
+                        "val_ar_acc": round(float(v_out["ar_top1_acc"].item()), 4),
                     }
                     val_str = f" | {val_metrics}"
                 sidecar.train(True)
@@ -419,14 +423,17 @@ def run_path_a_surgery(args: argparse.Namespace) -> Dict[str, Any]:
     gguf_info = export_sidecar_gguf(sidecar, gguf_path, quant=args.quant)
     reloaded_sidecar = load_sidecar_gguf(gguf_path, device="cpu")
 
-    # Verify lossless greedy equivalence between untouched donor and reloaded `.sidecar.gguf`!
-    prompt_sample = torch.from_numpy(sequences[0:1, : min(16, int(args.prefix_len))].astype(np.int64))
-    eval_new = min(16, sc_cfg.chunk_size)
+    # Verify lossless greedy equivalence on a HELD-OUT validation prompt (`sequences[-1]`)!
+    eval_row = max(0, int(sequences.shape[0]) - 1)
+    prompt_sample = torch.from_numpy(sequences[eval_row : eval_row + 1, : min(24, int(args.prefix_len))].astype(np.int64))
+    eval_new = min(24, sc_cfg.chunk_size * 2)
     exact_ids = donor_cpu.generate_exact(prompt_sample, max_new_tokens=eval_new, temperature=0.0, eos_token_id=-1)
     spec_res = reloaded_sidecar.generate_speculative_lossless(
         donor_cpu,
         prompt_sample,
         max_new_tokens=eval_new,
+        draft_horizon=5,
+        draft_mode="ar",
         temperature=0.0,
         eos_token_id=-1,
     )

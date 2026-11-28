@@ -519,6 +519,7 @@ class CNCMDeltaNetSidecar(nn.Module):
         # EAGLE-3 Shifted Causal Input Fusion: (3 donor unit_taps at t-1) + (SVD token embed at t)
         self.fusion_proj = nn.Linear(3 * cfg.donor_hidden_size, cfg.sidecar_hidden_size, bias=False)
         self.tok_in_proj = nn.Linear(cfg.d_vq, cfg.sidecar_hidden_size, bias=False)
+        self.self_step_proj = nn.Linear(cfg.sidecar_hidden_size, cfg.sidecar_hidden_size, bias=False)
         self.fusion_norm = RMSNorm(cfg.sidecar_hidden_size, eps=cfg.rms_norm_eps)
 
         # Phase B target conditioning
@@ -569,6 +570,7 @@ class CNCMDeltaNetSidecar(nn.Module):
         for mod in (
             self.fusion_proj,
             self.tok_in_proj,
+            self.self_step_proj,
             self.concept_in_proj,
             self.align_proj,
         ):
@@ -680,8 +682,9 @@ class CNCMDeltaNetSidecar(nn.Module):
         x_prefix: torch.Tensor,
         state: Optional[Sequence[DeltaNetLayerState]] = None,
         attention_mask: Optional[torch.Tensor] = None,
-    ) -> List[DeltaNetLayerState]:
-        """Run 4-layer `CNCM-DeltaNet` Phase A over `x_prefix [B, S, H_sc]` and return updated state."""
+        return_hidden: bool = False,
+    ) -> Any:
+        """Run 4-layer `CNCM-DeltaNet` Phase A over `x_prefix [B, S, H_sc]` and return updated state (and optional `h`)."""
         bsz, seq_len, _ = x_prefix.shape
         device = x_prefix.device
         cur_states = list(state) if state is not None else self.init_state(bsz, device)
@@ -698,6 +701,8 @@ class CNCMDeltaNetSidecar(nn.Module):
             )
             assert new_st is not None
             next_states.append(new_st)
+        if return_hidden:
+            return h, next_states
         return next_states
 
     def commit_shifted_step(
@@ -706,7 +711,8 @@ class CNCMDeltaNetSidecar(nn.Module):
         next_token_ids: torch.Tensor,
         state: Sequence[DeltaNetLayerState],
         donor_embed_weight: torch.Tensor,
-    ) -> List[DeltaNetLayerState]:
+        return_hidden: bool = False,
+    ) -> Any:
         """Commit `M` newly verified tokens (`next_token_ids [B, M]`) paired with `prev_unit_taps [B, M, 3, H_donor]`."""
         bsz, m_len = next_token_ids.shape
         w_dtype = self.fusion_proj.weight.dtype
@@ -718,7 +724,7 @@ class CNCMDeltaNetSidecar(nn.Module):
             tap_flat = prev_unit_taps.reshape(bsz, m_len, 3 * self.cfg.donor_hidden_size).to(dtype=w_dtype)
             tap_feat = self.fusion_proj(tap_flat)
         x_step = self.fusion_norm(tap_feat + tok_feat)
-        return self.run_phase_a_prefix(x_step, state=state, attention_mask=None)
+        return self.run_phase_a_prefix(x_step, state=state, attention_mask=None, return_hidden=return_hidden)
 
     def run_phase_b_targets(
         self,
@@ -810,6 +816,59 @@ class CNCMDeltaNetSidecar(nn.Module):
             "all_targets": all_targets,
         }
 
+    def forward_ar_draft_loss(
+        self,
+        h_last: torch.Tensor,
+        prefix_state: Sequence[DeltaNetLayerState],
+        target_ids: torch.Tensor,
+        topk_idx: torch.Tensor,
+        topk_logprobs: torch.Tensor,
+        donor_embed_weight: torch.Tensor,
+        donor_lm_head_weight: torch.Tensor,
+        ar_steps: int = 5,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """EAGLE-3 multi-step autoregressive rollout KL on the 4-layer `CNCM-DeltaNet` state (0 donor FLOPs).
+
+        Step 0 uses `h_last` directly from Phase A; steps `1..ar_steps-1` roll out on a cloned
+        `584 KB` state feeding `(self_step_proj(h_prev), svd_embed(target_ids[:, m-1]))` so
+        multi-step speculative drafting stays sharp without blurring token order.
+        """
+        n_steps = max(1, min(int(ar_steps), int(target_ids.shape[1])))
+        w_dtype = self.self_step_proj.weight.dtype
+        roll_state = self.snapshot_state(prefix_state)
+        h_cur = h_last  # [B, 1, H_sc]
+
+        step_kls: List[torch.Tensor] = []
+        step_accs: List[torch.Tensor] = []
+        for m in range(n_steps):
+            if m > 0:
+                prev_tok = target_ids[:, m - 1 : m]
+                svd_tok = self.concept_tokenizer.project_tokens_svd(prev_tok, donor_embed_weight).to(dtype=w_dtype)
+                x_m = self.fusion_norm(self.self_step_proj(h_cur) + self.tok_in_proj(svd_tok))
+                h_cur, roll_state = self.run_phase_a_prefix(x_m, state=roll_state, return_hidden=True)
+
+            logits_m = F.linear(
+                self.align_proj(self.final_norm(h_cur)).to(dtype=donor_lm_head_weight.dtype),
+                donor_lm_head_weight,
+            )  # [B, 1, V]
+            kl_m = sparse_topk_tail_kl_loss(
+                logits_m,
+                topk_idx[:, m : m + 1, :],
+                topk_logprobs[:, m : m + 1, :],
+            )
+            step_kls.append(kl_m)
+            with torch.no_grad():
+                pred_m = logits_m.argmax(dim=-1)  # [B, 1]
+                gold_m = topk_idx[:, m : m + 1, 0]
+                step_accs.append((pred_m == gold_m).float().mean())
+
+        # Slightly higher weight on earlier draft positions (exponential decay 0.85^m)
+        w = torch.tensor([0.85 ** m for m in range(n_steps)], device=h_last.device, dtype=torch.float32)
+        w = w / w.sum()
+        ar_kl = torch.stack(step_kls).mul(w).sum()
+        ar_top1_acc = torch.stack(step_accs).mean()
+        return ar_kl, ar_top1_acc
+
     def forward_train_from_cache(
         self,
         batch: Dict[str, torch.Tensor],
@@ -820,6 +879,8 @@ class CNCMDeltaNetSidecar(nn.Module):
         corrupt_rate: float = 0.3,
         kl_weight: float = 1.0,
         router_weight: float = 0.2,
+        ar_draft_weight: float = 1.5,
+        ar_draft_steps: int = 5,
         sensitive_token_mask: Optional[torch.Tensor] = None,
     ) -> Dict[str, Any]:
         """Complete zero-backprop Stage 2 training step from `OfflineDonorCache` tensors."""
@@ -848,7 +909,25 @@ class CNCMDeltaNetSidecar(nn.Module):
                     exit_targets.append((agree >= 0.90).float())
 
         x_prefix = self.build_shifted_prefix_inputs(prefix_ids, prefix_unit_taps, donor_embed_weight)
-        prefix_state = self.run_phase_a_prefix(x_prefix, state=None, attention_mask=prefix_mask)
+        h_prefix, prefix_state = self.run_phase_a_prefix(
+            x_prefix, state=None, attention_mask=prefix_mask, return_hidden=True
+        )
+
+        # EAGLE-3 autoregressive multi-step token drafter loss (shares 4L CNCM-DeltaNet + align_proj!)
+        if ar_draft_weight > 0.0:
+            ar_kl_loss, ar_top1_acc = self.forward_ar_draft_loss(
+                h_last=h_prefix[:, -1:, :],
+                prefix_state=prefix_state,
+                target_ids=target_ids,
+                topk_idx=topk_idx,
+                topk_logprobs=topk_logprobs,
+                donor_embed_weight=donor_embed_weight,
+                donor_lm_head_weight=donor_lm_head_weight,
+                ar_steps=ar_draft_steps,
+            )
+        else:
+            ar_kl_loss = h_prefix.new_zeros(())
+            ar_top1_acc = h_prefix.new_zeros(())
 
         c_out = self.forward_concept_from_state(
             prefix_state=prefix_state,
@@ -858,7 +937,7 @@ class CNCMDeltaNetSidecar(nn.Module):
         )
         concept_loss: torch.Tensor = c_out["concept_loss"]
 
-        # Sparse Top-K + Tail KL Distillation on finest level
+        # Sparse Top-K + Tail KL Distillation on finest Concept level
         h_fine = c_out["h_per_level"][-1]  # [B, L, H_sc]
         align_logits = F.linear(
             self.align_proj(h_fine).to(dtype=donor_lm_head_weight.dtype), donor_lm_head_weight
@@ -887,11 +966,18 @@ class CNCMDeltaNetSidecar(nn.Module):
         else:
             router_loss = concept_loss.new_zeros(())
 
-        total_loss = concept_loss + float(kl_weight) * kl_loss + float(router_weight) * router_loss
+        total_loss = (
+            concept_loss
+            + float(kl_weight) * kl_loss
+            + float(ar_draft_weight) * ar_kl_loss
+            + float(router_weight) * router_loss
+        )
         return {
             "loss": total_loss,
             "concept_loss": concept_loss,
             "kl_loss": kl_loss,
+            "ar_kl_loss": ar_kl_loss,
+            "ar_top1_acc": ar_top1_acc,
             "router_loss": router_loss,
             "level_losses": c_out["level_losses"],
         }
@@ -1063,6 +1149,47 @@ class CNCMDeltaNetSidecar(nn.Module):
         }
 
     @torch.no_grad()
+    def draft_ar_from_state(
+        self,
+        h_last: torch.Tensor,
+        prefix_state: Sequence[DeltaNetLayerState],
+        donor_embed_weight: torch.Tensor,
+        donor_lm_head_weight: torch.Tensor,
+        *,
+        draft_horizon: int = 5,
+        temperature: float = 0.0,
+    ) -> Dict[str, torch.Tensor]:
+        """Autoregressively draft `draft_horizon` exact-order tokens on a cloned `584 KB` state (0 donor FLOPs)."""
+        roll_state = self.snapshot_state(prefix_state)
+        h_cur = h_last
+        w_dtype = self.self_step_proj.weight.dtype
+
+        ids_list: List[torch.Tensor] = []
+        logits_list: List[torch.Tensor] = []
+        for m in range(max(1, int(draft_horizon))):
+            if m > 0:
+                svd_tok = self.concept_tokenizer.project_tokens_svd(ids_list[-1], donor_embed_weight).to(dtype=w_dtype)
+                x_m = self.fusion_norm(self.self_step_proj(h_cur) + self.tok_in_proj(svd_tok))
+                h_cur, roll_state = self.run_phase_a_prefix(x_m, state=roll_state, return_hidden=True)
+
+            lg_m = F.linear(
+                self.align_proj(self.final_norm(h_cur)).to(dtype=donor_lm_head_weight.dtype),
+                donor_lm_head_weight,
+            )  # [B, 1, V]
+            if temperature <= 0.0:
+                tok_m = lg_m.float().argmax(dim=-1)  # [B, 1]
+            else:
+                probs = F.softmax(lg_m[:, 0, :].float() / float(temperature), dim=-1)
+                tok_m = torch.multinomial(probs, num_samples=1)
+            ids_list.append(tok_m)
+            logits_list.append(lg_m)
+
+        return {
+            "draft_ids": torch.cat(ids_list, dim=1),
+            "draft_logits": torch.cat(logits_list, dim=1),
+        }
+
+    @torch.no_grad()
     def generate_speculative_lossless(
         self,
         donor: FrozenDonorRunner,
@@ -1071,12 +1198,15 @@ class CNCMDeltaNetSidecar(nn.Module):
         max_new_tokens: int = 64,
         draft_horizon: Optional[int] = None,
         max_concept_level: Optional[int] = None,
+        draft_mode: str = "ar",
         temperature: float = 0.0,
         eos_token_id: Optional[int] = None,
         quantize_donor_kv: bool = False,
     ) -> Dict[str, Any]:
         """100%-Lossless EAGLE-3-Shifted Speculative Decoding with zero redundant donor passes.
 
+        Supports `draft_mode="ar"` (EAGLE-3 autoregressive drafter on 4L `CNCM-DeltaNet` state for
+        high acceptance) or `draft_mode="concept"` (coarse-to-fine Concept Block-AR drafter).
         At `temperature == 0.0`, output token IDs are **mathematically bit-identical** to
         `donor.generate_exact(prompt_ids, max_new_tokens)` while sidecar uses `0 MB` KV cache.
         """
@@ -1086,9 +1216,10 @@ class CNCMDeltaNetSidecar(nn.Module):
             return {"token_ids": prompt_ids, "accepted_tokens": 0, "drafted_tokens": 0, "verify_steps": 0}
 
         eos = self.cfg.eos_token_id if eos_token_id is None else int(eos_token_id)
+        default_h = 5 if draft_mode == "ar" else self.cfg.chunk_size
         horizon = min(
             self.cfg.chunk_size,
-            max(1, int(draft_horizon) if draft_horizon is not None else self.cfg.chunk_size),
+            max(1, int(draft_horizon) if draft_horizon is not None else default_h),
         )
         donor_emb_w = donor.embed_tokens.weight
         donor_head_w = donor.lm_head.weight
@@ -1121,10 +1252,10 @@ class CNCMDeltaNetSidecar(nn.Module):
             }
 
         # 2. Initialize Sidecar Phase A over `[prompt_ids, pending_tok]` (`P0 + 1` slots!)
-        # Slot 0..P0-1 use prompt_ids + p0_taps[0..P0-2]; Slot P0 uses (p0_taps[P0-1], pending_tok)!
         init_ids = torch.cat([prompt_ids, pending_tok], dim=1)
         x_init = self.build_shifted_prefix_inputs(init_ids, p0_taps, donor_emb_w)
-        sc_state = self.run_phase_a_prefix(x_init)
+        h_init, sc_state = self.run_phase_a_prefix(x_init, return_hidden=True)
+        h_last = h_init[:, -1:, :]
 
         total_accepted = 0
         total_drafted = 0
@@ -1134,13 +1265,22 @@ class CNCMDeltaNetSidecar(nn.Module):
             rem = max_new_tokens - len(gen_tokens)
             cur_m = min(horizon, rem)
 
-            # Draft `cur_m` candidate tokens read-only from `sc_state` (`0` state mutation!)
-            draft_res = self.draft_chunk_from_state(
-                sc_state,
-                donor_head_w,
-                max_concept_level=max_concept_level,
-                temperature=temperature,
-            )
+            if draft_mode == "ar":
+                draft_res = self.draft_ar_from_state(
+                    h_last,
+                    sc_state,
+                    donor_emb_w,
+                    donor_head_w,
+                    draft_horizon=cur_m,
+                    temperature=temperature,
+                )
+            else:
+                draft_res = self.draft_chunk_from_state(
+                    sc_state,
+                    donor_head_w,
+                    max_concept_level=max_concept_level,
+                    temperature=temperature,
+                )
             draft_ids = draft_res["draft_ids"][:, :cur_m]       # [1, cur_m]
             draft_logits = draft_res["draft_logits"][:, :cur_m] # [1, cur_m, V]
             total_drafted += cur_m
@@ -1204,24 +1344,23 @@ class CNCMDeltaNetSidecar(nn.Module):
                 break
 
             if bonus_tok is None:
-                # All `cur_m` drafted tokens were accepted! Sample exact bonus token from `v_logits[:, cur_m]`
                 bonus_tok = _sample_one(v_logits[:, cur_m, :])
 
             bonus_id = int(bonus_tok.item())
             gen_tokens.append(bonus_id)
 
-            # Truncate donor KV to keep `[pending_tok, draft_0 .. draft_{n_acc - 1}]` (`1 + n_acc` tokens)
             donor_kv = truncate_kv_cache(v_out["past_key_values"], prior_kv_len + 1 + n_acc)
 
-            # Commit `n_acc + 1` shifted pairs `(v_taps[0 .. n_acc], [draft_0 .. draft_{n_acc-1}, bonus_tok])`
-            # into Sidecar Phase A — ZERO extra donor pass required!
             commit_taps = v_taps[:, : n_acc + 1, :, :]
             commit_ids = (
                 torch.cat([draft_ids[:, :n_acc], bonus_tok], dim=1)
                 if n_acc > 0
                 else bonus_tok
             )
-            sc_state = self.commit_shifted_step(commit_taps, commit_ids, sc_state, donor_emb_w)
+            h_commit, sc_state = self.commit_shifted_step(
+                commit_taps, commit_ids, sc_state, donor_emb_w, return_hidden=True
+            )
+            h_last = h_commit[:, -1:, :]
             pending_tok = bonus_tok
 
             if eos >= 0 and bonus_id == eos:
@@ -1235,6 +1374,7 @@ class CNCMDeltaNetSidecar(nn.Module):
             "acceptance_rate": float(total_accepted) / float(max(1, total_drafted)),
             "verify_steps": verify_steps,
             "sidecar_state_bytes": self.state_nbytes(sc_state),
+            "draft_mode": draft_mode,
         }
 
     @torch.no_grad()
